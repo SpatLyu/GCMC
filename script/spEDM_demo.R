@@ -35,25 +35,31 @@ g
 
 cu = terra::rast(system.file("extdata/cu.tif", package = "spEDM"))
 
-simplex(cu,"industry",
-        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::nrow(cu))),
-        pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+spEDM::simplex(cu,"industry",
+        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::ncol(cu))),
+        pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 
-simplex(cu,"cu",
-        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::nrow(cu))),
-        pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+spEDM::simplex(cu,"cu",
+               lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::ncol(cu))),
+               pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 
-simplex(cu,"ntl",
-        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::nrow(cu))),
-        pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+spEDM::simplex(cu,"ntl",
+        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::ncol(cu))),
+        pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 
 tictoc::tic()
-g1 = gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g1 = spEDM::gccm(cu,"ntl","cu",libsizes = seq(10,120,20),E = 3,k = 5,
+                 pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 g1
 tictoc::toc()
 
 tictoc::tic()
-g2 = scpcm(cu,"industry","cu","ntl",E = c(2,2,4),libsizes = seq(5,40,5),k = 6,
-           pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g2 = gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
 g2
+tictoc::toc()
+
+tictoc::tic()
+g3 = scpcm(cu,"industry","cu","ntl",E = c(2,2,4),libsizes = seq(5,40,5),k = 6,
+           pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g3
 tictoc::toc()
