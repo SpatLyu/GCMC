@@ -49,7 +49,7 @@ spEDM::simplex(cu,"ntl",
 
 tictoc::tic()
 g1 = spEDM::gccm(cu,"ntl","cu",libsizes = seq(10,120,20),E = 3,k = 5,
-                 pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
+                 pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))),trend.rm = F)
 g1
 tictoc::toc()
 
