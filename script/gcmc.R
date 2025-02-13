@@ -66,7 +66,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 #' @param E (optional) Dimensions of the embedding.
 #' @param tau (optional) Step of spatial lags.
 #' @param k (optional) Number of nearest neighbors to use for prediction.
-#' @param r (optional) Maximum number of neighbors usable for intersection cardinality computation.
+#' @param r (optional) Number of neighbors usable for intersection cardinality computation.
 #' @param pred (optional) Row numbers(`vector`) of lattice data or row-column numbers(`matrix`) of grid data used for predictions.
 #' @param nb (optional) The neighbours list.
 #' @param threads (optional) Number of threads.

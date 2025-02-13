@@ -21,8 +21,8 @@ pd_res = gcmc(data = popd_sf,
               effect = "popDensity",
               E = c(1,6),
               k = 6,
-              r = 300,
-              pred = pred,
+              r = 20,
+             #pred = pred,
               nb = popd_nb)
 endTime = Sys.time()
 print(difftime(endTime,startTime, units ="mins"))
@@ -30,7 +30,7 @@ pd_res
 
 
 columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
-g = gcmc(columbus,"HOVAL","CRIME",E = c(6,5))
+g = spEDM::gcmc(columbus,"HOVAL","CRIME",E = c(6,5),k = 8)
 g
 
 cu = terra::rast(system.file("extdata/cu.tif", package = "spEDM"))
@@ -43,7 +43,17 @@ simplex(cu,"cu",
         lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::nrow(cu))),
         pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
 
+simplex(cu,"ntl",
+        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::nrow(cu))),
+        pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+
 tictoc::tic()
-g1 = gcmc(cu,"industry","cu",E = 2,k = 6, r = 150, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g1 = gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
 g1
+tictoc::toc()
+
+tictoc::tic()
+g2 = scpcm(cu,"industry","cu","ntl",E = c(2,2,4),libsizes = seq(5,40,5),k = 6,
+           pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g2
 tictoc::toc()
