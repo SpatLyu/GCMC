@@ -17,10 +17,7 @@ methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
   names(data) = .varname
 
   if (trend.rm){
-    data = dplyr::bind_cols(data,coords)
-    for (i in seq_along(.varname)){
-      data[,.varname[i]] = sdsfun::rm_lineartrend(paste0(.varname[i],"~X+Y"), data = data)
-    }
+    data = .internal_trend_rm(data,.varname,coords)
   }
 
   cause = data[,"cause",drop = TRUE]
@@ -43,15 +40,14 @@ methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
   E = .check_inputelementnum(E,length(varname))
   tau = .check_inputelementnum(tau,length(varname))
   k = .check_inputelementnum(k,2)
+  libsizes = .check_libsizes_gird(libsizes)
   .varname = .internal_varname(mediator)
   data = data[[varname]]
   names(data) = .varname
 
   dtf = terra::as.data.frame(data,xy = TRUE,na.rm = FALSE)
   if (trend.rm){
-    for (i in seq_along(.varname)){
-      dtf[,.varname[i]] = sdsfun::rm_lineartrend(paste0(.varname[i],"~x+y"), data = dtf)
-    }
+    dtf = .internal_trend_rm(dtf,.varname)
   }
   causemat = matrix(dtf[,"cause"],nrow = terra::nrow(data),byrow = TRUE)
   effectmat = matrix(dtf[,"effect"],nrow = terra::nrow(data),byrow = TRUE)
@@ -90,8 +86,7 @@ methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
 #' @examples
 #' columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
 #' \dontrun{
-#' g = scpcm(columbus, "HOVAL", "CRIME", "INC",
-#'           libsizes = seq(5,40,5), E = c(6,5,3))
+#' g = scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,3))
 #' g
 #' plot(g, ylimits = c(0,0.8))
 #' }
