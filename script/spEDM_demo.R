@@ -63,3 +63,4 @@ g3 = scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5
            pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 g3
 tictoc::toc()
+
