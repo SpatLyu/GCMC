@@ -1,7 +1,9 @@
 library(spEDM)
 npp = terra::rast(system.file("extdata/npp.tif", package = "spEDM"))
+
 nnamat = terra::as.matrix(!is.na(npp[[1]]), wide = TRUE)
 nnaindice = terra::rowColFromCell(npp,which(nnamat))
+
 set.seed(42)
 indices = sample(nrow(nnaindice), size = 3000, replace = FALSE)
 lib = nnaindice[-indices,]
