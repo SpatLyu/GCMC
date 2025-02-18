@@ -8,4 +8,4 @@
 #SBATCH -e ./result/error_%j.log
 
 ulimit -l unlimited
-Rscript ./script/GCCM_PreNPP.r
+Rscript ./script/GCCM_PreNPP.R
