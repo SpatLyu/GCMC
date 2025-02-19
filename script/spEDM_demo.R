@@ -54,12 +54,18 @@ g1
 tictoc::toc()
 
 tictoc::tic()
+g11 = spEDM::gccm(cu,"industry","cu",libsizes = seq(10,120,20),E = c(2,2),k = 5,
+                 pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))),trend.rm = T)
+g11
+tictoc::toc()
+
+tictoc::tic()
 g2 = spEDM::gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
 g2
 tictoc::toc()
 
 tictoc::tic()
-g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
+g3 = spEDM::scpcm(cu,"industry","ntl","cu",E = c(2,8,2),libsizes = seq(10,120,20),k = 5,
                   pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 g3
 tictoc::toc()
