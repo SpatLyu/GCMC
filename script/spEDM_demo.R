@@ -1,5 +1,4 @@
-library(spEDM)
-
+# population density
 popd_nb = spdep::read.gal(system.file("extdata/popdensity_nb.gal",
                                       package = "spEDM"))
 popd_nb
@@ -11,28 +10,41 @@ popdensity
 popd_sf = sf::st_as_sf(popdensity, coords = c("x","y"), crs = 4326)
 popd_sf
 
-set.seed(42)
-pred = sample(nrow(popd_sf), size = 1000, replace = FALSE)
-
-
 startTime = Sys.time()
-pd_res = spEDM::gcmc(data = popd_sf,
-                     cause = "Pre",
-                     effect = "popDensity",
-                     E = c(1,6),
-                     k = 6,
-                     r = 20,
-                     # pred = pred,
-                     nb = popd_nb)
+pd_res1 = spEDM::gccm(data = popd_sf,
+                      cause = "Pre",
+                      effect = "popDensity",
+                      libsizes = seq(10, 2800, by = 100),
+                      E = c(2,5),
+                      k = 6,
+                      nb = popd_nb,
+                      pred = 2001:nrow(popd_sf),
+                      progressbar = TRUE)
 endTime = Sys.time()
 print(difftime(endTime,startTime, units ="mins"))
-pd_res
+pd_res1
 
+startTime = Sys.time()
+pd_res2 = spEDM::gcmc(data = popd_sf,
+                      cause = "Pre",
+                      effect = "popDensity",
+                      E = c(2,5),
+                      k = 6,
+                      r = 6,
+                      #pred = pred,
+                      #trend.rm = TRUE,
+                      nb = popd_nb)
+endTime = Sys.time()
+print(difftime(endTime,startTime, units ="mins"))
+pd_res2
 
+# columbus
 columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
-g = spEDM::gcmc(columbus,"HOVAL","CRIME",E = c(6,5),k = 8)
-g
+cs1 = spEDM::gccm(columbus, "HOVAL", "CRIME", libsizes = seq(5,40,5), E = c(6,5))
+cs2 = spEDM::gcmc(columbus,"HOVAL","CRIME",E = c(6,5),k = 8,r = 8,trend.rm = FALSE)
+cs3 = spEDM::scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,6))
 
+# cu 
 cu = terra::rast(system.file("extdata/cu.tif", package = "spEDM"))
 
 spEDM::simplex(cu,"industry", k = 5,
@@ -66,12 +78,9 @@ tictoc::toc()
 
 tictoc::tic()
 g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
-                  pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
+                  pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
 g3
 tictoc::toc()
-
-g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
-                  pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
 
 g31 = spEDM::gccm(cu,"industry","cu",E = c(2,2),libsizes = seq(10,120,20),k = 5,
                   pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
@@ -91,12 +100,12 @@ simplex(npp,"pre",lib,pred,k = 5)
 simplex(npp,"npp",lib,pred,k = 5)
 simplex(npp,"tem",lib,pred,k = 5)
 
-spEDM::gccm(npp,"npp","tem",E = c(9,3),libsizes = seq(10,130,20),
-            k = 5, pred = pred)
+sc1 = spEDM::gccm(npp,"npp","pre",E = c(9,3),libsizes = seq(10,130,20),
+                  k = 5, pred = pred)
 
-g4 = spEDM::scpcm(npp,"pre","npp","tem",E = c(3,9,3),libsizes = seq(10,130,20),k = 5,
-                  pred = pred)
+sc2 = spEDM::gcmc(npp,"npp","pre",E = c(3,3),k = 5, r = 10,pred = pred)
 
-columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
-g = spEDM::scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,6))
-g1 = spEDM::gccm(columbus, "HOVAL", "CRIME", libsizes = seq(5,40,5), E = c(6,5))
+tictoc::tic()
+sc3 = spEDM::scpcm(npp,"tem","npp","pre",E = c(3,9,3),libsizes = seq(10,130,20),k = 5,
+                   pred = pred)
+tictoc::toc()
