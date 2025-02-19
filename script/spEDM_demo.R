@@ -65,8 +65,38 @@ g2
 tictoc::toc()
 
 tictoc::tic()
-g3 = spEDM::scpcm(cu,"industry","ntl","cu",E = c(2,8,2),libsizes = seq(10,120,20),k = 5,
+g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
                   pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 g3
 tictoc::toc()
 
+g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
+                  pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
+
+g31 = spEDM::gccm(cu,"industry","cu",E = c(2,2),libsizes = seq(10,120,20),k = 5,
+                  pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
+
+# npp 
+npp = terra::rast(system.file("extdata/npp.tif", package = "spEDM"))
+npp = terra::aggregate(npp, fact = 3, na.rm = TRUE)
+nnamat = terra::as.matrix(!is.na(npp[[1]]), wide = TRUE)
+nnaindice = terra::rowColFromCell(npp,which(nnamat))
+
+set.seed(42)
+indices = sample(nrow(nnaindice), size = 100, replace = FALSE)
+lib = nnaindice[-indices,]
+pred = nnaindice[indices,]
+
+simplex(npp,"pre",lib,pred,k = 5)
+simplex(npp,"npp",lib,pred,k = 5)
+simplex(npp,"tem",lib,pred,k = 5)
+
+spEDM::gccm(npp,"npp","tem",E = c(9,3),libsizes = seq(10,130,20),
+            k = 5, pred = pred)
+
+g4 = spEDM::scpcm(npp,"pre","npp","tem",E = c(3,9,3),libsizes = seq(10,130,20),k = 5,
+                  pred = pred)
+
+columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
+g = spEDM::scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,6))
+g1 = spEDM::gccm(columbus, "HOVAL", "CRIME", libsizes = seq(5,40,5), E = c(6,5))

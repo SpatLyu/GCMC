@@ -1,6 +1,6 @@
 methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
 
-.scpcm_sf_method = \(data, cause, effect, mediator, libsizes, E = 3, tau = 0, k = 4, theta = 1, algorithm = "simplex", pred = NULL,
+.scpcm_sf_method = \(data, cause, effect, mediator, libsizes, E = 3, tau = 1, k = 4, theta = 1, algorithm = "simplex", pred = NULL,
                      nb = NULL, threads = detectThreads(), bidirectional = TRUE, cumulate = FALSE, trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(c(cause, effect, mediator))
   E = .check_inputelementnum(E,length(varname))
@@ -34,7 +34,7 @@ methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
   return(.bind_xmapdf2(varname,x_xmap_y,y_xmap_x,bidirectional))
 }
 
-.scpcm_spatraster_method = \(data, cause, effect, mediator, libsizes, E = 3, tau = 0, k = 4, theta = 1, algorithm = "simplex", pred = NULL,
+.scpcm_spatraster_method = \(data, cause, effect, mediator, libsizes, E = 3, tau = 1, k = 4, theta = 1, algorithm = "simplex", pred = NULL,
                              threads = detectThreads(), bidirectional = TRUE, cumulate = FALSE, trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect, mediator)
   E = .check_inputelementnum(E,length(varname))
@@ -86,7 +86,7 @@ methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
 #' @examples
 #' columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
 #' \dontrun{
-#' g = scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,3))
+#' g = scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,6))
 #' g
 #' plot(g, ylimits = c(0,0.8))
 #' }
