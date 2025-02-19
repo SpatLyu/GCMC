@@ -16,14 +16,14 @@ pred = sample(nrow(popd_sf), size = 1000, replace = FALSE)
 
 
 startTime = Sys.time()
-pd_res = gcmc(data = popd_sf,
-              cause = "Pre",
-              effect = "popDensity",
-              E = c(1,6),
-              k = 6,
-              r = 20,
-             #pred = pred,
-              nb = popd_nb)
+pd_res = spEDM::gcmc(data = popd_sf,
+                     cause = "Pre",
+                     effect = "popDensity",
+                     E = c(1,6),
+                     k = 6,
+                     r = 20,
+                     # pred = pred,
+                     nb = popd_nb)
 endTime = Sys.time()
 print(difftime(endTime,startTime, units ="mins"))
 pd_res
@@ -54,13 +54,13 @@ g1
 tictoc::toc()
 
 tictoc::tic()
-g2 = gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g2 = spEDM::gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
 g2
 tictoc::toc()
 
 tictoc::tic()
-g3 = scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
-           pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
+g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
+                  pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
 g3
 tictoc::toc()
 
