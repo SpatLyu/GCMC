@@ -1,7 +1,7 @@
 methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 
-.gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 4, r = k + 10, pred = NULL,
-                    nb = NULL, threads = detectThreads(), trend.rm = FALSE, progressbar = TRUE){
+.gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 4, r = k + 5, pred = NULL,
+                    nb = NULL, threads = detectThreads(), trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
   k = .check_inputelementnum(k,2)
@@ -28,8 +28,8 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   return(res)
 }
 
-.gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 4, r = k + 10, pred = NULL,
-                            threads = detectThreads(),trend.rm = FALSE, progressbar = TRUE){
+.gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 4, r = k + 5, pred = NULL,
+                            threads = detectThreads(),trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
   k = .check_inputelementnum(k,2)
@@ -80,7 +80,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 #' @examples
 #' columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
 #' \donttest{
-#' g = gcmc(columbus,"HOVAL","CRIME",E = c(6,5))
+#' g = gcmc(columbus,"HOVAL","CRIME",E = 5)
 #' g
 #' }
 methods::setMethod("gcmc", "sf", .gcmc_sf_method)
