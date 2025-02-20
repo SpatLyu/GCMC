@@ -1,11 +1,10 @@
 methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 
-.gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 4, r = 1, pred = NULL,
+.gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 3:10, r = 1, pred = NULL,
                     nb = NULL, threads = detectThreads(), trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
-  k = .check_inputelementnum(k,2)
-  r = .check_inputelementnum(r,2)
+  r = .check_inputelementnum(r,length(k))
   tau = .check_inputelementnum(tau,2)
   .varname = .internal_varname()
   if (is.null(nb)) nb = .internal_lattice_nb(data)
@@ -24,16 +23,15 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   effect = data[,"effect",drop = TRUE]
 
   res = RcppGCMC4Lattice(cause,effect,nb,pred,E,tau,k,r,threads,progressbar)
-  names(res) = .name_xmap2cause(varname)
-  return(res)
+  colnames(res) = .name_xmap2cause(varname)
+  return(as.data.frame(res))
 }
 
-.gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 4, r = 1, pred = NULL,
+.gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 3:10, r = 1, pred = NULL,
                             threads = detectThreads(),trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
-  k = .check_inputelementnum(k,2)
-  r = .check_inputelementnum(r,2)
+  r = .check_inputelementnum(r,length(k))
   tau = .check_inputelementnum(tau,2)
   .varname = .internal_varname()
   data = data[[varname]]
@@ -49,8 +47,8 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   if (is.null(pred)) pred = .internal_predmat(causemat)
 
   res = RcppGCMC4Grid(causemat,effectmat,pred,E,tau,k,r,threads,progressbar)
-  names(res) = .name_xmap2cause(varname)
-  return(res)
+  colnames(res) = .name_xmap2cause(varname)
+  return(as.data.frame(res))
 }
 
 #' geographical cross mapping cardinality
@@ -68,7 +66,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 #' @param trend.rm (optional) Whether to remove the linear trend.
 #' @param progressbar (optional) whether to print the progress bar.
 #'
-#' @return A numeric vector.
+#' @return A data.frame.
 #'
 #' @export
 #' @importFrom methods setGeneric
