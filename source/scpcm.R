@@ -71,7 +71,7 @@ methods::setGeneric("scpcm", function(data, ...) standardGeneric("scpcm"))
 #' @param mediator Name of mediator variable.
 #' @param cumulate (optional) Serial or cumulative computation of partial cross mapping.
 #'
-#' @return A list.
+#' @return A list
 #' \describe{
 #' \item{\code{pxmap}}{partial cross mapping prediction results}
 #' \item{\code{xmap}}{cross mapping prediction results}
