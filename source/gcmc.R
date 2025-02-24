@@ -23,7 +23,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   effect = data[,"effect",drop = TRUE]
 
   res = RcppGCMC4Lattice(cause,effect,nb,pred,E,tau,k,r,threads,progressbar)
-  colnames(res) = .name_xmap2cause(varname)
+  colnames(res) = .name_intersectdf(varname)
   return(as.data.frame(res))
 }
 
@@ -47,7 +47,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   if (is.null(pred)) pred = .internal_predmat(causemat)
 
   res = RcppGCMC4Grid(causemat,effectmat,pred,E,tau,k,r,threads,progressbar)
-  colnames(res) = .name_xmap2cause(varname)
+  colnames(res) = .name_intersectdf(varname)
   return(as.data.frame(res))
 }
 
