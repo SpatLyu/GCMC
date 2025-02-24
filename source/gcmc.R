@@ -1,7 +1,7 @@
 methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 
 .gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 0, r = 0, pred = NULL,
-                    nb = NULL, threads = detectThreads(), trend.rm = TRUE, progressbar = TRUE){
+                    nb = NULL, threads = detectThreads(), trend.rm = FALSE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
   r = .check_inputelementnum(r,length(k))
@@ -28,7 +28,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 }
 
 .gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 0, r = 0, pred = NULL,
-                            threads = detectThreads(),trend.rm = TRUE, progressbar = TRUE){
+                            threads = detectThreads(),trend.rm = FALSE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
   r = .check_inputelementnum(r,length(k))
