@@ -1,6 +1,6 @@
 methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 
-.gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 3:10, r = 1, pred = NULL,
+.gcmc_sf_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 0, r = 1, pred = NULL,
                     nb = NULL, threads = detectThreads(), trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
@@ -10,6 +10,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   if (is.null(nb)) nb = .internal_lattice_nb(data)
   if (nrow(data) != length(nb)) stop("Incompatible Data Dimensions!")
   if (is.null(pred)) pred = 1:nrow(data)
+  if (k<=0) k = floor(nrow(data)/4)
   coords = as.data.frame(sdsfun::sf_coordinates(data))
   data = sf::st_drop_geometry(data)
   data = data[,varname]
@@ -27,7 +28,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   return(as.data.frame(res))
 }
 
-.gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 3:10, r = 1, pred = NULL,
+.gcmc_spatraster_method = \(data, cause, effect, E = c(3,3), tau = 1, k = 0, r = 1, pred = NULL,
                             threads = detectThreads(),trend.rm = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
@@ -45,6 +46,7 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
   effectmat = matrix(dtf[,"effect"],nrow = terra::nrow(data),byrow = TRUE)
 
   if (is.null(pred)) pred = .internal_predmat(causemat)
+  if (k<=0) k = floor(terra::nrow(data)/4)
 
   res = RcppGCMC4Grid(causemat,effectmat,pred,E,tau,k,r,threads,progressbar)
   colnames(res) = .name_xmap2cause(varname)
@@ -58,8 +60,8 @@ methods::setGeneric("gcmc", function(data, ...) standardGeneric("gcmc"))
 #' @param effect Name of effect variable.
 #' @param E (optional) Dimensions of the embedding.
 #' @param tau (optional) Step of spatial lags.
-#' @param k (optional) Number of nearest neighbors to use for prediction.
-#' @param r (optional) Number of neighbors usable for intersection cardinality computation.
+#' @param k (optional) Number of nearest neighbors used for intersection.
+#' @param r (optional) Number of excluded neighbors usable for intersection.
 #' @param pred (optional) Row numbers(`vector` for lattice data) or row-column numbers(`matrix` for grid data) used for predictions.
 #' @param nb (optional) The neighbours list.
 #' @param threads (optional) Number of threads.
