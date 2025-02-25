@@ -1,9 +1,9 @@
-bio = readr::read_csv('./data/tibet2020.csv') |> 
+tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
   sf::st_as_sf(coords = c("x","y"), crs = 4326)
 
-k = floor(nrow(bio) / 4)
+k = floor(nrow(tibetbio) / 4)
 
-bio_res = spEDM::gcmc(data = bio,
+bio_res = spEDM::gcmc(data = tibetbio,
                       cause = "ndvi",
                       effect = "bio",
                       E = 3,
