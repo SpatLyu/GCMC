@@ -23,4 +23,4 @@ bio_gcmc = gcmc4lattice(tibetbio,E = 3,k = k,r = 0,trend.rm = FALSE)
 readr::write_csv(bio_gcmc,'./result/bio_gcmc.csv')
 
 bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = 3,k = 4,trend.rm = TRUE)
-readr::write_csv(bio_gcmc,'./result/bio_gccm.csv')
+readr::write_csv(bio_gccm,'./result/bio_gccm.csv')
