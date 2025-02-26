@@ -24,3 +24,37 @@ readr::write_csv(bio_gcmc,'./result/bio_gcmc.csv')
 
 bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = 3,k = 4,trend.rm = TRUE)
 readr::write_csv(bio_gccm,'./result/bio_gccm.csv')
+
+bio_gcmc = readr::read_csv('./result/bio_gcmc.csv') 
+bg1 = bio_gcmc |> 
+  dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|> 
+  purrr::set_names(c("cause","effect","cs","sig"))
+bg2 = bio_gcmc |> 
+  dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |> 
+  purrr::set_names(c("cause","effect","cs","sig"))
+bio_gcmc = rbind(bg1,bg2) |> 
+  dplyr::mutate(sig = dplyr::if_else(sig < 0.05,"T","F")) |> 
+  dplyr::mutate(sig = factor(sig,levels = c("T","F")))
+
+ggplot2::ggplot(data = bio_gcmc,
+                ggplot2::aes(x = effect, y = cause, fill = sig)) +
+  ggplot2::geom_tile(color = "white") +
+  ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 1.25) +
+  ggplot2::scale_fill_manual(
+    values = c("T" = "#ffffd9", "F" = "lightgray"), 
+    labels = c("significant"," not significant")) +
+  ggplot2::geom_text(ggplot2::aes(label = round(cs, 3)), color = "black") +
+  ggplot2::labs(x = "Effect", y = "Cause", fill = "Significance") +
+  ggplot2::coord_equal() +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 90),
+    axis.text.y = ggplot2::element_text(color = "black"),
+    axis.title.y = ggplot2::element_text(angle = 90),
+    axis.title = ggplot2::element_text(face = "italic", color = "black"),
+    panel.grid = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank()
+)
+
+bio_gccm = readr::read_csv('./result/bio_gccm.csv')|> 
+  dplyr::select(x,y,x_xmap_y_mean,x_xmap_y_sig,y_xmap_x_mean,y_xmap_x_sig)
