@@ -8,5 +8,9 @@ g.dummy = gstat::gstat(formula = z ~ 1, dummy = TRUE, beta = 0,
 sim = predict(g.dummy, newdata = grid_sf, nsim = 1) |> 
   dplyr::select(x = sim1)
 
+spEDM::embedded(sim,"x",E = 1)
+
 listw = sdsfun::spdep_nb(sim) |> 
   spdep::nb2listw(style = "W")
+
+wx = spEDM::embedded(sim,"x",E = 1)
