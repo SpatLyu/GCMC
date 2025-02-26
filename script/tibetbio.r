@@ -39,9 +39,9 @@ bio_gcmc = rbind(bg1,bg2) |>
 ggplot2::ggplot(data = bio_gcmc,
                 ggplot2::aes(x = effect, y = cause, fill = sig)) +
   ggplot2::geom_tile(color = "white") +
-  ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 1.25) +
+  ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.75) +
   ggplot2::scale_fill_manual(
-    values = c("T" = "#ffffd9", "F" = "lightgray"), 
+    values = c("T" = "#d1deca", "F" = "#eee2c8"), 
     labels = c("significant"," not significant")) +
   ggplot2::geom_text(ggplot2::aes(label = round(cs, 3)), color = "black") +
   ggplot2::labs(x = "Effect", y = "Cause", fill = "Significance") +
