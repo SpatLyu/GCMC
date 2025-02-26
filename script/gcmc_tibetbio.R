@@ -11,7 +11,7 @@ bio_res = spEDM::gcmc(data = tibetbio,
                       r = 0,
                       trend.rm = FALSE)
 
-g = spEDM::gccm(data = bio,
+g = spEDM::gccm(data = tibetbio,
                 cause = "ndvi",
                 effect = "bio",
                 libsizes = seq(100,1600,100),
@@ -22,16 +22,3 @@ spEDM::gccm(data = bio,
             effect = "bio",
             libsizes = 415,
             E = 3)
-
-
-startTime = Sys.time()
-bio_res = spEDM::gcmc(data = bio,
-                      cause = "pre",
-                      effect = "bio",
-                      E = 3,
-                      k = 415,
-                      r = 0,
-                      trend.rm = FALSE)
-bio_res
-endTime = Sys.time()
-print(difftime(endTime,startTime, units ="mins"))
