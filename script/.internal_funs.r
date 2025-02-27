@@ -26,7 +26,7 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
         g = spEDM::gcmc(data = data,
                         cause = vars[[v]][1],
                         effect = vars[[v]][2],
-                        E = Es[v],
+                        E = Es[[v]],
                         k = k,
                         r = r,
                         trend.rm = trend.rm,
@@ -51,7 +51,7 @@ gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
                         cause = vars[[v]][1],
                         effect = vars[[v]][2],
                         libsizes = libsizes,
-                        E = Es[v],
+                        E = Es[[v]],
                         k = k,
                         trend.rm = trend.rm,
                         progressbar = verbose)
