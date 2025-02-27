@@ -17,14 +17,16 @@ simplex4lattice = \(data,lib,pred = lib,E = 1:10,
 
 gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
     vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
+    names(E) = vars
     vars = utils::combn(vars,2,simplify = FALSE)
+    Es = purrr::map(vars,\(.x) E[.x])
     
     resdf = data.frame()
-    for (v in vars){
+    for (v in seq_along(vars)){
         g = spEDM::gcmc(data = data,
-                        cause = v[1],
-                        effect = v[2],
-                        E = E,
+                        cause = vars[[v]][1],
+                        effect = vars[[v]][2],
+                        E = Es[v],
                         k = k,
                         r = r,
                         trend.rm = trend.rm,
@@ -39,15 +41,17 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
 
 gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
     vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
+    names(E) = vars
     vars = utils::combn(vars,2,simplify = FALSE)
+    Es = purrr::map(vars,\(.x) E[.x])
     
     resdf = data.frame()
-    for (v in vars){
+    for (v in seq_along(vars)){
         g = spEDM::gccm(data = data,
-                        cause = v[1],
-                        effect = v[2],
+                        cause = vars[[v]][1],
+                        effect = vars[[v]][2],
                         libsizes = libsizes,
-                        E = E,
+                        E = Es[v],
                         k = k,
                         trend.rm = trend.rm,
                         progressbar = verbose)
