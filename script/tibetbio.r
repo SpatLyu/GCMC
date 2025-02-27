@@ -3,6 +3,9 @@ source('./script/.internal_funs.r')
 tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
   sf::st_as_sf(coords = c("x","y"), crs = 4326)
 
+# select the dimensions of embdedding
+simplex4lattice(tibetbio,lib = 1:1000, pred = 1001:nrow(tibetbio))
+
 k = floor(nrow(tibetbio) / 4)
 
 # bio_res = spEDM::gcmc(data = tibetbio,
@@ -19,7 +22,7 @@ k = floor(nrow(tibetbio) / 4)
 #                 libsizes = seq(100,1600,100),
 #                 E = 3)
 
-bio_gcmc = gcmc4lattice(tibetbio,E = 3,k = k,r = 0,trend.rm = FALSE)
+bio_gcmc = gcmc4lattice(tibetbio,E = c(7,7,8,3,2,1),k = k,r = 0,trend.rm = FALSE)
 readr::write_csv(bio_gcmc,'./result/bio_gcmc.csv')
 
 bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = 3,k = 4,trend.rm = TRUE)
