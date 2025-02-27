@@ -1,15 +1,16 @@
-gcmc4lattice = \(data,lib,pred = lib,E,k = 4,tau = 1,trend.rm = FALSE) {
+simplex4lattice = \(data,lib,pred = lib,E = 1:10,
+                    k = 4,tau = 1,trend.rm = FALSE) {
   vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
   
   for (v in vars){
-    g = spEDM::gcmc(data = data,
-                    target = v,
-                    lib = lib,
-                    pred = pred,
-                    E = E,
-                    k = k,
-                    tau = tau,
-                    trend.rm = trend.rm)
+    g = spEDM::simplex(data = data,
+                       target = v,
+                       lib = lib,
+                       pred = pred,
+                       E = E,
+                       k = k,
+                       tau = tau,
+                       trend.rm = trend.rm)
   }
   return(NULL)
 }
