@@ -22,7 +22,7 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
     Es = purrr::map(vars,\(.x) E[.x])
     
     resdf = data.frame()
-    for (v in seq_along(vars)){
+    for (v in seq_along(vars)) {
         g = spEDM::gcmc(data = data,
                         cause = vars[[v]][1],
                         effect = vars[[v]][2],
@@ -32,8 +32,8 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
                         trend.rm = trend.rm,
                         progressbar = verbose)
         tempdf = g$xmap
-        tempdf$x = v[1]
-        tempdf$y = v[2]
+        tempdf$x = vars[[v]][1]
+        tempdf$y = vars[[v]][2]
         resdf = rbind(resdf,tempdf)
     }
     return(resdf)
@@ -46,7 +46,7 @@ gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
     Es = purrr::map(vars,\(.x) E[.x])
     
     resdf = data.frame()
-    for (v in seq_along(vars)){
+    for (v in seq_along(vars)) {
         g = spEDM::gccm(data = data,
                         cause = vars[[v]][1],
                         effect = vars[[v]][2],
@@ -56,8 +56,8 @@ gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
                         trend.rm = trend.rm,
                         progressbar = verbose)
         tempdf = g$xmap
-        tempdf$x = v[1]
-        tempdf$y = v[2]
+        tempdf$x = vars[[v]][1]
+        tempdf$y = vars[[v]][2]
         resdf = rbind(resdf,tempdf)
     }
     return(resdf)
