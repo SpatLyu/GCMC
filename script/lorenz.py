@@ -74,3 +74,52 @@ plt.savefig('../figure/lorenz2.png',dpi = 300,transparent=True)
 
 # Show the plot
 plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+m1 = pd.read_csv('../result/phase_space1.csv')
+m2 = pd.read_csv('../result/phase_space2.csv')
+
+# Plotting the figure
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(m1["x"], m1["y"], m1["z"], lw=0.001,color='#aec4ca')
+# ax.set_xlabel("X Axis")
+# ax.set_ylabel("Y Axis")
+# ax.set_zlabel("Z Axis")
+# ax.set_title("Lorenz Attractor")
+
+# Hide the axes
+ax.set_axis_off()
+
+# Set the figure background to transparent
+fig.patch.set_alpha(0)
+
+plt.savefig('../figure/phase_state1.png',dpi = 300,transparent=True)
+
+# Show the plot
+plt.show()
+
+# Plotting the figure
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(m2["x"], m2["y"], m2["z"], lw=0.001, color='#fabcbd')
+# ax.set_xlabel("X Axis")
+# ax.set_ylabel("Y Axis")
+# ax.set_zlabel("Z Axis")
+# ax.set_title("Lorenz Attractor")
+
+# Hide the axes
+ax.set_axis_off()
+
+# Set the figure background to transparent
+fig.patch.set_alpha(0)
+
+plt.savefig('../figure/phase_state2.png',dpi = 300,transparent=True)
+
+# Show the plot
+plt.show()
