@@ -1,0 +1,23 @@
+---
+title: "formula"
+author: "Wenbo Lv"
+output: 
+  officedown::rdocx_document:
+    mapstyles:
+      Normal: ['First Paragraph']
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      dpi = 300,
+                      warning = FALSE,
+                      message = FALSE,
+                      out.width = "100%",
+                      out.height = "100%",
+                      fig.align = 'center',
+                      comment = "##")
+```
+
+$$
+A \Longrightarrow B
+$$
