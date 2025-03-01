@@ -1,0 +1,111 @@
+# population density
+popd_nb = spdep::read.gal(system.file("extdata/popdensity_nb.gal",
+                                      package = "spEDM"))
+popd_nb
+
+popdensity = readr::read_csv(system.file("extdata/popdensity.csv",
+                                         package = "spEDM"))
+popdensity
+
+popd_sf = sf::st_as_sf(popdensity, coords = c("x","y"), crs = 4326)
+popd_sf
+
+startTime = Sys.time()
+pd_res1 = spEDM::gccm(data = popd_sf,
+                      cause = "Pre",
+                      effect = "popDensity",
+                      libsizes = seq(10, 2800, by = 100),
+                      E = c(2,5),
+                      k = 6,
+                      nb = popd_nb,
+                      pred = 2001:nrow(popd_sf),
+                      progressbar = TRUE)
+endTime = Sys.time()
+print(difftime(endTime,startTime, units ="mins"))
+pd_res1
+
+startTime = Sys.time()
+pd_res2 = spEDM::gcmc(data = popd_sf,
+                      cause = "Pre",
+                      effect = "popDensity",
+                      E = c(2,5),
+                      k = 6,
+                      r = 6,
+                      #pred = pred,
+                      #trend.rm = TRUE,
+                      nb = popd_nb)
+endTime = Sys.time()
+print(difftime(endTime,startTime, units ="mins"))
+pd_res2
+
+# columbus
+columbus = sf::read_sf(system.file("shapes/columbus.gpkg", package="spData"))
+cs1 = spEDM::gccm(columbus, "HOVAL", "CRIME", libsizes = seq(5,40,5), E = c(6,5))
+cs2 = spEDM::gcmc(columbus,"HOVAL","CRIME",E = c(6,5),k = 8,r = 8,trend.rm = FALSE)
+cs3 = spEDM::scpcm(columbus, "HOVAL", "CRIME", "INC", libsizes = seq(5,40,5), E = c(6,5,6))
+
+# cu 
+cu = terra::rast(system.file("extdata/cu.tif", package = "spEDM"))
+
+spEDM::simplex(cu,"industry", k = 5,
+        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::ncol(cu))),
+        pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
+
+spEDM::simplex(cu,"cu", k = 5,
+               lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::ncol(cu))),
+               pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
+
+spEDM::simplex(cu,"ntl", k = 5,
+        lib = as.matrix(expand.grid(1:terra::nrow(cu),1:terra::ncol(cu))),
+        pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))))
+
+tictoc::tic()
+g1 = spEDM::gccm(cu,"ntl","cu",libsizes = seq(10,120,20),E = c(8,2),k = 5,
+                 pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))),trend.rm = F)
+g1
+tictoc::toc()
+
+tictoc::tic()
+g11 = spEDM::gccm(cu,"industry","cu",libsizes = seq(10,120,20),E = c(2,2),k = 5,
+                 pred = as.matrix(expand.grid(seq(5,131,5),seq(5,125,5))),trend.rm = T)
+g11
+tictoc::toc()
+
+tictoc::tic()
+g2 = spEDM::gcmc(cu,"industry","cu",E = 2,k = 6, r = 20, pred = as.matrix(expand.grid(seq(5,125,5),seq(5,125,5))))
+g2
+tictoc::toc()
+
+tictoc::tic()
+g3 = spEDM::scpcm(cu,"industry","cu","ntl",E = c(2,2,8),libsizes = seq(10,120,20),k = 5,
+                  pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
+g3
+tictoc::toc()
+
+g31 = spEDM::gccm(cu,"industry","cu",E = c(2,2),libsizes = seq(10,120,20),k = 5,
+                  pred = as.matrix(expand.grid(seq(10,131,10),seq(10,125,10))))
+
+# npp 
+npp = terra::rast(system.file("extdata/npp.tif", package = "spEDM"))
+npp = terra::aggregate(npp, fact = 3, na.rm = TRUE)
+nnamat = terra::as.matrix(!is.na(npp[[1]]), wide = TRUE)
+nnaindice = terra::rowColFromCell(npp,which(nnamat))
+
+set.seed(42)
+indices = sample(nrow(nnaindice), size = 100, replace = FALSE)
+lib = nnaindice[-indices,]
+pred = nnaindice[indices,]
+
+simplex(npp,"pre",lib,pred,k = 5)
+simplex(npp,"npp",lib,pred,k = 5)
+simplex(npp,"tem",lib,pred,k = 5)
+
+sc1 = spEDM::gccm(npp,"npp","pre",E = c(9,3),libsizes = seq(10,130,20),
+                  k = 5, pred = pred)
+
+sc2 = spEDM::gcmc(npp,"npp","pre",E = c(3,3),k = 5, r = 10,pred = pred)
+
+tictoc::tic()
+sc3 = spEDM::scpcm(npp,"tem","npp","pre",E = c(3,9,3),libsizes = seq(10,130,20),k = 5,
+                   pred = pred)
+tictoc::toc()
