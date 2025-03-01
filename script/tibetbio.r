@@ -11,21 +11,21 @@ simplex4lattice(tibetbio,lib = 1:1000, pred = 1001:nrow(tibetbio))
 
 k = 450
 
-g = spEDM::gcmc(data = tibetbio,
-                cause = "bio",
-                effect = "sm",
-                E = c(8,3),
-                k = 450,
-                r = 0,
-                trend.rm = FALSE)
+# g = spEDM::gcmc(data = tibetbio,
+#                 cause = "bio",
+#                 effect = "sm",
+#                 E = c(8,3),
+#                 k = 450,
+#                 r = 0,
+#                 trend.rm = FALSE)
 
-g1 = spEDM::gcmc(data = tibetbio,
-            cause = "tem",
-            effect = "pre",
-            E = c(3,3),
-            k = 450,
-            r = 0,
-            trend.rm = FALSE)
+# g1 = spEDM::gcmc(data = tibetbio,
+#             cause = "tem",
+#             effect = "pre",
+#             E = c(3,3),
+#             k = 450,
+#             r = 0,
+#             trend.rm = FALSE)
 
 bio_gcmc = gcmc4lattice(tibetbio,E = c(7,7,8,3,3,3),k = k,r = 0,trend.rm = FALSE)
 readr::write_csv(bio_gcmc,'./result/bio_gcmc.csv')
