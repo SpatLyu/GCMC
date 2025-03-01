@@ -9,21 +9,21 @@ tibetbio = readr::read_csv('./tibet_bio.csv') |>
 # select the dimensions of embdedding
 simplex4lattice(tibetbio,lib = 1:1000, pred = 1001:nrow(tibetbio))
 
-k = 450
+k = 500
 
 # g = spEDM::gcmc(data = tibetbio,
-#                 cause = "bio",
-#                 effect = "sm",
-#                 E = c(8,3),
-#                 k = 450,
+#                 cause = "pre",
+#                 effect = "bio",
+#                 E = c(3,8),
+#                 k = 500,
 #                 r = 0,
 #                 trend.rm = FALSE)
-
+# 
 # g1 = spEDM::gcmc(data = tibetbio,
 #             cause = "tem",
 #             effect = "pre",
 #             E = c(3,3),
-#             k = 450,
+#             k = 500,
 #             r = 0,
 #             trend.rm = FALSE)
 
