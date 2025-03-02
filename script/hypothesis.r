@@ -33,7 +33,7 @@ fig1 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H1)) +
                  axis.title = ggplot2::element_text(family = "serif",size = 16.5),
                  panel.grid = ggplot2::element_blank()) +
   ggview::canvas(4.75,4.5)
-ggview::save_ggplot(fig1, "./figure/AUC1.pdf", device = cairo_pdf)
+# ggview::save_ggplot(fig1, "./figure/AUC1.pdf", device = cairo_pdf)
 ggview::save_ggplot(fig1, "./figure/AUC1.pdf", dpi = 300)
 
 fig2 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H0)) +
@@ -52,6 +52,7 @@ fig2 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H0)) +
                  axis.title = ggplot2::element_text(family = "serif",size = 16.5),
                  panel.grid = ggplot2::element_blank()) +
   ggview::canvas(4.75,4.5)
+# ggview::save_ggplot(fig2, "./figure/AUC2.pdf", device = cairo_pdf)
 ggview::save_ggplot(fig2, "./figure/AUC2.jpg", dpi = 300)
 
 # fig3 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = aucH0)) +
