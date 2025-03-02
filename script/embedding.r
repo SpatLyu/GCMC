@@ -22,3 +22,5 @@ map1 = tm_shape(henan) +
 tmap_save(map1,'./figure/map1.jpg',dpi = 300)
 
 embeddings = spEDM::embedded(henan,target = "popdensity", E = 3, tau = 1)
+scatterplot3d::scatterplot3d(embeddings[,1:3], pch = 16, 
+                             color="red")
