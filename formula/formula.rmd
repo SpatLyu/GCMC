@@ -19,5 +19,9 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 $$
-A \Longrightarrow B
+H_0: x \nRightarrow y
+$$
+
+$$
+H_1: x \Rightarrow y
 $$

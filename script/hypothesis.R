@@ -20,13 +20,14 @@ ggplot2::ggplot(data = cmcH,ggplot2::aes(x = aucH0)) +
                                     fill = "#ffcaa8", alpha = 0.5) +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = aucH0), 
                        fill = "grey", alpha = 0.5) +
-  ggplot2::geom_line(ggplot2::aes(y = aucH1, color = "H1"),lwd = 1) +
   ggplot2::geom_line(ggplot2::aes(y = aucH0, color = "H0"),lwd = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = aucH1, color = "H1"),lwd = 1) +
   ggplot2::geom_abline(slope = 1, intercept = 0, color = "grey",
                        lwd = 0.5, linetype = 3) +
   ggplot2::scale_color_manual(
-    values = c("H1" = "red", "H0" = "blue"), 
-    labels = c("H1","H0")) +
+    values = c("H0" = "#5F95D9","H1" = "#D95F5F"), 
+    labels = c(latex2exp::TeX("$H_0: x \\nRightarrow y$"),
+               latex2exp::TeX("$H_1: x \\Rightarrow y$"))) +
   ggplot2::scale_x_continuous(expand = c(0, 0)) +
   ggplot2::scale_y_continuous(expand = c(0, 0)) +
   ggplot2::labs(x = "Normalized r", y = "Normalized IC", color = "") +
