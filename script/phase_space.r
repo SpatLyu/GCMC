@@ -1,10 +1,9 @@
-tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
-  sf::st_as_sf(coords = c("x","y"), crs = 4326)
-
-# original state space：
 library(tmap)
 library(sf)
 library(terra)
+
+tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
+  sf::st_as_sf(coords = c("x","y"), crs = 4326)
 
 bbox = sf::st_bbox(tibetbio) |> 
   sf::st_as_sfc() |> 
@@ -43,11 +42,3 @@ map2 = tm_shape(elev)+
                                               midpoint = NA),
              size.legend = tm_legend_hide())
 tmap_save(map2,'./figure/map2.jpg',dpi = 300)
-
-# embeddings:
-m1 = spEDM::embedded(tibetbio,"sm",E = 3,tau = 5,trend.rm = FALSE)
-m2 = spEDM::embedded(tibetbio,"bio",E = 3,tau = 6,trend.rm = FALSE)
-colnames(m1) = colnames(m2) = c("x","y","z")
-
-readr::write_csv(as.data.frame(m1),'./result/phase_space1.csv')
-readr::write_csv(as.data.frame(m2),'./result/phase_space2.csv')
