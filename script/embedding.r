@@ -12,11 +12,13 @@ henan = mapchina::china |>
                        sf::st_cast("MULTIPOLYGON"),
                    Pop = sum(Pop,na.rm = TRUE),
                    Area = sum(Area,na.rm = TRUE)) |> 
-  dplyr::mutate(popdensity = round(Pop / Area,2)) |> 
+  dplyr::mutate(popdensity = round(Pop / Area,0)) |> 
   dplyr::select(popdensity)
 
-tm_shape(henan) + 
+map1 = tm_shape(henan) + 
   tm_polygons(fill = "popdensity",fill.legend = tm_legend_hide()) +
-  tm_text("popdensity",angle = 5,size = 0.75)
+  tm_text("popdensity",size = 0.75, # angle = 5,
+          options = opt_tm_text(just = "top",on_surface = TRUE))
+tmap_save(map1,'./figure/map1.jpg',dpi = 300)
 
-e1 = spEDM::embedded(ex,target = "ex", E = 3, tau = 1)
+embeddings = spEDM::embedded(henan,target = "popdensity", E = 3, tau = 1)
