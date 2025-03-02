@@ -25,7 +25,3 @@ $$
 $$
 H_1: x \Rightarrow y
 $$
-
-a Intersectional cardinality($H_1$)
-b Intersectional cardinality($H_0$) 
-c Intersectional cardinality curve
