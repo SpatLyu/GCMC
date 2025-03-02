@@ -15,10 +15,6 @@ elev = elevatr::get_elev_raster(bbox, z = 4, clip = "bbox") |>
 names(elev) = 'elevation'
 plot(elev)
 
-elev = terra::rast(tmap::land)[[4]] |> 
-  crop(vect(tibetbio),mask = FALSE)
-
-
 map1 = tm_shape(elev)+
   tm_raster("elevation", 
             col.scale = tm_scale_continuous(values = terrain.colors(9)),
@@ -48,7 +44,6 @@ map2 = tm_shape(elev)+
              size.legend = tm_legend_hide())
 tmap_save(map2,'./figure/map2.jpg',dpi = 300)
 
-
 # embeddings:
 m1 = spEDM::embedded(tibetbio,"sm",E = 3,tau = 5,trend.rm = FALSE)
 m2 = spEDM::embedded(tibetbio,"bio",E = 3,tau = 6,trend.rm = FALSE)
@@ -56,4 +51,3 @@ colnames(m1) = colnames(m2) = c("x","y","z")
 
 readr::write_csv(as.data.frame(m1),'./result/phase_space1.csv')
 readr::write_csv(as.data.frame(m2),'./result/phase_space2.csv')
-
