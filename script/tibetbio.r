@@ -53,6 +53,8 @@ ggplot2::ggplot(data = bio_gcmc,
     labels = c("significant"," not significant")) +
   ggplot2::geom_text(ggplot2::aes(label = round(cs, 3)), color = "black") +
   ggplot2::labs(x = "Effect", y = "Cause", fill = "Significance") +
+  ggplot2::scale_x_continuous(expand = c(0, 0)) +
+  ggplot2::scale_y_continuous(expand = c(0, 0)) +
   ggplot2::coord_equal() +
   ggplot2::theme_void() +
   ggplot2::theme(
