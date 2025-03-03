@@ -73,18 +73,22 @@ fig11 = tm_shape(henan) +
   tm_layout(frame = FALSE)
 tmap_save(fig11,'./figure/figure1_1.jpg',dpi = 300)
 
-jpeg("./figure/figure1_2.jpg", width = 1500, height = 1500, res = 300)  
-par(mar = rep(0,4))
-plot(sf::st_geometry(henan), col = 'white', lwd = 1.25, border = "grey40")
-plot(nb,coords = sdsfun::sf_coordinates(henan), lwd=1.05, col="blue", cex = 1.25, add = TRUE)
-dev.off()
+# jpeg("./figure/figure1_2.jpg", width = 1500, height = 1500, res = 300)  
+# par(mar = rep(0,4))
+# plot(sf::st_geometry(henan), col = 'white', lwd = 1.25, border = "grey40")
+# plot(nb,coords = sdsfun::sf_coordinates(henan), lwd=1.05, col="blue", cex = 1.25, add = TRUE)
+# dev.off()
 
 embeddings = spEDM::embedded(henan, target = "popdensity", E = 3, tau = 1)
 colnames(embeddings) = c("hs1","hs2","hs3")
 # readr::write_csv(as.data.frame(embeddings),'./result/figure1_embeddings.csv')
 embeddings[10,1:3]
 
-jpeg("./figure/figure1_3.jpg", width = 1800, height = 1500, res = 300)
+henan$popdensity[spunit[[1]]] / 5
+henan$popdensity[spunit[[2]]] / 6
+henan$popdensity[spunit[[3]]] / 6
+
+jpeg("./figure/figure1_2.jpg", width = 1800, height = 1500, res = 300)
 par(mar = rep(0,4))
 scatterplot3d::scatterplot3d(x = embeddings[,1], y = embeddings[,2], z = embeddings[,3],
                              xlab = latex2exp::TeX("$h_{s(1)}(x)$"),
