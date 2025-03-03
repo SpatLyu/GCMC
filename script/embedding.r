@@ -18,22 +18,60 @@ henan = cn |>
   dplyr::select(Code,popdensity) |> 
   tibble::rowid_to_column(var = "rid")
 
-bb = henan |> 
-  st_bbox() |>
-  st_as_sfc() |>
-  st_as_sf() |>
-  st_buffer(dist = units::set_units(0.35,"degree")) |> 
-  st_bbox() |> 
-  as.numeric()
-
-map1 = tm_shape(henan) + 
-  tm_polygons(fill = "popdensity",fill.legend = tm_legend_hide()) +
-  tm_text("popdensity",size = 0.75, # angle = 5,
-          options = opt_tm_text(just = "top",on_surface = TRUE)) +
-  tm_layout(frame = FALSE)
-tmap_save(map1,'./figure/figure1_1.jpg',dpi = 300)
+# bb = henan |> 
+#   st_bbox() |>
+#   st_as_sfc() |>
+#   st_as_sf() |>
+#   st_buffer(dist = units::set_units(0.35,"degree")) |> 
+#   st_bbox() |> 
+#   as.numeric()
 
 nb = sdsfun::spdep_nb(henan)
+
+# Selected spatial unit for illustrative calculation
+mapview::mapview(henan,zcol = "Code")
+henan[henan$Code == "4110",]
+
+spunit = list()
+spunit[[1]] = nb[[10]]
+spunit[[2]] = setdiff(spEDM:::RcppLaggedNeighbor4Lattice(nb,2)[[10]],c(nb[[10]],10))
+spunit[[3]] = setdiff(spEDM:::RcppLaggedNeighbor4Lattice(nb,3)[[10]],
+                      spEDM:::RcppLaggedNeighbor4Lattice(nb,2)[[10]])
+
+henan = henan |> 
+  dplyr::mutate(
+    lagnum = dplyr::case_when(rid == 10 ~ "0",
+                              rid %in% spunit[[1]] ~ "1",
+                              rid %in% spunit[[2]] ~ "2",
+                              rid %in% spunit[[3]] ~ "3")
+  ) |> 
+  dplyr::mutate(lagnum = factor(lagnum,levels = as.character(0:3),
+                                labels = c("Focal Unit",
+                                           paste0(c("First","Second","Third"),
+                                                  "-order Lags"))))
+
+fig11 = tm_shape(henan) + 
+  tm_polygons(fill = "lagnum",
+              fill.scale = tm_scale_categorical(n.max = 4,
+                                                values = rev(
+                                                  c("#fee5d9",
+                                                    "#fcbba1",
+                                                    "#fb6a4a",
+                                                    "#de2d26"))),
+              fill.legend = tm_legend(
+                title = "Spatial Lags",
+                design = "standard",
+                title.color = "black",
+                bg.color = "white",
+                position = tm_pos_in(pos.h = "left",
+                                     pos.v = "bottom"),
+                show = TRUE
+              ),
+              col = 'grey', lwd = 1.25) +
+  tm_text("popdensity",size = 1.05, # angle = 5,
+          options = opt_tm_text(just = "top",on_surface = TRUE)) +
+  tm_layout(frame = FALSE)
+tmap_save(fig11,'./figure/figure1_1.jpg',dpi = 300)
 
 jpeg("./figure/figure1_2.jpg", width = 1500, height = 1500, res = 300)  
 par(mar = rep(0,4))
@@ -55,37 +93,3 @@ scatterplot3d::scatterplot3d(x = embeddings[,1], y = embeddings[,2], z = embeddi
                              pch = 16, color="red", angle = 45)
 dev.off()
 
-
-# Selected spatial unit for illustrative calculation
-mapview::mapview(henan,zcol = "Code")
-henan[henan$Code == "4110",]
-
-spunit = list()
-spunit[[1]] = nb[[10]]
-spunit[[2]] = setdiff(spEDM:::RcppLaggedNeighbor4Lattice(nb,2)[[10]],c(nb[[10]],10))
-spunit[[3]] = setdiff(spEDM:::RcppLaggedNeighbor4Lattice(nb,3)[[10]],
-                      spEDM:::RcppLaggedNeighbor4Lattice(nb,2)[[10]])
-
-henan = henan |> 
-  dplyr::mutate(
-    lagnum = dplyr::case_when(rid == 10 ~ "0",
-                              rid %in% spunit[[1]] ~ "1",
-                              rid %in% spunit[[2]] ~ "2",
-                              rid %in% spunit[[3]] ~ "3")
-  ) |> 
-  dplyr::mutate(lagnum = factor(lagnum,levels = as.character(0:3)))
-
-map2 = tm_shape(cn, bbox = bb) + 
-  tm_polygons(col = "grey50", fill = "white", lwd = 1.05, fill_alpha = 0.5) +
-  tm_shape(henan) + 
-  tm_polygons(fill = "lagnum",
-              fill.scale = tm_scale_categorical(n.max = 4,
-                                                values = c("#fc4e2a",
-                                                           "#fd8d3c",
-                                                           "#fed976",
-                                                           "#ffeda0"),
-                                                value.na = "white"),
-              col = 'grey', lwd = 1.25) +
-  tm_text("popdensity",size = 0.75, # angle = 5,
-          options = opt_tm_text(just = "top",on_surface = TRUE))
-tmap_save(map2,'./figure/map2.jpg',dpi = 300)
