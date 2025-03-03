@@ -42,7 +42,7 @@ plot(nb,coords = sdsfun::sf_coordinates(henan), lwd=1.05, col="blue", cex = 1.25
 dev.off()
 
 embeddings = spEDM::embedded(henan, target = "popdensity", E = 3, tau = 1)
-# colnames(embeddings) = c("hs1","hs2","hs3")
+colnames(embeddings) = c("hs1","hs2","hs3")
 # readr::write_csv(as.data.frame(embeddings),'./result/figure1_embeddings.csv')
 embeddings[10,1:3]
 
