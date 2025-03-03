@@ -84,6 +84,10 @@ colnames(embeddings) = c("hs1","hs2","hs3")
 # readr::write_csv(as.data.frame(embeddings),'./result/figure1_embeddings.csv')
 embeddings[10,1:3]
 
+henan$popdensity[spunit[[1]]] / 5
+henan$popdensity[spunit[[2]]] / 6
+henan$popdensity[spunit[[3]]] / 6
+
 jpeg("./figure/figure1_3.jpg", width = 1800, height = 1500, res = 300)
 par(mar = rep(0,4))
 scatterplot3d::scatterplot3d(x = embeddings[,1], y = embeddings[,2], z = embeddings[,3],
