@@ -13,7 +13,11 @@ henan = mapchina::china |>
                    Pop = sum(Pop,na.rm = TRUE),
                    Area = sum(Area,na.rm = TRUE)) |> 
   dplyr::mutate(popdensity = round(Pop / Area,0)) |> 
-  dplyr::select(popdensity)
+  dplyr::select(Code,popdensity)
+
+mapview::mapview(henan,zcol = "Code")
+
+henan[henan$Code == "4110",]
 
 map1 = tm_shape(henan) + 
   tm_polygons(fill = "popdensity",fill.legend = tm_legend_hide()) +
@@ -21,6 +25,14 @@ map1 = tm_shape(henan) +
           options = opt_tm_text(just = "top",on_surface = TRUE))
 tmap_save(map1,'./figure/map1.jpg',dpi = 300)
 
-embeddings = spEDM::embedded(henan,target = "popdensity", E = 3, tau = 1)
+nb = spEDM:::RcppLaggedNeighbor4Lattice(sdsfun::spdep_nb(henan),3)
+
+map2 = tm_shape(henan) + 
+  tm_polygons(fill = "popdensity",fill.legend = tm_legend_hide()) +
+  tm_text("popdensity",size = 0.75, # angle = 5,
+          options = opt_tm_text(just = "top",on_surface = TRUE))
+tmap_save(map1,'./figure/map1.jpg',dpi = 300)
+
+embeddings = spEDM::embedded(henan, target = "popdensity", E = 3, tau = 1)
 scatterplot3d::scatterplot3d(embeddings[,1:3], pch = 16, 
                              color="red")
