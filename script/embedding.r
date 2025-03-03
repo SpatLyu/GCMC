@@ -75,7 +75,6 @@ henan = henan |>
   ) |> 
   dplyr::mutate(lagnum = factor(lagnum,levels = as.character(0:3)))
 
-
 map2 = tm_shape(cn, bbox = bb) + 
   tm_polygons(col = "grey50", fill = "white", lwd = 1.05, fill_alpha = 0.5) +
   tm_shape(henan) + 
