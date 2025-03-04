@@ -1,5 +1,5 @@
 simplex4lattice = \(data,lib,pred = lib,E = 1:10,
-                    k = 4,tau = 1,trend.rm = FALSE) {
+                    k = E + 2,tau = 1,trend.rm = FALSE) {
   vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
   
   for (v in vars){
@@ -11,6 +11,7 @@ simplex4lattice = \(data,lib,pred = lib,E = 1:10,
                        k = k,
                        tau = tau,
                        trend.rm = trend.rm)
+    print(g)
   }
   return(NULL)
 }
