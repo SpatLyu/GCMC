@@ -52,10 +52,11 @@ ggplot2::ggplot(data = bio_gcmc,
   ggplot2::coord_equal() +
   ggplot2::theme_void() +
   ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 90),
-    axis.text.y = ggplot2::element_text(color = "black"),
-    axis.title.y = ggplot2::element_text(angle = 90),
-    axis.title = ggplot2::element_text(face = "italic", color = "black"),
+    axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
+    axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
+    axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
+    axis.title = ggplot2::element_text(face = "italic", color = "black", family = "serif"),
+    legend.text = ggplot2::element_text(family = "serif"),
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_blank()
 )
@@ -64,7 +65,7 @@ ggplot2::ggplot(data = bio_gcmc,
 # result of gccm
 bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,9,8,10,7),k = 12,trend.rm = TRUE)
 readr::write_csv(bio_gccm,'./result/bio_gccm.csv')
-bio_gccm = readr::read_csv('./result/bio_gccm.csv')|> 
+bio_gccm = readr::read_csv('./result/bio_gccm.csv') |> 
   dplyr::select(libsizes,x,y,x_xmap_y_mean,x_xmap_y_sig,y_xmap_x_mean,y_xmap_x_sig)
 
 plot_gccmcurve = \(rhodf){
@@ -98,3 +99,4 @@ plot_gccmcurve = \(rhodf){
 }
 
 plot_gccmcurve(dplyr::filter(bio_gccm,x == "elev", y == "ndvi"))
+plot_gccmcurve(dplyr::filter(bio_gccm,x == "tem", y == "pre"))
