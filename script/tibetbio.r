@@ -4,7 +4,7 @@ tibetbio = readr::read_csv('./data/tibet_bio.csv') |>
   sf::st_as_sf(coords = c("x","y"), crs = 4326)
 
 # select the dimensions of embdedding
-simplex4lattice(tibetbio,lib = 1:1000, pred = 1001:nrow(tibetbio))
+simplex4lattice(tibetbio,lib = 1:nrow(tibetbio), pred = 1:nrow(tibetbio))
 
 k = 500
 
@@ -62,7 +62,7 @@ ggplot2::ggplot(data = bio_gcmc,
 
 
 # result of gccm
-bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,8,3,3,3),k = E+2,trend.rm = TRUE)
+bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,9,8,10,7),k = 12,trend.rm = TRUE)
 readr::write_csv(bio_gccm,'./result/bio_gccm.csv')
 bio_gccm = readr::read_csv('./result/bio_gccm.csv')|> 
   dplyr::select(libsizes,x,y,x_xmap_y_mean,x_xmap_y_sig,y_xmap_x_mean,y_xmap_x_sig)
