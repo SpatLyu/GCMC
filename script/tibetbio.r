@@ -62,7 +62,7 @@ ggplot2::ggplot(data = bio_gcmc,
 
 
 # result of gccm
-bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,8,3,3,3),k = 4,trend.rm = TRUE)
+bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,8,3,3,3),k = E+2,trend.rm = TRUE)
 readr::write_csv(bio_gccm,'./result/bio_gccm.csv')
 bio_gccm = readr::read_csv('./result/bio_gccm.csv')|> 
   dplyr::select(libsizes,x,y,x_xmap_y_mean,x_xmap_y_sig,y_xmap_x_mean,y_xmap_x_sig)
@@ -76,7 +76,7 @@ plot_gccmcurve = \(rhodf){
     ggplot2::geom_line(ggplot2::aes(y = x_xmap_y_mean,
                                     color = "x xmap y"),
                        lwd = 1.25) +
-    ggplot2::scale_x_continuous(breaks = rhodf$libsizes, limits = c(min(rhodf$libsizes)-1,max(rhodf$libsizes)+1),
+    ggplot2::scale_x_continuous(breaks = rhodf$libsizes, limits = c(min(rhodf$libsizes)-5,max(rhodf$libsizes)+5),
                                 expand = c(0, 0), name = "Lib of Sizes") +
     ggplot2::scale_y_continuous(breaks = seq(0, 1, by = 0.1), limits = c(0,1),
                                 expand = c(0, 0), name = expression(rho)) +

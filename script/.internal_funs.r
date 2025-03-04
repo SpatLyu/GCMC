@@ -42,8 +42,10 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
 gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
     vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
     names(E) = vars
+    names(k) = vars
     vars = utils::combn(vars,2,simplify = FALSE)
     Es = purrr::map(vars,\(.x) E[.x])
+    Ks = purrr::map(vars,\(.x) k[.x])
     
     resdf = data.frame()
     for (v in seq_along(vars)) {
@@ -52,7 +54,7 @@ gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
                         effect = vars[[v]][2],
                         libsizes = libsizes,
                         E = Es[[v]],
-                        k = k,
+                        k = Ks[[v]],
                         trend.rm = trend.rm,
                         progressbar = verbose)
         tempdf = g$xmap
