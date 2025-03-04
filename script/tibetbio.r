@@ -3,10 +3,6 @@ source('./script/.internal_funs.r')
 tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
   sf::st_as_sf(coords = c("x","y"), crs = 4326)
 
-source('./.internal_funs.r')
-tibetbio = readr::read_csv('./tibet_bio.csv') |> 
-  sf::st_as_sf(coords = c("x","y"), crs = 4326)
-
 # select the dimensions of embdedding
 simplex4lattice(tibetbio,lib = 1:1000, pred = 1001:nrow(tibetbio))
 
