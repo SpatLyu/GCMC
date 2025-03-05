@@ -19,7 +19,7 @@ source('./.internal_funs.r')
 npp_gcmc = gcmc4grid(npp,E = c(3,3,3,3,5),k = 450,r = 0,pred = predindice,trend.rm = FALSE)
 readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
 
-npp_gcmc = readr::read_csv('./result/npp_gcmc4.csv') 
+npp_gcmc = readr::read_csv('./result/npp_gcmc.csv') 
 ng1 = npp_gcmc |> 
   dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|> 
   purrr::set_names(c("cause","effect","cs","sig"))

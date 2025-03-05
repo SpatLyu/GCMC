@@ -46,7 +46,7 @@ g2 = spEDM::gcmc(data = npp,
                 k = 450,
                 r = 0,
                 pred = predindice,
-                trend.rm = TRUE,
+                trend.rm = FALSE,
                 progressbar = TRUE)
 g3 = spEDM::gcmc(data = npp,
                 cause = "npp",
