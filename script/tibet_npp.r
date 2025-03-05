@@ -16,7 +16,7 @@ source('./.internal_funs.r')
 # select the dimensions of embdedding
 # simplex4grid(npp,lib = nnaindice, pred = predindice, trend.rm = TRUE)
 
-npp_gcmc = gcmc4grid(npp,E = rep(3,5),k = 450,r = 0,pred = predindice,trend.rm = FALSE)
+npp_gcmc = gcmc4grid(npp,E = c(3,3,3,3,5),k = 450,r = 0,pred = predindice,trend.rm = FALSE)
 readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
 
 npp_gcmc = readr::read_csv('./result/npp_gcmc4.csv') 
