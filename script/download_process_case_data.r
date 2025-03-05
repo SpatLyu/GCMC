@@ -30,6 +30,10 @@ ee_as_rast(
   dsn = "./data/npp21.tif"
 )
 
+npp21 = terra::rast('./data/npp21.tif')
+npp21 = npp21 * 1e3 # convert the unit to g*C/m²
+writeRaster(npp21,'./data/npp21.tif', overwrite = TRUE)
+
 # download precipitation accumulation and soil moisture
 # https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE
 
@@ -96,4 +100,4 @@ writeRaster(tem,'./data/tem21.tif',overwrite = TRUE)
 # clip data with the tibet polygon
 npp = c(tem,npp) |> 
   crop(tibet, mask = TRUE)
-writeRaster(npp,'./data/npp.tif')
+writeRaster(npp,'./data/npp.tif',overwrite = TRUE)

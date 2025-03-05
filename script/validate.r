@@ -15,12 +15,48 @@ source('./.internal_funs.r')
 simplex4grid(npp,lib = nnaindice, pred = predindice, trend.rm = TRUE)
 
 k = 500
+npp_gcmc = gcmc4grid(npp,E = c(3,3,3,3,3),k = 600,r = 0,pred = predindice,trend.rm = TRUE)
+readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
+
 npp_gcmc = gcmc4grid(npp,E = c(3,9,3,4,10),k = k,r = 0,pred = predindice,trend.rm = FALSE)
 readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
 
-bio_gccm = gccm4grid(tibetbio,libsizes = as.matrix(expand.grid(seq(10,300,20),seq(10,150,10))),
-                     E = c(3,9,3,4,10),k = c(12,11,12,12,11),trend.rm = TRUE)
-readr::write_csv(npp_gccm,'./npp_gccm.csv')
+g = spEDM::gcmc(data = npp,
+            cause = "pre",
+            effect = "elev",
+            E = 3,
+            k = 450,
+            r = 0,
+            pred = predindice,
+            trend.rm = TRUE,
+            progressbar = TRUE)
+g1 = spEDM::gcmc(data = npp,
+                cause = "pre",
+                effect = "elev",
+                E = 3,
+                k = 450,
+                r = 0,
+                pred = predindice,
+                trend.rm = TRUE,
+                progressbar = TRUE)
+g2 = spEDM::gcmc(data = npp,
+                cause = "pre",
+                effect = "elev",
+                E = 3,
+                k = 450,
+                r = 0,
+                pred = predindice,
+                trend.rm = TRUE,
+                progressbar = TRUE)
+g3 = spEDM::gcmc(data = npp,
+                cause = "npp",
+                effect = "elev",
+                E = c(3,3),
+                k = 450,
+                r = 0,
+                pred = predindice,
+                trend.rm = TRUE,
+                progressbar = TRUE)
 
 
 source('./.internal_funs.r')
