@@ -13,6 +13,8 @@ roi = read_sf('./data/tibet.gpkg') |>
   sf_as_ee()
 
 # download net primary productivity
+# https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD17A3HGF?hl=en
+
 npp = ee$ImageCollection('MODIS/061/MOD17A3HGF')$
          filter(ee$Filter$calendarRange(2021, 2021, 'year'))$
          select("Npp")$
@@ -29,6 +31,8 @@ ee_as_rast(
 )
 
 # download precipitation accumulation and soil moisture
+# https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE
+
 terraclimate = ee$ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')$
   filter(ee$Filter$calendarRange(2021, 2021, 'year'))
 
@@ -61,6 +65,8 @@ ee_as_rast(
 )
   
 # download elevation
+# https://developers.google.com/earth-engine/datasets/catalog/USGS_SRTMGL1_003?hl=en
+
 elev = ee$Image('USGS/SRTMGL1_003')$
   select('elevation')$
   clip(roi)$
@@ -74,6 +80,8 @@ ee_as_rast(
 )
 
 # process temperature
+# https://www.geodata.cn/data/datadetails.html?dataguid=164304785536614&docId=2297
+
 tibet = vect('./data/tibet.gpkg')
 npp = rast(paste0("./data/",c("pre21","sm21","elev","npp21"),".tif"))
 tem = rast('./data/tmp_2021.nc') |> 
