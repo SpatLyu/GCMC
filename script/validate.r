@@ -7,6 +7,7 @@ terra::global(npp[["npp"]],"notNA")
 # sample 2000 points to balance computational accuracy and processing time.
 strata = sgsR::strat_quantiles(npp[["npp"]],nStrata = 5,
                                plot = TRUE, map = TRUE)
+set.seed(2004)
 sam = sgsR::sample_strat(strata,nSamp = 2000,force = TRUE) |> 
   sdsfun::sf_coordinates()
 predindice = terra::rowColFromCell(npp,terra::cellFromXY(npp,sam))
@@ -44,9 +45,9 @@ for (v in 1:nrow(params)) {
 readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
 
 g = spEDM::gcmc(data = npp,
-            cause = "pre",
-            effect = "elev",
-            E = 3,
+            cause = "elev",
+            effect = "npp",
+            E = c(3,5),
             k = 450,
             r = 0,
             pred = predindice,
@@ -59,7 +60,7 @@ g1 = spEDM::gcmc(data = npp,
                 k = 450,
                 r = 0,
                 pred = predindice,
-                trend.rm = TRUE,
+                trend.rm = FALSE,
                 progressbar = TRUE)
 g2 = spEDM::gcmc(data = npp,
                 cause = "tem",
