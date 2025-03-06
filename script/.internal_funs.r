@@ -1,6 +1,8 @@
 simplex4lattice = \(data,lib,pred = lib,E = 1:10,
                     k = E + 2,tau = 1,trend.rm = FALSE) {
   vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
+  trend.rm = rep(trend.rm,length.out = length(vars))
+  names(trend.rm) = vars
   
   for (v in vars){
     g = spEDM::simplex(data = data,
@@ -10,7 +12,7 @@ simplex4lattice = \(data,lib,pred = lib,E = 1:10,
                        E = E,
                        k = k,
                        tau = tau,
-                       trend.rm = trend.rm)
+                       trend.rm = trend.rm[v])
     print(g)
   }
   return(NULL)
@@ -19,6 +21,8 @@ simplex4lattice = \(data,lib,pred = lib,E = 1:10,
 simplex4grid = \(data,lib,pred = lib,E = 1:10,
                  k = E + 2,tau = 1,trend.rm = FALSE) {
   vars = names(data)
+  trend.rm = rep(trend.rm,length.out = length(vars))
+  names(trend.rm) = vars
   
   for (v in vars){
     g = spEDM::simplex(data = data,
@@ -28,7 +32,7 @@ simplex4grid = \(data,lib,pred = lib,E = 1:10,
                        E = E,
                        k = k,
                        tau = tau,
-                       trend.rm = trend.rm)
+                       trend.rm = trend.rm[v])
     print(g)
   }
   return(NULL)
@@ -37,6 +41,8 @@ simplex4grid = \(data,lib,pred = lib,E = 1:10,
 gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
     vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
     names(E) = vars
+    trend.rm = rep(trend.rm,length.out = length(vars))
+    names(trend.rm) = vars
     vars = utils::combn(vars,2,simplify = FALSE)
     Es = purrr::map(vars,\(.x) E[.x])
     
@@ -48,7 +54,7 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
                         E = Es[[v]],
                         k = k,
                         r = r,
-                        trend.rm = trend.rm,
+                        trend.rm = any(trend.rm[vars[[v]]]),
                         progressbar = verbose)
         tempdf = g$xmap
         tempdf$x = vars[[v]][1]
@@ -61,6 +67,8 @@ gcmc4lattice = \(data,E,k,r = 0,trend.rm = FALSE,verbose = TRUE) {
 gcmc4grid = \(data,E,k,r = 0,pred = NULL,trend.rm = FALSE,verbose = TRUE) {
   vars = names(data)
   names(E) = vars
+  trend.rm = rep(trend.rm,length.out = length(vars))
+  names(trend.rm) = vars
   vars = utils::combn(vars,2,simplify = FALSE)
   Es = purrr::map(vars,\(.x) E[.x])
   
@@ -73,7 +81,7 @@ gcmc4grid = \(data,E,k,r = 0,pred = NULL,trend.rm = FALSE,verbose = TRUE) {
                     k = k,
                     r = r,
                     pred = pred,
-                    trend.rm = trend.rm,
+                    trend.rm = any(trend.rm[vars[[v]]]),
                     progressbar = verbose)
     tempdf = g$xmap
     tempdf$x = vars[[v]][1]
@@ -87,6 +95,8 @@ gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
     vars = names(data)[-which(names(data) == sdsfun::sf_geometry_name(data))]
     names(E) = vars
     names(k) = vars
+    trend.rm = rep(trend.rm,length.out = length(vars))
+    names(trend.rm) = vars
     vars = utils::combn(vars,2,simplify = FALSE)
     Es = purrr::map(vars,\(.x) E[.x])
     Ks = purrr::map(vars,\(.x) k[.x])
@@ -99,7 +109,7 @@ gccm4lattice = \(data,libsizes,E,k,trend.rm = TRUE,verbose = TRUE) {
                         libsizes = libsizes,
                         E = Es[[v]],
                         k = Ks[[v]],
-                        trend.rm = trend.rm,
+                        trend.rm = any(trend.rm[vars[[v]]]),
                         progressbar = verbose)
         tempdf = g$xmap
         tempdf$x = vars[[v]][1]
@@ -113,6 +123,8 @@ gccm4grid = \(data,libsizes,E,k,pred = NULL,trend.rm = TRUE,verbose = TRUE) {
   vars = names(data)
   names(E) = vars
   names(k) = vars
+  trend.rm = rep(trend.rm,length.out = length(vars))
+  names(trend.rm) = vars
   vars = utils::combn(vars,2,simplify = FALSE)
   Es = purrr::map(vars,\(.x) E[.x])
   Ks = purrr::map(vars,\(.x) k[.x])
@@ -126,7 +138,7 @@ gccm4grid = \(data,libsizes,E,k,pred = NULL,trend.rm = TRUE,verbose = TRUE) {
                     E = Es[[v]],
                     k = Ks[[v]],
                     pred = pred,
-                    trend.rm = trend.rm,
+                    trend.rm = any(trend.rm[vars[[v]]]),
                     progressbar = verbose)
     tempdf = g$xmap
     tempdf$x = vars[[v]][1]
