@@ -7,6 +7,7 @@ terra::global(npp[["npp"]],"notNA")
 # sample 2000 points to balance computational accuracy and processing time.
 strata = sgsR::strat_quantiles(npp[["npp"]],nStrata = 5,
                                plot = TRUE, map = TRUE)
+set.seed(2004)
 sam = sgsR::sample_strat(strata,nSamp = 2000,force = TRUE) |> 
   sdsfun::sf_coordinates()
 predindice = terra::rowColFromCell(npp,terra::cellFromXY(npp,sam))
