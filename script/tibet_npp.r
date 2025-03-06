@@ -25,6 +25,7 @@ params = data.frame(
   trend.rm = c(rep(FALSE,length.out = length(vars[1,]) - 1),TRUE) # remove the linear trend when running for NPP and elevation.
 )
 
+# take approximately ten minutes to run
 npp_gcmc = data.frame()
 for (v in 1:nrow(params)) {
   g = spEDM::gcmc(data = npp,
@@ -41,7 +42,7 @@ for (v in 1:nrow(params)) {
   tempdf$y = params[v,"effect",drop = TRUE]
   npp_gcmc = rbind(npp_gcmc,tempdf)
 }
-readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
+readr::write_csv(npp_gcmc,'./result/npp_gcmc.csv')
 
 npp_gcmc = readr::read_csv('./result/npp_gcmc.csv') 
 ng1 = npp_gcmc |> 
@@ -75,4 +76,4 @@ ggplot2::ggplot(data = npp_gcmc,
     legend.text = ggplot2::element_text(family = "serif"),
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_blank()
-  )
+)
