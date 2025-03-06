@@ -61,7 +61,7 @@ npp_gcmc = rbind(ng1,ng2) |>
   )) |> 
   dplyr::mutate(sig = paste0(round(cs,3),sig))
 
-ggplot2::ggplot(data = npp_gcmc,
+fig_gcmc = ggplot2::ggplot(data = npp_gcmc,
                 ggplot2::aes(x = effect, y = cause)) +
   ggplot2::geom_tile(color = "black", ggplot2::aes(fill = cs)) +
   ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.25) +
@@ -76,8 +76,17 @@ ggplot2::ggplot(data = npp_gcmc,
     axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
     axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
     axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
-    axis.title = ggplot2::element_text(face = "italic", color = "black", family = "serif"),
+    axis.title.x = ggplot2::element_text(color = "black", family = "serif",
+                                         margin = ggplot2::margin(t = 5.5, unit = "pt")),
     legend.text = ggplot2::element_text(family = "serif"),
+    legend.title = ggplot2::element_text(family = "serif"),
+    legend.background = element_rect(fill = NA, color = NA),
+    legend.direction = "horizontal",
+    legend.position = "bottom",
+    legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
+    legend.key.width = unit(25, "pt"),
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_rect(color = "black", fill = NA)
-)
+) +
+  ggview::canvas(width = 4.5, height = 5)
+ggview::save_ggplot(fig_gcmc, "./figure/figure3_1.pdf", device = cairo_pdf)
