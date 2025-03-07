@@ -143,7 +143,7 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
                           ggplot2::aes(x = xvar, y = yvar)) +
   ggplot2::geom_tile(color = "black", ggplot2::aes(fill = pcc)) +
   ggplot2::geom_text(ggplot2::aes(label = sig), color = "black", family = "serif") +
-  ggplot2::labs(x = "", y = "", fill = "Pearson Correlation") +
+  ggplot2::labs(x = "Variables", y = "Variables", fill = "Pearson Correlation") +
   ggplot2::scale_x_discrete(expand = c(0, 0)) +
   ggplot2::scale_y_discrete(expand = c(0, 0)) +
   ggplot2::scale_fill_gradient(low = "#9bbbb8", high = "#256c68") +
@@ -152,15 +152,15 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
   ggplot2::theme(
     axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
     axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
-    # axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
-    # axis.title.x = ggplot2::element_text(color = "black", family = "serif",
-    #                                      margin = ggplot2::margin(t = 5.5, unit = "pt")),
+    axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
+    axis.title.x = ggplot2::element_text(color = "black", family = "serif",
+                                         margin = ggplot2::margin(t = 5.5, unit = "pt")),
     legend.text = ggplot2::element_text(family = "serif"),
     legend.title = ggplot2::element_text(family = "serif"),
     legend.background = ggplot2::element_rect(fill = NA, color = NA),
     legend.direction = "horizontal",
     legend.position = "bottom",
-    legend.margin = ggplot2::margin(t = 6.5, r = 0, b = 0, l = 0, unit = "pt"),
+    legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
     legend.key.width = ggplot2::unit(30, "pt"),
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_rect(color = "black", fill = NA)
@@ -168,3 +168,37 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
   ggview::canvas(width = 4.5, height = 5)
 # ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.pdf", device = cairo_pdf)
 ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.jpg", dpi = 300)
+
+#------------------------------------------------------------------------------#
+#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------------------------------------------------------------------------------#
+
+# construct the parameter sets for running GCCM
+Es = c(3,3,3,3,5)
+names(Es) = names(npp)
+vars = utils::combn(names(npp),2,simplify = TRUE)
+params = data.frame(
+  cause = vars[1,],
+  effect = vars[2,],
+  Ex = Es[vars[1,]],
+  Ey = Es[vars[2,]],
+)
+
+# take approximately ten minutes to run
+npp_gccm = data.frame()
+for (v in 1:nrow(params)) {
+  g = spEDM::gcmc(data = npp,
+                  cause = params[v,"cause",drop = TRUE],
+                  effect = params[v,"effect",drop = TRUE],
+                  E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE]),
+                  k = params[v,"k",drop = TRUE],
+                  r = params[v,"r",drop = TRUE],
+                  pred = predindice,
+                  trend.rm = params[v,"trend.rm",drop = TRUE],
+                  progressbar = TRUE)
+  tempdf = g$xmap
+  tempdf$x = params[v,"cause",drop = TRUE]
+  tempdf$y = params[v,"effect",drop = TRUE]
+  npp_gcmc = rbind(npp_gcmc,tempdf)
+}
+readr::write_csv(npp_gcmc,'./result/npp_gcmc.csv')
