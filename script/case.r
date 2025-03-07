@@ -146,7 +146,7 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
   ggplot2::labs(x = "", y = "", fill = "Pearson Correlation") +
   ggplot2::scale_x_discrete(expand = c(0, 0)) +
   ggplot2::scale_y_discrete(expand = c(0, 0)) +
-  ggplot2::scale_fill_gradient2(low = "#f8be8b", high = "#78bdc4") +
+  ggplot2::scale_fill_gradient(low = "#9bbbb8", high = "#256c68") +
   ggplot2::coord_equal() +
   ggplot2::theme_void() +
   ggplot2::theme(
@@ -160,11 +160,11 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
     legend.background = ggplot2::element_rect(fill = NA, color = NA),
     legend.direction = "horizontal",
     legend.position = "bottom",
-    legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
+    legend.margin = ggplot2::margin(t = 6.5, r = 0, b = 0, l = 0, unit = "pt"),
     legend.key.width = ggplot2::unit(30, "pt"),
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_rect(color = "black", fill = NA)
   ) +
-  ggview::canvas(width = 4.25, height = 4.75)
+  ggview::canvas(width = 4.5, height = 5)
 # ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.pdf", device = cairo_pdf)
 ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.jpg", dpi = 300)

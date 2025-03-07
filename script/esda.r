@@ -2,14 +2,21 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~     Exploratory Spatial Data Analysis    ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-05    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-07    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-library(tmap)
 library(sf)
 library(terra)
+library(tmap)
+
+npp = terra::rast('./data/npp.tif')
+
+# prediction sample points used in the case
+strata = sgsR::strat_quantiles(npp[["npp"]],nStrata = 5)
+set.seed(2004)
+sam = sgsR::sample_strat(strata,nSamp = 2000,force = TRUE)
 
 tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
   sf::st_as_sf(coords = c("x","y"), crs = 4326)
