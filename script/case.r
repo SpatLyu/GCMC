@@ -93,16 +93,17 @@ fig_gcmc = ggplot2::ggplot(data = npp_gcmc,
                                          margin = ggplot2::margin(t = 5.5, unit = "pt")),
     legend.text = ggplot2::element_text(family = "serif"),
     legend.title = ggplot2::element_text(family = "serif"),
-    legend.background = element_rect(fill = NA, color = NA),
+    legend.background = ggplot2::element_rect(fill = NA, color = NA),
     legend.direction = "horizontal",
     legend.position = "bottom",
     legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
-    legend.key.width = unit(30, "pt"),
+    legend.key.width = ggplot2::unit(30, "pt"),
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_rect(color = "black", fill = NA)
 ) +
   ggview::canvas(width = 4.5, height = 5)
-ggview::save_ggplot(fig_gcmc, "./figure/figure3_1.pdf", device = cairo_pdf)
+# ggview::save_ggplot(fig_gcmc, "./figure/fig_case_gcmc.pdf", device = cairo_pdf)
+ggview::save_ggplot(fig_gcmc, "./figure/fig_case_gcmc.jpg", dpi = 300)
 
 #------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
@@ -126,3 +127,44 @@ pcc_p = npp_pcc |>
                       values_to = "sig")
 npp_pcc = dplyr::left_join(pcc_v,pcc_p,
                            by = c("xvar","yvar"))
+readr::write_csv(npp_pcc,'./result/npp_pcc.csv')
+
+npp_pcc = readr::read_csv('./result/npp_pcc.csv') 
+npp_pcc = npp_pcc |> 
+  dplyr::mutate(sig = dplyr::case_when(
+    sig < 0.001 ~ "***",
+    sig < 0.01  ~ "**",
+    sig < 0.05  ~ "*",
+    .default =  ""
+  )) |> 
+  dplyr::mutate(sig = paste0(round(pcc,3),sig))
+
+fig_pcc = ggplot2::ggplot(data = npp_pcc,
+                          ggplot2::aes(x = xvar, y = yvar)) +
+  ggplot2::geom_tile(color = "black", ggplot2::aes(fill = pcc)) +
+  ggplot2::geom_text(ggplot2::aes(label = sig), color = "black", family = "serif") +
+  ggplot2::labs(x = "", y = "", fill = "Pearson Correlation") +
+  ggplot2::scale_x_discrete(expand = c(0, 0)) +
+  ggplot2::scale_y_discrete(expand = c(0, 0)) +
+  ggplot2::scale_fill_gradient2(low = "#f8be8b", high = "#78bdc4") +
+  ggplot2::coord_equal() +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
+    axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
+    axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
+    axis.title.x = ggplot2::element_text(color = "black", family = "serif",
+                                         margin = ggplot2::margin(t = 5.5, unit = "pt")),
+    legend.text = ggplot2::element_text(family = "serif"),
+    legend.title = ggplot2::element_text(family = "serif"),
+    legend.background = ggplot2::element_rect(fill = NA, color = NA),
+    legend.direction = "horizontal",
+    legend.position = "bottom",
+    legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
+    legend.key.width = ggplot2::unit(30, "pt"),
+    panel.grid = ggplot2::element_blank(),
+    panel.border = ggplot2::element_rect(color = "black", fill = NA)
+  ) +
+  ggview::canvas(width = 4.5, height = 5)
+# ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.pdf", device = cairo_pdf)
+ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.jpg", dpi = 300)
