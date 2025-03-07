@@ -187,18 +187,19 @@ params = data.frame(
 # take approximately ten minutes to run
 npp_gccm = data.frame()
 for (v in 1:nrow(params)) {
-  g = spEDM::gcmc(data = npp,
+  g = spEDM::gccm(data = npp,
                   cause = params[v,"cause",drop = TRUE],
                   effect = params[v,"effect",drop = TRUE],
+                  libsizes = as.matrix(expand.grid(seq(20,340,20),
+                                                   seq(10,150,10))),
                   E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE]),
-                  k = params[v,"k",drop = TRUE],
-                  r = params[v,"r",drop = TRUE],
+                  k = E + 2,
                   pred = predindice,
-                  trend.rm = params[v,"trend.rm",drop = TRUE],
+                  trend.rm = TRUE,
                   progressbar = TRUE)
   tempdf = g$xmap
   tempdf$x = params[v,"cause",drop = TRUE]
   tempdf$y = params[v,"effect",drop = TRUE]
-  npp_gcmc = rbind(npp_gcmc,tempdf)
+  npp_gcmc = rbind(npp_gccm,tempdf)
 }
-readr::write_csv(npp_gcmc,'./result/npp_gcmc.csv')
+readr::write_csv(npp_gccm,'./result/npp_gccm.csv')
