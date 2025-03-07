@@ -152,9 +152,9 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
   ggplot2::theme(
     axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
     axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
-    axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
-    axis.title.x = ggplot2::element_text(color = "black", family = "serif",
-                                         margin = ggplot2::margin(t = 5.5, unit = "pt")),
+    # axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
+    # axis.title.x = ggplot2::element_text(color = "black", family = "serif",
+    #                                      margin = ggplot2::margin(t = 5.5, unit = "pt")),
     legend.text = ggplot2::element_text(family = "serif"),
     legend.title = ggplot2::element_text(family = "serif"),
     legend.background = ggplot2::element_rect(fill = NA, color = NA),
@@ -165,6 +165,6 @@ fig_pcc = ggplot2::ggplot(data = npp_pcc,
     panel.grid = ggplot2::element_blank(),
     panel.border = ggplot2::element_rect(color = "black", fill = NA)
   ) +
-  ggview::canvas(width = 4.5, height = 5)
+  ggview::canvas(width = 4.25, height = 4.75)
 # ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.pdf", device = cairo_pdf)
 ggview::save_ggplot(fig_pcc, "./figure/fig_case_pcc.jpg", dpi = 300)
