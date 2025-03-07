@@ -108,3 +108,21 @@ ggview::save_ggplot(fig_gcmc, "./figure/figure3_1.pdf", device = cairo_pdf)
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
+pred.df = npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])]
+npp_pcc = psych::corr.test(pred.df)
+pcc_v = npp_pcc |> 
+  purrr::pluck("r") |> 
+  as.data.frame() |> 
+  tibble::rownames_to_column(var = "xvar") |> 
+  tidyr::pivot_longer(cols = -1,
+                      names_to = "yvar",
+                      values_to = "pcc")
+pcc_p = npp_pcc |> 
+  purrr::pluck("p") |> 
+  as.data.frame() |> 
+  tibble::rownames_to_column(var = "xvar") |> 
+  tidyr::pivot_longer(cols = -1,
+                      names_to = "yvar",
+                      values_to = "sig")
+npp_pcc = dplyr::left_join(pcc_v,pcc_p,
+                           by = c("xvar","yvar"))
