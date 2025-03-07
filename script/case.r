@@ -187,12 +187,12 @@ params = data.frame(
 # take approximately ten minutes to run
 npp_gccm = data.frame()
 for (v in 1:nrow(params)) {
+  E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE])
   g = spEDM::gccm(data = npp,
                   cause = params[v,"cause",drop = TRUE],
                   effect = params[v,"effect",drop = TRUE],
-                  libsizes = as.matrix(expand.grid(seq(20,340,20),
-                                                   seq(10,150,10))),
-                  E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE]),
+                  libsizes = as.matrix(expand.grid(seq(10,150,10),seq(20,340,20))),
+                  E = E,
                   k = E + 2,
                   pred = predindice,
                   trend.rm = TRUE,

@@ -44,12 +44,12 @@ for (v in 1:nrow(params)) {
 }
 readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
 
-g = spEDM::gcmc(data = npp,
-            cause = "elev",
-            effect = "npp",
-            E = c(3,5),
-            k = 450,
-            r = 0,
+g = spEDM::gccm(data = npp,
+            cause = "pre",
+            effect = "tem",
+            libsizes = as.matrix(expand.grid(seq(10,150,10),seq(20,340,20))),
+            E = 3,
+            k = 5,
             pred = predindice,
             trend.rm = TRUE,
             progressbar = TRUE)
@@ -80,21 +80,3 @@ g3 = spEDM::gcmc(data = npp,
                 pred = predindice,
                 trend.rm = FALSE,
                 progressbar = TRUE)
-
-
-source('./.internal_funs.r')
-tibetbio = readr::read_csv('./tibet_bio.csv') |> 
-  sf::st_as_sf(coords = c("x","y"), crs = 4326)
-
-
-bio_gcmc = gcmc4lattice(tibetbio,E = c(7,7,9,8,10,7),k = k,r = 0,trend.rm = FALSE)
-readr::write_csv(bio_gcmc,'./bio_gcmc2.csv')
-
-bio_gcmc = gcmc4lattice(tibetbio,E = c(7,7,8,3,3,3),k = k,r = 0,trend.rm = FALSE)
-readr::write_csv(bio_gcmc,'./bio_gcmc.csv')
-
-bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,9,8,10,7),k = 12,trend.rm = TRUE)
-readr::write_csv(bio_gccm,'./bio_gccm2.csv')
-
-bio_gccm = gccm4lattice(tibetbio,libsizes = seq(100,1600,100),E = c(7,7,8,3,3,3),k = 4,trend.rm = TRUE)
-readr::write_csv(bio_gccm,'./bio_gccm2.csv')
