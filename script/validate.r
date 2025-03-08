@@ -46,10 +46,11 @@ readr::write_csv(npp_gcmc,'./npp_gcmc.csv')
 
 g = spEDM::gccm(data = npp,
             cause = "pre",
-            effect = "tem",
-            libsizes = as.matrix(expand.grid(seq(10,150,10),seq(20,340,20))),
-            E = 3,
+            effect = "npp",
+            libsizes = seq(100,2000,100),
+            E = c(3,5),
             k = 5,
+            lib = predindice,
             pred = predindice,
             trend.rm = TRUE,
             progressbar = TRUE)
