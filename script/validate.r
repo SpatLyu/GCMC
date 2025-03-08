@@ -12,6 +12,8 @@ sam = sgsR::sample_strat(strata,nSamp = 2000,force = TRUE) |>
   sdsfun::sf_coordinates()
 predindice = terra::rowColFromCell(npp,terra::cellFromXY(npp,sam))
 
+nnaindice = which(!is.na(terra::as.matrix(npp[["npp"]],wide = TRUE)),arr.ind = TRUE)
+
 # construct the parameter sets for running GCMC
 Es = c(3,3,3,3,5)
 names(Es) = names(npp)
@@ -50,7 +52,7 @@ g = spEDM::gccm(data = npp,
                 libsizes = seq(100,2000,100),
                 E = c(3,5),
                 k = 5,
-                lib = predindice,
+                lib = nnaindice,
                 pred = predindice,
                 trend.rm = TRUE,
                 progressbar = TRUE)
@@ -59,7 +61,7 @@ g1 = spEDM::gccm(data = npp,
                  effect = "tem",
                  E = 3,
                  k = 5,
-                 lib = predindice,
+                 lib = nnaindice,
                  pred = predindice,
                  trend.rm = TRUE,
                  progressbar = TRUE)
@@ -68,7 +70,7 @@ g2 = spEDM::gccm(data = npp,
                  effect = "sm",
                  E = 3,
                  k = 5,
-                 lib = predindice,
+                 lib = nnaindice,
                  pred = predindice,
                  trend.rm = TRUE,
                  progressbar = TRUE)
@@ -77,7 +79,7 @@ g3 = spEDM::gccm(data = npp,
                  effect = "elev",
                  E = c(5,3),
                  k = 5,
-                 lib = predindice,
+                 lib = nnaindice,
                  pred = predindice,
                  trend.rm = TRUE,
                  progressbar = TRUE)
