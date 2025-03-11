@@ -1,20 +1,61 @@
-source('./script/.internal_funs.r')
+source('./.internal_funs.r')
 
-tibetbio = readr::read_csv('./data/tibet_bio.csv') |> 
+tibetnpp = readr::read_csv('./tibetnpp.csv') |> 
   sf::st_as_sf(coords = c("x","y"), crs = 4326)
 
+g = gcmc4lattice(tibetnpp, E = c(3,3,3,3,5), k = 150, r = 0, trend.rm = FALSE)
+readr::write_csv(g,'./npp_gcmc.csv')
+
 # select the dimensions of embdedding
-simplex4lattice(tibetbio,lib = 1:nrow(tibetbio), pred = 1:nrow(tibetbio))
+simplex4lattice(tibetnpp,lib = 1:nrow(tibetnpp), pred = 1:nrow(tibetnpp),trend.rm = FALSE)
 
-k = 500
+# construct the parameter sets for running GCMC
+Es = c(3,3,3,3,5)
+vars = names(tibetnpp)[-which(names(tibetnpp) == sdsfun::sf_geometry_name(tibetnpp))]
+names(Es) = vars
+vars = utils::combn(vars,2,simplify = TRUE)
+params = data.frame(
+  cause = vars[1,],
+  effect = vars[2,],
+  Ex = Es[vars[1,]],
+  Ey = Es[vars[2,]],
+  k = 450,
+  r = 0,
+  trend.rm = c(rep(FALSE,length.out = length(vars[1,]) - 1),TRUE) # remove the linear trend when running for NPP and elevation.
+)
 
-# g = spEDM::gcmc(data = tibetbio,
-#                 cause = "pre",
-#                 effect = "bio",
-#                 E = c(3,8),
-#                 k = 500,
-#                 r = 0,
-#                 trend.rm = FALSE)
+# take approximately ten minutes to run
+npp_gcmc = data.frame()
+for (v in 1:nrow(params)) {
+  g = spEDM::gcmc(data = npp,
+                  cause = params[v,"cause",drop = TRUE],
+                  effect = params[v,"effect",drop = TRUE],
+                  E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE]),
+                  k = params[v,"k",drop = TRUE],
+                  r = params[v,"r",drop = TRUE],
+                  pred = predindice,
+                  trend.rm = params[v,"trend.rm",drop = TRUE],
+                  progressbar = TRUE)
+  tempdf = g$xmap
+  tempdf$x = params[v,"cause",drop = TRUE]
+  tempdf$y = params[v,"effect",drop = TRUE]
+  npp_gcmc = rbind(npp_gcmc,tempdf)
+}
+
+g = spEDM::gcmc(data = tibetnpp,
+                cause = "pre",
+                effect = "elev",
+                E = c(3,5),
+                k = 200,
+                r = 0,
+                trend.rm = F)
+g = spEDM::gcmc(data = tibetnpp,
+                cause = "npp",
+                effect = "elev",
+                E = c(5,3),
+                k = 150,
+                r = 0,
+                trend.rm = F)
 # 
 # g1 = spEDM::gcmc(data = tibetbio,
 #             cause = "tem",
