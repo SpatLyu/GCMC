@@ -11,6 +11,38 @@ sam = sgsR::sample_strat(strata,nSamp = 2000,force = TRUE) |>
   sdsfun::sf_coordinates()
 predindice = terra::rowColFromCell(npp,terra::cellFromXY(npp,sam))
 
+# construct the parameter sets for running GCCM
+Es = c(3,3,3,3,5)
+names(Es) = names(npp)
+vars = utils::combn(names(npp),2,simplify = TRUE)
+params = data.frame(
+  cause = vars[1,],
+  effect = vars[2,],
+  Ex = Es[vars[1,]],
+  Ey = Es[vars[2,]],
+)
+
+# take approximately ten minutes to run
+npp_gccm = data.frame()
+for (v in 1:nrow(params)) {
+  E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE])
+  g = spEDM::gccm(data = npp,
+                  cause = params[v,"cause",drop = TRUE],
+                  effect = params[v,"effect",drop = TRUE],
+                  libsizes = seq(10,2000,100),
+                  E = c(params[v,"Ex",drop = TRUE],params[v,"Ey",drop = TRUE]),
+                  k = 6,
+                  lib = predindice,
+                  pred = predindice,
+                  trend.rm = TRUE,
+                  progressbar = TRUE)
+  tempdf = g$xmap
+  tempdf$x = params[v,"cause",drop = TRUE]
+  tempdf$y = params[v,"effect",drop = TRUE]
+  npp_gcmc = rbind(npp_gccm,tempdf)
+}
+readr::write_csv(npp_gccm,'./npp_gccm.csv')
+
 # construct the parameter sets for running GCMC
 Es = c(3,3,3,3,5)
 names(Es) = names(npp)
