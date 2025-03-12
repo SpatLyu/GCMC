@@ -19,7 +19,7 @@ params = data.frame(
   cause = vars[1,],
   effect = vars[2,],
   Ex = Es[vars[1,]],
-  Ey = Es[vars[2,]],
+  Ey = Es[vars[2,]]
 )
 
 # take approximately ten minutes to run
@@ -39,7 +39,7 @@ for (v in 1:nrow(params)) {
   tempdf = g$xmap
   tempdf$x = params[v,"cause",drop = TRUE]
   tempdf$y = params[v,"effect",drop = TRUE]
-  npp_gcmc = rbind(npp_gccm,tempdf)
+  npp_gccm = rbind(npp_gccm,tempdf)
 }
 readr::write_csv(npp_gccm,'./npp_gccm.csv')
 
