@@ -19,7 +19,7 @@ params = data.frame(
   cause = vars[1,],
   effect = vars[2,],
   Ex = Es[vars[1,]],
-  Ey = Es[vars[2,]],
+  Ey = Es[vars[2,]]
 )
 
 # take approximately ten minutes to run
