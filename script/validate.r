@@ -39,7 +39,7 @@ for (v in 1:nrow(params)) {
   tempdf = g$xmap
   tempdf$x = params[v,"cause",drop = TRUE]
   tempdf$y = params[v,"effect",drop = TRUE]
-  npp_gcmc = rbind(npp_gccm,tempdf)
+  npp_gccm = rbind(npp_gccm,tempdf)
 }
 readr::write_csv(npp_gccm,'./npp_gccm.csv')
 
