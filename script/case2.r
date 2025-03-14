@@ -7,6 +7,13 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
+library(spEDM)
+
+popd_nb = spdep::read.gal(system.file("case/popdensity_nb.gal",package = "spEDM"))
+popdensity = readr::read_csv(system.file("case/popdensity.csv",package = "spEDM"))
+popd_sf = sf::st_as_sf(popdensity, coords = c("x","y"), crs = 4326)
+popd_sf
+
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
