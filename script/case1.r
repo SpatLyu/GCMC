@@ -9,6 +9,7 @@
 
 library(spEDM)
 columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
+columbus
 
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
