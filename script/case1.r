@@ -6,3 +6,22 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+library(spEDM)
+columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
+
+#------------------------------------------------------------------------------#
+#------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
+#------------------------------------------------------------------------------#
+
+# housing value and crime (residential burglaries and vehicle thefts)
+g1 = gcmc(data = columbus,cause = "hoval",effect = "crime",E = 3,k = 20)
+g1
+
+# household income and crime (residential burglaries and vehicle thefts)
+g2 = gcmc(data = columbus,cause = "inc",effect = "crime",E = 3,k = 20)
+g2
+
+#------------------------------------------------------------------------------#
+#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------------------------------------------------------------------------------#
