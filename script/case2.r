@@ -18,6 +18,17 @@ popd_sf
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
+# precipitation and population density
+g1 = gcmc(data = popd_sf,cause = "pre",effect = "popdensity",E = c(1,6),k = 150,nb = popd_nb)
+g1
+
+# temperature and population density
+g2 = gcmc(data = popd_sf,cause = "tem",effect = "popdensity",E = c(1,6),k = 150,nb = popd_nb)
+g2
+
+# elevation and population density
+g3 = gcmc(data = popd_sf,cause = "elev",effect = "popdensity",E = c(1,6),k = 150, nb = popd_nb)
+g3
 
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
