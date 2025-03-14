@@ -18,12 +18,41 @@ popd_sf
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
+# precipitation and population density
+g1 = gcmc(data = popd_sf,cause = "pre",effect = "popdensity",E = c(1,6),k = 150,nb = popd_nb)
+g1
+
+# temperature and population density
+g2 = gcmc(data = popd_sf,cause = "tem",effect = "popdensity",E = c(1,6),k = 150,nb = popd_nb)
+g2
+
+# elevation and population density
+g3 = gcmc(data = popd_sf,cause = "elev",effect = "popdensity",E = c(1,6),k = 150, nb = popd_nb)
+g3
 
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
+# precipitation and population density
+g1 = gccm(data = popd_sf,cause = "pre",effect = "popdensity",
+          libsizes = seq(10, 2800, by = 100),E = c(1,6),k = 150,nb = popd_nb)
+g1
+
+# temperature and population density
+g2 = gccm(data = popd_sf,cause = "tem",effect = "popdensity",
+          libsizes = seq(10, 2800, by = 100),E = c(1,6),k = 150,nb = popd_nb)
+g2
+
+# elevation and population density
+g3 = gccm(data = popd_sf,cause = "elev",effect = "popdensity",
+          libsizes = seq(10, 2800, by = 100),E = c(1,6),k = 150,nb = popd_nb)
+g3
 
 #------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
+
+popdf = sf::st_drop_geometry(dplyr::select(popd_sf,popdensity,elev,tem,pre))
+pcc = psych::corr.test(popdf)
+pcc
