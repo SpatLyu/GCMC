@@ -44,3 +44,11 @@ g2
 g3 = gccm(data = columbus,cause = "hoval",effect = "inc",
           libsizes = seq(5,45,5), E = c(6,5), k = c(6,10))
 g3
+
+#------------------------------------------------------------------------------#
+#------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
+#------------------------------------------------------------------------------#
+
+columdf = sf::st_drop_geometry(dplyr::select(columbus,c(hoval,inc,crime)))
+pcc = psych::corr.test(columdf)
+pcc
