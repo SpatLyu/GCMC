@@ -18,35 +18,38 @@ popd_sf
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
-# precipitation and population density
-g1 = gcmc(data = popd_sf,cause = "pre",effect = "popdensity",E = c(1,6),k = 150,nb = popd_nb)
+# temperature and population density
+g1 = gcmc(data = popd_sf, cause = "tem", effect = "popdensity",
+          E = c(2,5), k = 160, nb = popd_nb, trend.rm = FALSE)
 g1
 
-# temperature and population density
-g2 = gcmc(data = popd_sf,cause = "tem",effect = "popdensity",E = c(1,6),k = 150,nb = popd_nb)
+# elevation and population density
+g2 = gcmc(data = popd_sf, cause = "elev", effect = "popdensity",
+          E = c(1,5), k = 150, nb = popd_nb, trend.rm = FALSE)
 g2
 
-# elevation and population density
-g3 = gcmc(data = popd_sf,cause = "elev",effect = "popdensity",E = c(1,6),k = 150, nb = popd_nb)
+# elevation and temperature
+g3 = gcmc(data = popd_sf, cause = "elev", effect = "tem",
+          E = c(1,2), k = 150, nb = popd_nb, trend.rm = FALSE)
 g3
 
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
-# precipitation and population density
-g1 = gccm(data = popd_sf,cause = "pre",effect = "popdensity",
-          libsizes = seq(10, 2800, by = 100),E = c(1,6),k = 150,nb = popd_nb)
+# temperature and population density
+g1 = gccm(data = popd_sf, cause = "tem", effect = "popdensity",
+          libsizes = seq(10, 2800, by = 100),E = c(2,5),k = 6,nb = popd_nb)
 g1
 
-# temperature and population density
-g2 = gccm(data = popd_sf,cause = "tem",effect = "popdensity",
-          libsizes = seq(10, 2800, by = 100),E = c(1,6),k = 150,nb = popd_nb)
+# elevation and population density
+g2 = gccm(data = popd_sf, cause = "elev", effect = "popdensity",
+          libsizes = seq(10, 2800, by = 100),E = c(1,5),k = 6,nb = popd_nb)
 g2
 
-# elevation and population density
-g3 = gccm(data = popd_sf,cause = "elev",effect = "popdensity",
-          libsizes = seq(10, 2800, by = 100),E = c(1,6),k = 150,nb = popd_nb)
+# elevation and temperature
+g3 = gccm(data = popd_sf, cause = "elev", effect = "tem",
+          libsizes = seq(10, 2800, by = 100),E = c(1,2),k = 6,nb = popd_nb)
 g3
 
 #------------------------------------------------------------------------------#
@@ -62,6 +65,6 @@ pcc
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-ssh_q(data = popdf,cause = "pre",effect = "popdensity")
-ssh_q(data = popdf,cause = "tem",effect = "popdensity")
-ssh_q(data = popdf,cause = "elev",effect = "popdensity")
+ssh_q(data = popdf, cause = "tem", effect = "popdensity")
+ssh_q(data = popdf, cause = "elev", effect = "popdensity")
+ssh_q(data = popdf, cause = "elev", effect = "tem")
