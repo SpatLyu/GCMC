@@ -47,6 +47,19 @@ g3 = gccm(data = columbus,cause = "hoval",effect = "inc",
 g3
 
 #------------------------------------------------------------------------------#
+#------             Association by Geographical Detector(GD)             ------#
+#------------------------------------------------------------------------------#
+
+gdverse::factor_detector(columbus$hoval,
+                         sdsfun::discretize_vector(columbus$crime,n = 5))
+
+gdverse::factor_detector(columbus$crime,
+                         sdsfun::discretize_vector(columbus$hoval,n = 5))
+
+gdverse::factor_detector(columbus$inc,
+                         sdsfun::discretize_vector(columbus$crime,n = 5))
+
+#------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
