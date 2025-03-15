@@ -31,18 +31,18 @@ predindice = nnaindice[indices,]
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
-g1 = gcmc(data = npp,cause = "pre",effect = "npp",E = 2,k = 320,
-          lib = nnaindice, pred = predindice)
+g1 = gcmc(data = npp,cause = "pre",effect = "npp",E = 2,k = 270,
+          lib = nnaindice, pred = predindice, trend.rm = TRUE)
 g1
 
 # temperature and npp
-g2 = gcmc(data = npp,cause = "tem",effect = "npp",E = 2,k = 320,
-          lib = nnaindice, pred = predindice)
+g2 = gcmc(data = npp,cause = "tem",effect = "npp",E = 2,k = 270,
+          lib = nnaindice, pred = predindice, trend.rm = TRUE)
 g2
 
 # precipitation and temperature
-g3 = gcmc(data = npp,cause = "pre",effect = "tem",E = 2,k = 320,
-          lib = nnaindice, pred = predindice)
+g3 = gcmc(data = npp,cause = "pre",effect = "tem",E = 2,k = 270,
+          lib = nnaindice, pred = predindice, trend.rm = TRUE)
 g3
 
 #------------------------------------------------------------------------------#
