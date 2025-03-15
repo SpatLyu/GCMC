@@ -20,17 +20,17 @@ popd_sf
 
 # temperature and population density
 g1 = gcmc(data = popd_sf, cause = "tem", effect = "popdensity",
-          E = c(2,5), k = 160, nb = popd_nb, trend.rm = FALSE)
+          E = c(2,5), k = 160, nb = popd_nb, trend.rm = TRUE)
 g1
 
 # elevation and population density
 g2 = gcmc(data = popd_sf, cause = "elev", effect = "popdensity",
-          E = c(1,5), k = 150, nb = popd_nb, trend.rm = FALSE)
+          E = c(1,5), k = 150, nb = popd_nb, trend.rm = TRUE)
 g2
 
 # elevation and temperature
 g3 = gcmc(data = popd_sf, cause = "elev", effect = "tem",
-          E = c(1,2), k = 150, nb = popd_nb, trend.rm = FALSE)
+          E = c(1,2), k = 150, nb = popd_nb, trend.rm = TRUE)
 g3
 
 #------------------------------------------------------------------------------#
