@@ -47,22 +47,18 @@ g3 = gccm(data = columbus,cause = "hoval",effect = "inc",
 g3
 
 #------------------------------------------------------------------------------#
-#------             Association by Geographical Detector(GD)             ------#
-#------------------------------------------------------------------------------#
-
-gdverse::factor_detector(columbus$hoval,
-                         sdsfun::discretize_vector(columbus$crime,n = 5))
-
-gdverse::factor_detector(columbus$crime,
-                         sdsfun::discretize_vector(columbus$hoval,n = 5))
-
-gdverse::factor_detector(columbus$inc,
-                         sdsfun::discretize_vector(columbus$crime,n = 5))
-
-#------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
 columdf = sf::st_drop_geometry(dplyr::select(columbus,c(hoval,inc,crime)))
 pcc = psych::corr.test(columdf)
 pcc
+
+#------------------------------------------------------------------------------#
+#------             Association by Geographical Detector(GD)             ------#
+#------------------------------------------------------------------------------#
+
+source('./script/ssh_q.r')
+ssh_q(data = columdf,cause = "hoval",effect = "crime")
+ssh_q(data = columdf,cause = "inc",effect = "crime")
+ssh_q(data = columdf,cause = "hoval",effect = "inc")

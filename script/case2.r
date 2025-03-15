@@ -50,13 +50,18 @@ g3 = gccm(data = popd_sf,cause = "elev",effect = "popdensity",
 g3
 
 #------------------------------------------------------------------------------#
-#------             Association by Geographical Detector(GD)             ------#
-#------------------------------------------------------------------------------#
-
-#------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
 popdf = sf::st_drop_geometry(dplyr::select(popd_sf,popdensity,elev,tem,pre))
 pcc = psych::corr.test(popdf)
 pcc
+
+#------------------------------------------------------------------------------#
+#------             Association by Geographical Detector(GD)             ------#
+#------------------------------------------------------------------------------#
+
+source('./script/ssh_q.r')
+ssh_q(data = popdf,cause = "pre",effect = "popdensity")
+ssh_q(data = popdf,cause = "tem",effect = "popdensity")
+ssh_q(data = popdf,cause = "elev",effect = "popdensity")

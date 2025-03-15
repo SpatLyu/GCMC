@@ -68,13 +68,18 @@ g3 = gccm(data = npp,cause = "pre",effect = "tem",
 g3
 
 #------------------------------------------------------------------------------#
-#------             Association by Geographical Detector(GD)             ------#
-#------------------------------------------------------------------------------#
-
-#------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
-pred.df = npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])]
-pcc = psych::corr.test(pred.df)
+npp.df = npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])]
+pcc = psych::corr.test(npp.df)
 pcc
+
+#------------------------------------------------------------------------------#
+#------             Association by Geographical Detector(GD)             ------#
+#------------------------------------------------------------------------------#
+
+source('./script/ssh_q.r')
+ssh_q(data = npp.df,cause = "pre",effect = "npp")
+ssh_q(data = npp.df,cause = "tem",effect = "npp")
+ssh_q(data = npp.df,cause = "pre",effect = "tem")
