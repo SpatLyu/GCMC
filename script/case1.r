@@ -53,3 +53,12 @@ g3
 columdf = sf::st_drop_geometry(dplyr::select(columbus,c(hoval,inc,crime)))
 pcc = psych::corr.test(columdf)
 pcc
+
+#------------------------------------------------------------------------------#
+#------             Association by Geographical Detector(GD)             ------#
+#------------------------------------------------------------------------------#
+
+source('./script/ssh_q.r')
+ssh_q(data = columdf,cause = "hoval",effect = "crime")
+ssh_q(data = columdf,cause = "inc",effect = "crime")
+ssh_q(data = columdf,cause = "hoval",effect = "inc")
