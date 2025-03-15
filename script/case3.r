@@ -9,7 +9,20 @@
 
 library(spEDM)
 npp = terra::rast(system.file("case/npp.tif", package = "spEDM"))
+npp = terra::aggregate(npp, fact = 3, na.rm = TRUE)
 npp
+
+terra::global(npp,"isNA")
+terra::ncell(npp)
+
+nnamat = terra::as.matrix(npp[[1]], wide = TRUE)
+nnaindice = which(!is.na(nnamat), arr.ind = TRUE)
+dim(nnaindice)
+
+set.seed(2025)
+indices = sample(nrow(nnaindice), size = 1500, replace = FALSE)
+libindice = nnaindice[-indices,]
+predindice = nnaindice[indices,]
 
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
