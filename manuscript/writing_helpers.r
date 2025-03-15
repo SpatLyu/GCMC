@@ -10,9 +10,13 @@
 # references: doi -> bibtex
 
 
-doi2bib = \(doi,style = "annals-of-the-association-of-american-geographers"){
-  return(rcrossref::cr_cn(dois = doi, format = "bibtex"))
+doi2bib = \(doi,style = "aps"){
+  return(rcrossref::cr_cn(dois = doi, style = style, format = "bibtex"))
 }
+
+doi2bib("10.1016/j.fmre.2023.01.007")
+doi2bib("10.1038/s41467-023-41619-6")
 
 # cit_styles = rcrossref::get_styles()
 # stringr::str_subset(cit_styles, "^international-journal-of")
+# "annals-of-the-association-of-american-geographers"
