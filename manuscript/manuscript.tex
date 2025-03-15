@@ -84,7 +84,6 @@
 
 \author[b]{Wufan Zhao\corref{cor1}}
 \cortext[cor1]{Corresponding author: Wufan Zhao, wufanzhao@hkust-gz.edu.cn}
-\ead{wufanzhao@hkust-gz.edu.cn}
 
 
 \address[a]{School of Geography and Tourism, Shaanxi Normal University, Xi'an, China}
@@ -98,13 +97,13 @@
 \begin{abstract}
 
 
-Contents for abstract
+Spatial cross-sectional data encapsulate rich information on spatial processes, serving as a critical foundation for examining causal associations between variables. From a geographical perspective, detecting and quantifying these causal associations is essential for understanding the mechanisms underlying complex natural and human phenomena. However, measuring causal associations from observed spatial cross-sectional data is still a challenge. Although methods such as pearson correlation coefficient (pcc) and geographical detector (gd) can and have been widely used to measure the associations between variables in spatial cross-sectional data, these methods fail to effectively quantify the strength of causal associations, as correlation and/or association does not imply causation. Here, we propose a geographical cross mapping cardinality (GCMC) model, which measures the strength of causal associations using the intersectional cardinality (IC) of neighbors identified through mutual cross mapping (MCM) in the reconstructed state space, while integrating the classical DeLong method for ROC curves to test the statistical significance and confidence intervals of causal associations. We validate the accuracy and applicability of GCMC in measuring the strength of causal associations by applying it to three classic spatial cross-sectional datasets with clearly existing causations. Through comparative analysis, we benchmark GCMC against the traditional pearson correlation coefficient, the widely used geographical detector model, and the latest spatial causal model, GCCM, highlighting its effectiveness across both spatial lattice and spatial grid data.
 
 
 \end{abstract}
 
 \begin{keyword}
-Causal associations \sep spatial empirical dynamic modeling \sep spatial cross sectional data \sep intersection cardinality \sep geographical cross mapping cardinality
+Causal associations \sep spatial cross-sectional data \sep mutual cross mapping \sep intersectional cardinality \sep geographical cross mapping cardinality
 \end{keyword}
 \end{frontmatter}
 
@@ -116,15 +115,17 @@ Causal associations \sep spatial empirical dynamic modeling \sep spatial cross s
 
 Contents for Introduction
 
+\citep{gao2023gccm,tao2023cmc}
+
 \section{Methodology} % or Material and methods
 
 Contents for Methodology
 
-\subsection{Phase space reconstruction}
+\subsection{State Space Reconstruction (SSR)}
 
-\subsection{Intersection cardinality}
+\subsection{Intersectional Cardinality (IC)}
 
-\subsection{Causal scores}
+\subsection{Causal strength from IC curve}
 
 \section{Results}
 
@@ -142,7 +143,6 @@ Contents for Discussion
 \section{Conclusion}
 
 Contents for conclusion,likes:
-This study offers a new method for understanding traffic accident patterns in Germany by utilizing continuous, detailed data and advanced geospatial modeling. We developed the RGOZH model by introducing numerical optimization into GOZH to make the analysis more reliable. The results of this study provide solid quantitative evidence for policies and behaviors related to regional development inequalities in Germany. On the one hand, the differences in the German federal government's various regional subsidy policies largely align with the current pattern of traffic accidents in those regions. On the other hand, based on the results of this study, a more rational traffic accident regulation program can be developed in the future. This includes designing different regulatory approaches, policies, actions, and budget allocations for different regions and demographic groups, such as the East-West Germany boundary, as identified in this study. The main motivation of this paper is to propose a new GOZH-based approach to study quantifiable outcomes of geographic heterogeneity, and we have chosen the more representative German traffic accident study as a case study.
 
 \section*{Disclosure statement}
 
