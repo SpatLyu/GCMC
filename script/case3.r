@@ -80,6 +80,7 @@ readr::write_rds(gccm_case3,'./result/case/gccm_case3.rds')
 npp.df = npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])]
 pcc = psych::corr.test(npp.df)
 pcc
+readr::write_rds(pcc,'./result/case/pcc_case3.rds')
 
 #------------------------------------------------------------------------------#
 #------             Association by Geographical Detector(GD)             ------#
@@ -91,3 +92,4 @@ q2 = ssh_q(data = npp.df,cause = "tem",effect = "npp")
 q3 = ssh_q(data = npp.df,cause = "pre",effect = "tem")
 qv = do.call(rbind,list(q1,q2,q3))
 qv
+readr::write_rds(qv,'./result/case/gd_case3.rds')

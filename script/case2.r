@@ -65,6 +65,7 @@ readr::write_rds(gccm_case2,'./result/case/gccm_case2.rds')
 popdf = sf::st_drop_geometry(dplyr::select(popd_sf,popdensity,elev,tem,pre))
 pcc = psych::corr.test(popdf)
 pcc
+readr::write_rds(pcc,'./result/case/pcc_case2.rds')
 
 #------------------------------------------------------------------------------#
 #------             Association by Geographical Detector(GD)             ------#
@@ -76,3 +77,4 @@ q2 = ssh_q(data = popdf, cause = "elev", effect = "popdensity")
 q3 = ssh_q(data = popdf, cause = "elev", effect = "tem")
 qv = do.call(rbind,list(q1,q2,q3))
 qv
+readr::write_rds(qv,'./result/case/gd_case2.rds')
