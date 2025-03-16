@@ -6,8 +6,10 @@ ssh_q = \(data,cause,effect,discnum = 5,discmethod = "natural"){
   q1 = as.data.frame(gdverse::factor_detector(y,xh))
   q2 = as.data.frame(gdverse::factor_detector(x,yh))
   qv = rbind(q1,q2)
-  rownames(qv) = c(paste0(cause," -> ",effect),
-                   paste0(effect," -> ",cause))
   colnames(qv) = c("qv","sig")
-  return(qv)
+  qv$x = c(cause,effect)
+  qv$y = c(effect,cause)
+  qv$direction = c(paste0(cause," -> ",effect),
+                   paste0(effect," -> ",cause))
+  return(dplyr::select(qv,x,y,direction,qv,sig))
 } 

@@ -27,6 +27,9 @@ g2
 g3 = gcmc(data = columbus,cause = "hoval",effect = "inc",E = c(6,5),k = 20)
 g3
 
+gcmc_case1 = list(g1,g2,g3)
+readr::write_rds(gcmc_case1,'./result/case/gcmc_case1.rds')
+
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
@@ -46,6 +49,9 @@ g3 = gccm(data = columbus,cause = "hoval",effect = "inc",
           libsizes = seq(5,45,5), E = c(6,5), k = c(6,10))
 g3
 
+gccm_case1 = list(g1,g2,g3)
+readr::write_rds(gccm_case1,'./result/case/gccm_case1.rds')
+
 #------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
@@ -59,6 +65,8 @@ pcc
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-ssh_q(data = columdf,cause = "hoval",effect = "crime")
-ssh_q(data = columdf,cause = "inc",effect = "crime")
-ssh_q(data = columdf,cause = "hoval",effect = "inc")
+q1 = ssh_q(data = columdf,cause = "hoval",effect = "crime")
+q2 = ssh_q(data = columdf,cause = "inc",effect = "crime")
+q3 = ssh_q(data = columdf,cause = "hoval",effect = "inc")
+qv = do.call(rbind,list(q1,q2,q3))
+qv
