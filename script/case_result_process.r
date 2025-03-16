@@ -72,4 +72,4 @@
   return(case)
 }
 
-case1 = .save_case_result(1)
+purrr::map(1:3,.process_case_result,save = TRUE)
