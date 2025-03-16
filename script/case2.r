@@ -33,6 +33,9 @@ g3 = gcmc(data = popd_sf, cause = "elev", effect = "tem",
           E = c(1,2), k = 150, nb = popd_nb, trend.rm = TRUE)
 g3
 
+gcmc_case2 = list(g1,g2,g3)
+readr::write_rds(gcmc_case2,'./result/case/gcmc_case2.rds')
+
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
@@ -52,6 +55,9 @@ g3 = gccm(data = popd_sf, cause = "elev", effect = "tem",
           libsizes = seq(10, 2800, by = 100),E = c(1,2),k = 6,nb = popd_nb)
 g3
 
+gccm_case2 = list(g1,g2,g3)
+readr::write_rds(gccm_case2,'./result/case/gccm_case2.rds')
+
 #------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
@@ -59,12 +65,16 @@ g3
 popdf = sf::st_drop_geometry(dplyr::select(popd_sf,popdensity,elev,tem,pre))
 pcc = psych::corr.test(popdf)
 pcc
+readr::write_rds(pcc,'./result/case/pcc_case2.rds')
 
 #------------------------------------------------------------------------------#
 #------             Association by Geographical Detector(GD)             ------#
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-ssh_q(data = popdf, cause = "tem", effect = "popdensity")
-ssh_q(data = popdf, cause = "elev", effect = "popdensity")
-ssh_q(data = popdf, cause = "elev", effect = "tem")
+q1 = ssh_q(data = popdf, cause = "tem", effect = "popdensity")
+q2 = ssh_q(data = popdf, cause = "elev", effect = "popdensity")
+q3 = ssh_q(data = popdf, cause = "elev", effect = "tem")
+qv = do.call(rbind,list(q1,q2,q3))
+qv
+readr::write_rds(qv,'./result/case/gd_case2.rds')

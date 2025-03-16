@@ -45,6 +45,9 @@ g3 = gcmc(data = npp,cause = "pre",effect = "tem",E = 2,k = 270,
           lib = nnaindice, pred = predindice, trend.rm = TRUE)
 g3
 
+gcmc_case3 = list(g1,g2,g3)
+readr::write_rds(gcmc_case3,'./result/case/gcmc_case3.rds')
+
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
@@ -67,6 +70,9 @@ g3 = gccm(data = npp,cause = "pre",effect = "tem",
           E = 2, k = 6, lib = nnaindice, pred = predindice)
 g3
 
+gccm_case3 = list(g1,g2,g3)
+readr::write_rds(gccm_case3,'./result/case/gccm_case3.rds')
+
 #------------------------------------------------------------------------------#
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
@@ -74,12 +80,16 @@ g3
 npp.df = npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])]
 pcc = psych::corr.test(npp.df)
 pcc
+readr::write_rds(pcc,'./result/case/pcc_case3.rds')
 
 #------------------------------------------------------------------------------#
 #------             Association by Geographical Detector(GD)             ------#
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-ssh_q(data = npp.df,cause = "pre",effect = "npp")
-ssh_q(data = npp.df,cause = "tem",effect = "npp")
-ssh_q(data = npp.df,cause = "pre",effect = "tem")
+q1 = ssh_q(data = npp.df,cause = "pre",effect = "npp")
+q2 = ssh_q(data = npp.df,cause = "tem",effect = "npp")
+q3 = ssh_q(data = npp.df,cause = "pre",effect = "tem")
+qv = do.call(rbind,list(q1,q2,q3))
+qv
+readr::write_rds(qv,'./result/case/gd_case3.rds')
