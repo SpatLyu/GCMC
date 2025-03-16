@@ -30,8 +30,46 @@
   return(rbind(g1,g2))
 }
 
-gcmc_case1 = readr::read_rds('./result/case/gcmc_case1.rds') |> 
-  purrr::map(.process_xmap_result) |> 
-  purrr::list_rbind()
-gcmc_case2 = readr::read_rds('./result/case/gcmc_case2.rds')
-gcmc_case3 = readr::read_rds('./result/case/gcmc_case3.rds')
+.process_pcc_result = \(g){
+  pcc_v = g |> 
+    purrr::pluck("r") |> 
+    as.data.frame() |> 
+    tibble::rownames_to_column(var = "cause") |> 
+    tidyr::pivot_longer(cols = -1,
+                        names_to = "effect",
+                        values_to = "ca")
+  pcc_p = g |> 
+    purrr::pluck("p") |> 
+    as.data.frame() |> 
+    tibble::rownames_to_column(var = "cause") |> 
+    tidyr::pivot_longer(cols = -1,
+                        names_to = "effect",
+                        values_to = "sig")
+  return(dplyr::left_join(pcc_v,pcc_p,
+                          by = c("cause","effect")))
+}
+
+.process_case_result = \(casenum,save = FALSE){
+  case = list(
+    gcmc = paste0('./result/case/gcmc_case',casenum,'.rds') |> 
+      readr::read_rds() |> 
+      purrr::map(.process_xmap_result) |> 
+      purrr::list_rbind(),
+    gccm = paste0('./result/case/gccm_case',casenum,'.rds') |>
+      readr::read_rds() |> 
+      purrr::map(.process_xmap_result,gcmc = FALSE) |> 
+      purrr::list_rbind(),
+    pcc = paste0('./result/case/pcc_case',casenum,'.rds') |>
+      readr::read_rds() |>
+      .process_pcc_result(),
+    gd = paste0('./result/case/gd_case',casenum,'.rds') |>
+      readr::read_rds() |>
+      dplyr::select(cause = x, effect = y, ca = qv, sig)
+  )
+  
+  if (save) writexl::write_xlsx(case,paste0("./result/case/case",casenum,".xlsx"))
+  
+  return(case)
+}
+
+purrr::map(1:3,.process_case_result,save = TRUE)
