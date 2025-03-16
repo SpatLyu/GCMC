@@ -59,6 +59,7 @@ readr::write_rds(gccm_case1,'./result/case/gccm_case1.rds')
 columdf = sf::st_drop_geometry(dplyr::select(columbus,c(hoval,inc,crime)))
 pcc = psych::corr.test(columdf)
 pcc
+readr::write_rds(pcc,'./result/case/pcc_case1.rds')
 
 #------------------------------------------------------------------------------#
 #------             Association by Geographical Detector(GD)             ------#
@@ -70,3 +71,4 @@ q2 = ssh_q(data = columdf,cause = "inc",effect = "crime")
 q3 = ssh_q(data = columdf,cause = "hoval",effect = "inc")
 qv = do.call(rbind,list(q1,q2,q3))
 qv
+readr::write_rds(qv,'./result/case/gd_case1.rds')
