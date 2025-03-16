@@ -62,7 +62,7 @@ readr::write_rds(gccm_case2,'./result/case/gccm_case2.rds')
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
-popdf = sf::st_drop_geometry(dplyr::select(popd_sf,popdensity,elev,tem,pre))
+popdf = sf::st_drop_geometry(dplyr::select(popd_sf,popdensity,elev,tem))
 pcc = psych::corr.test(popdf)
 pcc
 readr::write_rds(pcc,'./result/case/pcc_case2.rds')

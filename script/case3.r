@@ -77,7 +77,9 @@ readr::write_rds(gccm_case3,'./result/case/gccm_case3.rds')
 #------        Correlation by Pearson Correlation Coefficient(PCC)       ------#
 #------------------------------------------------------------------------------#
 
-npp.df = npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])]
+npp.df = dplyr::filter(npp[terra::cellFromRowCol(npp,predindice[,1],predindice[,2])],
+                       dplyr::if_all(dplyr::everything(),
+                                     \(.x) !is.na(.x)))
 pcc = psych::corr.test(npp.df)
 pcc
 readr::write_rds(pcc,'./result/case/pcc_case3.rds')
