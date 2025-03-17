@@ -6,14 +6,14 @@ plot_cs_matrix = \(.tbf){
       sig < 0.05  ~ "*",
       .default =  ""
     )) |> 
-    dplyr::mutate(sig_marker = paste0(round(cs,3),sig_marker))
+    dplyr::mutate(sig_marker = paste0(round(ca,3),sig_marker))
   
   fig = ggplot2::ggplot(data = .tbf,
                         ggplot2::aes(x = effect, y = cause)) +
-    ggplot2::geom_tile(color = "black", ggplot2::aes(fill = cs)) +
+    ggplot2::geom_tile(color = "black", ggplot2::aes(fill = ca)) +
     ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.25) +
-    ggplot2::geom_text(ggplot2::aes(label = sig), color = "black", family = "serif") +
-    ggplot2::labs(x = "Effect", y = "Cause", fill = "Causal Score") +
+    ggplot2::geom_text(ggplot2::aes(label = sig_marker), color = "black", family = "serif") +
+    ggplot2::labs(x = "Effect", y = "Cause", fill = "Causal Associations") +
     ggplot2::scale_x_discrete(expand = c(0, 0)) +
     ggplot2::scale_y_discrete(expand = c(0, 0)) +
     ggplot2::scale_fill_gradient(low = "#9bbbb8", high = "#256c68") +
