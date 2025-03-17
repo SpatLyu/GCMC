@@ -16,4 +16,5 @@ gd_case1 = readxl::read_xlsx('./result/case/case1.xlsx',sheet = "gd")
 
 plot_cs_matrix(gcmc_case1)
 plot_cs_matrix(gccm_case1)
-plot_cs_matrix(gd_case1)
+plot_cs_matrix(pcc_case1,legend_title = "Correlation")
+plot_cs_matrix(gd_case1,legend_title = "Association")

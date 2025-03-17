@@ -1,4 +1,4 @@
-plot_cs_matrix = \(.tbf,legend_title = "Causal Associations"){
+plot_cs_matrix = \(.tbf,legend_title = "Causal Association"){
   .tbf = .tbf |> 
     dplyr::mutate(sig_marker = dplyr::case_when(
       sig < 0.001 ~ "***",
