@@ -31,7 +31,7 @@ plot_cs_matrix = \(.tbf){
       legend.direction = "horizontal",
       legend.position = "bottom",
       legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
-      legend.key.width = ggplot2::unit(30, "pt"),
+      legend.key.width = ggplot2::unit(20, "pt"),
       panel.grid = ggplot2::element_blank(),
       panel.border = ggplot2::element_rect(color = "black", fill = NA)
     ) +
