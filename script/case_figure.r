@@ -1,4 +1,13 @@
-plot_cs_matrix = \(.tbf,legend_title = "Causal Association"){
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~             Plot Case Result             ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-17    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
   .tbf = .tbf |> 
     dplyr::mutate(sig_marker = dplyr::case_when(
       sig < 0.001 ~ "***",
@@ -38,3 +47,15 @@ plot_cs_matrix = \(.tbf,legend_title = "Causal Association"){
     ggview::canvas(width = 3.5, height = 4.05)
   return(fig)
 }
+
+save_ca_plot = \(casenum){
+  case_xlsx = paste0('./result/case/case',casenum,'.xlsx')
+  c("gcmc","gccm","pcc","gd") |> 
+    purrr::walk(\(.x) {
+      readxl::read_xlsx(case_xlsx,sheet = .x) |> 
+        plot_ca_matrix() |> 
+        ggview::save_ggplot(paste0('./figure/case/case',casenum,'_',.x,'.jpg'), dpi = 300)
+    })
+}
+
+for (i in 1:3) save_ca_plot(i)
