@@ -1,4 +1,4 @@
-plot_cs_matrix = \(.tbf){
+plot_cs_matrix = \(.tbf,legend_title = "Causal Association"){
   .tbf = .tbf |> 
     dplyr::mutate(sig_marker = dplyr::case_when(
       sig < 0.001 ~ "***",
@@ -13,7 +13,7 @@ plot_cs_matrix = \(.tbf){
     ggplot2::geom_tile(color = "black", ggplot2::aes(fill = ca)) +
     ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.25) +
     ggplot2::geom_text(ggplot2::aes(label = sig_marker), color = "black", family = "serif") +
-    ggplot2::labs(x = "Effect", y = "Cause", fill = "Causal Associations") +
+    ggplot2::labs(x = "Effect", y = "Cause", fill = legend_title) +
     ggplot2::scale_x_discrete(expand = c(0, 0)) +
     ggplot2::scale_y_discrete(expand = c(0, 0)) +
     ggplot2::scale_fill_gradient(low = "#9bbbb8", high = "#256c68") +

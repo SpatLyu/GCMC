@@ -37,14 +37,16 @@
     tibble::rownames_to_column(var = "cause") |> 
     tidyr::pivot_longer(cols = -1,
                         names_to = "effect",
-                        values_to = "ca")
+                        values_to = "ca") |> 
+    dplyr::filter(cause != effect)
   pcc_p = g |> 
     purrr::pluck("p") |> 
     as.data.frame() |> 
     tibble::rownames_to_column(var = "cause") |> 
     tidyr::pivot_longer(cols = -1,
                         names_to = "effect",
-                        values_to = "sig")
+                        values_to = "sig") |> 
+    dplyr::filter(cause != effect)
   return(dplyr::left_join(pcc_v,pcc_p,
                           by = c("cause","effect")))
 }
