@@ -106,7 +106,7 @@
 \begin{abstract}
 
 
-Spatial cross-sectional data encapsulate rich information on spatial processes, serving as a critical foundation for examining causal associations between variables. From a geographical perspective, detecting and quantifying these causal associations is essential for understanding the mechanisms underlying complex natural and human phenomena. However, measuring causal associations from observed spatial cross-sectional data is still a challenge. Although methods such as pearson correlation coefficient (PCC) and geographical detector (GD) can and have been widely used to measure the associations between variables in spatial cross-sectional data, these methods fail to effectively quantify the strength of causal associations, as correlation and/or association does not imply causation. Here, we propose a geographical cross mapping cardinality (GCMC) model, which measures the strength of causal associations using the intersectional cardinality (IC) of neighbors identified through mutual cross mapping (MCM) in the reconstructed state space, while integrating the classical DeLong method for ROC curves to test the statistical significance and confidence intervals of causal associations. We validate the accuracy and applicability of GCMC in measuring the strength of causal associations by applying it to three classic spatial cross-sectional datasets with clearly existing causations. Through comparative analysis, we benchmark GCMC against the traditional pearson correlation coefficient, the widely used geographical detector model, and the latest spatial causal model, GCCM, highlighting its effectiveness across both spatial lattice and spatial grid data.
+Spatial cross-sectional data encapsulate rich information on spatial processes, serving as a critical foundation for examining causal associations between variables. From a geographical perspective, detecting and quantifying these causal associations is essential for understanding the mechanisms underlying complex natural and human phenomena. However, measuring causal associations from observed spatial cross-sectional data is still a challenge. Although methods such as pearson correlation coefficient (PCC) and geographical detector (GD) can and have been widely used to measure the associations between variables in spatial cross-sectional data, these methods fail to effectively quantify the strength of causal associations, as correlation and/or association does not imply causation. Here, we propose a geographical cross mapping cardinality (GCMC) model, which measures the strength of causal associations using the intersectional cardinality (IC) of neighbors identified through mutual cross mapping (MCM) in the reconstructed state space, while integrating the classical DeLong method for ROC curves to test the statistical significance and confidence intervals of causal associations. We validate the accuracy and applicability of GCMC in measuring the strength of causal associations by applying it to three classic spatial cross-sectional datasets with clearly existing causations. Through comparative analysis, we benchmark GCMC against the traditional pearson correlation coefficient, the widely used geographical detector model, and the latest spatial causation model, GCCM, highlighting its effectiveness across both spatial lattice and spatial grid data.
 
 
 \end{abstract}
@@ -147,12 +147,25 @@ The specific calculation methods for the corresponding steps are shown as follow
 \label{fig_ssr}
 \end{figure}
 
+According to the Takens-Ma{\~n}{\'e} theorem \citep{Takens1981embedding,Mane1981embedding}, similar to the approach of \cite{gao2023gccm}, the state space of a spatial cross-sectional variable can be reconstructed using the following formula:
+
+\begin{equation}\label{eq-embedding}
+E_x = \begin{bmatrix}
+h_{s(1)}(x_1) & h_{s(1+\tau)}(x_1) & \cdots & h_{s(1+(E-1)\tau)}(x_1) \\
+h_{s(1)}(x_2) & h_{s(1+\tau)}(x_2) & \cdots & h_{s(1+(E-1)\tau)}(x_2) \\
+\vdots & \vdots & \ddots & \vdots \\
+h_{s(1)}(x_n) & h_{s(1+\tau)}(x_n) & \cdots & h_{s(1+(E-1)\tau)}(x_n)
+\end{bmatrix}
+\end{equation}
+
+Where \(E_x\) denotes the reconstructed state-space matrix for the spatial variable \(x\), each row corresponds to a spatial unit \(x_i\) (\(i = 1, 2, \ldots, n\)), and each column represents the embedding of \(x_i\) under progressively higher-order spatial lags. The parameter \(E\) defines the embedding dimension, \(\tau\) specifies the spatial lag step, and \(n\) is the total number of spatial units. The term \(h_{s(1+k\tau)}(x_i)\) represents the spatially lagged transformation of \(x_i\) at the \((1+k\tau)\)-th spatial lag (\(k = 0, 1, \ldots, E-1\)), where \(s(\cdot)\) denotes the spatial lag operator, identifying the neighbors at a specific lag order, and \(h(\cdot)\) is a transformation function that calculates the average attribute value of the neighbors identified by \(s(\cdot)\) at each spatial lag. For instance, as illustrated in figure~\ref{fig_ssr}, when the embedding dimension \(E\) is specified as 3 and the spatial lag step \(\tau\) is 1, the embedding vector for the focal unit \(i\) is computed as \(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\), \(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and \(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\), where the denominators correspond to the number of units included in each spatial lag calculation. The numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
+
 \subsection{Intersectional Cardinality (IC)}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\linewidth]{./figure/figure2.jpg}
-\caption{Intersectional cardinality (IC) in GCMC}
+\caption{Schematic diagram of intersectional cardinality (IC) in GCMC}
 \label{fig_ic}
 \end{figure}
 
