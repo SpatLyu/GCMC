@@ -2,10 +2,14 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~             Plot Case Result             ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-17    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-18    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+#------------------------------------------------------------------------------#
+#-------------            The causation matrix plot             ---------------#
+#------------------------------------------------------------------------------#
 
 plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
   .tbf = .tbf |> 
@@ -59,3 +63,82 @@ save_ca_plot = \(casenum){
 }
 
 for (i in 1:3) save_ca_plot(i)
+
+
+#------------------------------------------------------------------------------#
+#----------------             Maps of case data              ------------------#
+#------------------------------------------------------------------------------#
+
+library(tmap)
+
+columbus = system.file("case/columbus.gpkg", package="spEDM") |> 
+  sf::read_sf() |> 
+  dplyr::select(hoval,inc,crime)
+columbus
+
+fig11 = tm_shape(columbus) + 
+  tm_polygons(fill = "hoval",
+              fill.scale = tm_scale_continuous(n = 5),
+              fill.legend = tm_legend(
+                title = "Housing value (unit: $1000)",
+                orientation = "landscape",
+                frame = FALSE,
+                title.color = "black",
+                bg.color = "white",
+                position = tm_pos_out(cell.h = "center",
+                                      cell.v = "bottom",
+                                      pos.h = "center",
+                                      pos.v = "center"),
+                show = TRUE
+              ),
+              col = 'grey', lwd = 1.25) +
+  tm_compass(position = tm_pos_in(pos.h = 0.15,
+                                  pos.v = 0.95)) +
+  tm_layout(frame = FALSE,
+            legend.title.fontfamily = "serif")
+tmap_save(fig11,'./figure/case/map_case11.jpg',dpi = 300)
+
+fig12 = tm_shape(columbus) + 
+  tm_polygons(fill = "inc",
+              fill.scale = tm_scale_continuous(n = 5),
+              fill.legend = tm_legend(
+                title = "Household income (unit: $1000)",
+                orientation = "landscape",
+                frame = FALSE,
+                title.color = "black",
+                bg.color = "white",
+                position = tm_pos_out(cell.h = "center",
+                                      cell.v = "bottom",
+                                      pos.h = "center",
+                                      pos.v = "center"),
+                show = TRUE
+              ),
+              col = 'grey', lwd = 1.25) +
+  tm_compass(position = tm_pos_in(pos.h = 0.15,
+                                  pos.v = 0.95)) +
+  tm_layout(frame = FALSE,
+            legend.title.fontfamily = "serif")
+tmap_save(fig12,'./figure/case/map_case12.jpg',dpi = 300)
+
+
+fig13 = tm_shape(columbus) + 
+  tm_polygons(fill = "crime",
+              fill.scale = tm_scale_continuous(n = 5),
+              fill.legend = tm_legend(
+                title = "Residential burglaries and vehicle thefts per thousand households in the neighborhood",
+                orientation = "landscape",
+                frame = FALSE,
+                title.color = "black",
+                bg.color = "white",
+                position = tm_pos_out(cell.h = "center",
+                                      cell.v = "bottom",
+                                      pos.h = "center",
+                                      pos.v = "center"),
+                show = TRUE
+              ),
+              col = 'grey', lwd = 1.25) +
+  tm_compass(position = tm_pos_in(pos.h = 0.15,
+                                  pos.v = 0.95)) +
+  tm_layout(frame = FALSE,
+            legend.title.fontfamily = "serif")
+tmap_save(fig13,'./figure/case/map_case13.jpg',dpi = 300)
