@@ -71,6 +71,7 @@ for (i in 1:3) save_ca_plot(i)
 
 library(tmap)
 
+# case1
 columbus = system.file("case/columbus.gpkg", package="spEDM") |> 
   sf::read_sf() |> 
   dplyr::select(hoval,inc,crime)
@@ -142,3 +143,9 @@ fig13 = tm_shape(columbus) +
   tm_layout(frame = FALSE,
             legend.title.fontfamily = "serif")
 tmap_save(fig13,'./figure/case/map_case13.jpg',dpi = 300)
+
+# case2
+popd_sf = system.file("case/popdensity.csv",package = "spEDM") |> 
+  readr::read_csv() |> 
+  sf::st_as_sf(coords = c("x","y"), crs = 4326)
+popd_sf
