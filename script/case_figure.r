@@ -71,6 +71,7 @@ for (i in 1:3) save_ca_plot(i)
 
 library(tmap)
 
+# case1
 columbus = system.file("case/columbus.gpkg", package="spEDM") |> 
   sf::read_sf() |> 
   dplyr::select(hoval,inc,crime)
@@ -80,7 +81,7 @@ fig11 = tm_shape(columbus) +
   tm_polygons(fill = "hoval",
               fill.scale = tm_scale_continuous(n = 5),
               fill.legend = tm_legend(
-                title = "Housing value (unit: $1000)",
+                title = "housing value (unit: $1000)",
                 orientation = "landscape",
                 frame = FALSE,
                 title.color = "black",
@@ -102,7 +103,7 @@ fig12 = tm_shape(columbus) +
   tm_polygons(fill = "inc",
               fill.scale = tm_scale_continuous(n = 5),
               fill.legend = tm_legend(
-                title = "Household income (unit: $1000)",
+                title = "household income (unit: $1000)",
                 orientation = "landscape",
                 frame = FALSE,
                 title.color = "black",
@@ -125,7 +126,7 @@ fig13 = tm_shape(columbus) +
   tm_polygons(fill = "crime",
               fill.scale = tm_scale_continuous(n = 5),
               fill.legend = tm_legend(
-                title = "Residential burglaries and vehicle thefts per thousand households in the neighborhood",
+                title = "residential burglaries and vehicle thefts per thousand households in the neighborhood",
                 orientation = "landscape",
                 frame = FALSE,
                 title.color = "black",
@@ -142,3 +143,49 @@ fig13 = tm_shape(columbus) +
   tm_layout(frame = FALSE,
             legend.title.fontfamily = "serif")
 tmap_save(fig13,'./figure/case/map_case13.jpg',dpi = 300)
+
+# case2
+popd_sf = system.file("case/popdensity.csv",package = "spEDM") |> 
+  readr::read_csv() |> 
+  sf::st_as_sf(coords = c("x","y"), crs = 4326) |> 
+  dplyr::select(popdensity,elev,tem)
+popd_sf
+
+albers = geocn::load_cn_alberproj()
+cn_border = geocn::load_cn_border()
+main_border = geocn::load_cn_landcoast()
+tenline = geocn::load_cn_tenline()
+province = geocn::load_cn_province(keep = 5e-3)
+
+tm_shape(main_border, crs = albers) +
+  tm_lines(col = NA,lwd = 0.01) +
+  tm_shape(province) +
+  tm_fill(fill = 'white',fill_alpha = .5) +
+  tm_borders(col = 'grey40', lwd = 1.25) +
+  tm_shape(cn_border) +
+  tm_lines(col = '#9d98b7',lwd = 2.5) +
+  tm_compass(position = c(0.05,0.95),
+             just = 'center',size = 1.5,
+             text.size = .65,show.labels = 1) -> cn_base
+
+fig21 = cn_base + 
+  tm_shape(popd_sf) +
+  tm_bubbles(size = "elev", fill = "#fdf6e3",
+             size.scale = tm_scale_continuous(values.scale = 1.15,
+                                              values = 1:5,
+                                              midpoint = NA),
+             size.legend = tm_legend(
+               title = "elevation",
+               frame = FALSE,
+               title.color = "black",
+               bg.color = "white",
+             )) +
+  tm_layout(legend.position = c(0.045,0.25),
+            text.fontfamily = "serif")
+tmap_save(fig21,'./figure/case/map_case21.jpg',dpi = 300)
+
+cn = dplyr::select(sf::st_make_valid(mapchina::china),
+                   Code = Code_Perfecture) |> 
+  dplyr::group_by(Code) |> 
+  dplyr::summarise(geometry = sf::st_union(geometry) |> 
+                     sf::st_cast("MULTIPOLYGON"))

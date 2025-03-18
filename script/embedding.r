@@ -4,7 +4,7 @@ library(tmap)
 # henan = cnmap::getMap(code = "410000", subRegion = TRUE) |> 
 #   dplyr::select(adcode,name)
 
-cn = dplyr::select(st_make_valid(mapchina::china),
+cn = dplyr::select(sf::st_make_valid(mapchina::china),
                    Code = Code_Perfecture,
                    Pop = Pop_2010,Area) |> 
   dplyr::group_by(Code) |> 
