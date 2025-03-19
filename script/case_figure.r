@@ -184,6 +184,38 @@ fig21 = cn_base +
             text.fontfamily = "serif")
 tmap_save(fig21,'./figure/case/map_case21.jpg',dpi = 300)
 
+fig22 = cn_base + 
+  tm_shape(popd_sf) +
+  tm_bubbles(size = "tem", fill = "#fdf6e3",
+             size.scale = tm_scale_continuous(values.scale = 0.85,
+                                              values = 1:5,
+                                              midpoint = NA),
+             size.legend = tm_legend(
+               title = "temperature",
+               frame = FALSE,
+               title.color = "black",
+               bg.color = "white",
+             )) +
+  tm_layout(legend.position = c(0.045,0.25),
+            text.fontfamily = "serif")
+tmap_save(fig22,'./figure/case/map_case22.jpg',dpi = 300)
+
+fig23 = cn_base + 
+  tm_shape(popd_sf) +
+  tm_bubbles(size = "popdensity", fill = "#fdf6e3",
+             size.scale = tm_scale_continuous(values.scale = 0.85,
+                                              values = 1:5,
+                                              midpoint = NA),
+             size.legend = tm_legend(
+               title = "popdensity",
+               frame = FALSE,
+               title.color = "black",
+               bg.color = "white",
+             )) +
+  tm_layout(legend.position = c(0.045,0.25),
+            text.fontfamily = "serif")
+tmap_save(fig23,'./figure/case/map_case23.jpg',dpi = 300)
+
 cn = dplyr::select(sf::st_make_valid(mapchina::china),
                    Code = Code_Perfecture) |> 
   dplyr::group_by(Code) |> 
