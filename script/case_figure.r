@@ -11,7 +11,7 @@
 #-------------            The causation matrix plot             ---------------#
 #------------------------------------------------------------------------------#
 
-plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
+plot_ca_matrix = \(.tbf,legend_title = "Association"){
   .tbf = .tbf |> 
     dplyr::mutate(sig_marker = dplyr::case_when(
       sig < 0.001 ~ "***",
@@ -39,8 +39,8 @@ plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
       axis.title.y = ggplot2::element_text(angle = 90, family = "serif", size = 20),
       axis.title.x = ggplot2::element_text(color = "black", family = "serif", size = 20,
                                            margin = ggplot2::margin(t = 5.5, unit = "pt")),
-      legend.text = ggplot2::element_text(family = "serif", size = 8.5),
-      legend.title = ggplot2::element_text(family = "serif", size = 12.5),
+      legend.text = ggplot2::element_text(family = "serif", size = 10.5),
+      legend.title = ggplot2::element_text(family = "serif", size = 15),
       legend.background = ggplot2::element_rect(fill = NA, color = NA),
       legend.direction = "horizontal",
       legend.position = "bottom",
