@@ -124,17 +124,15 @@ Causal associations \sep spatial cross-sectional data \sep mutual cross mapping 
 
 Contents for Introduction
 
-\citep{gao2023gccm,tao2023cmc}
-
 \section{Methodology} % or Material and methods
 
 For an observed spatial cross-sectional dataset, GCMC requires three steps to measure the strength of causal associations:
 
 1. Construct the state space: For two spatial variables, \(x\) and \(y\), an appropriate embedding dimension \(E\) and spatial lag step \(\tau\) are required to reconstruct their state spaces \(E_x\) and \(E_y\). In particular, for each spatial unit \(i\), spatial lags of orders \(1, 1+\tau, \dots, 1+(E-1)\tau\) are taken sequentially, and then a statistical aggregation function (typically mean) is applied to aggregate the attribute values of the spatial unit corresponding to different spatial lags into a single vector. Finally, the embedding vectors of all spatial units are stacked row-wise to form the reconstructed state space.
 
-2. Obtain the intersection cardinality (IC) curve: When measuring the causal association from \(y\) to \(x\), for a given number of nearest neighbors \(k\), the number of shared nearest neighbors is counted between the \(k\) nearest neighbors \(E_y^{nn}(k)\) of \(E_y\) and the \(k\) projected nearest neighbors \(E_y^{nn}(E_x^{nn}(k))\) mapped from \(E_x\) to \(E_y\). The IC curve is then obtained by calculating the number of shared nearest neighbors for each value of \(k = 1, 2, \dots, n\). Conversely, the process is also applicable (causal association from \(x\) to \(y\)).
+2. Obtain the intersection cardinality (IC) curve: When measuring the causal association from \(y\) to \(x\), for a given number of nearest neighbors \(k\), the number of shared nearest neighbors is counted between the \(k\) nearest neighbors \(E_y^{nn}(k)\) of \(E_y\) and the "projected" nearest neighbors \(E_y^{nn}(E_x^{nn}(k))\) mapped from \(E_x\) to \(E_y\). The IC curve is then obtained by calculating the number of shared nearest neighbors for each value of \(k = 1, 2, \dots, n\). Conversely, the process is also applicable (causal association from \(x\) to \(y\)).
 
-3. Quantify the strength of causal association: The AUC of the different \( k \)-corresponding IC curves obtained in the previous step is calculated to quantify the causal association. Taking the null hypothesis of no causal association between the two variables \(x\) and \(y\), the DeLong method is used to test the statistical significance and confidence interval of the estimated causal association strength.
+3. Quantify the strength of causal association: The AUC of the IC curves obtained in the previous step is calculated to quantify the causal association. Taking the null hypothesis of no causal association between the two variables \(x\) and \(y\), the DeLong method is used to test the statistical significance and confidence interval of the estimated causal association strength.
 
 The specific calculation methods for the corresponding steps are shown as follows.
 
@@ -158,9 +156,35 @@ h_{s(1)}(x_n) & h_{s(1+\tau)}(x_n) & \cdots & h_{s(1+(E-1)\tau)}(x_n)
 \end{bmatrix}
 \end{equation}
 
-Where \(E_x\) denotes the reconstructed state-space matrix for the spatial variable \(x\), each row corresponds to a spatial unit \(x_i\) (\(i = 1, 2, \ldots, n\)), and each column represents the embedding of \(x_i\) under progressively higher-order spatial lags. The parameter \(E\) defines the embedding dimension, \(\tau\) specifies the spatial lag step, and \(n\) is the total number of spatial units. The term \(h_{s(1+k\tau)}(x_i)\) represents the spatially lagged transformation of \(x_i\) at the \((1+k\tau)\)-th spatial lag (\(k = 0, 1, \ldots, E-1\)), where \(s(\cdot)\) denotes the spatial lag operator, identifying the neighbors at a specific lag order, and \(h(\cdot)\) is a transformation function that calculates the average attribute value of the neighbors identified by \(s(\cdot)\) at each spatial lag. For instance, as illustrated in figure~\ref{fig_ssr}, when the embedding dimension \(E\) is specified as 3 and the spatial lag step \(\tau\) is 1, the embedding vector for the focal unit \(i\) is computed as \(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\), \(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and \(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\), where the denominators correspond to the number of units included in each spatial lag calculation. The numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
+where \(E_x\) denotes the reconstructed state-space matrix for the spatial variable \(x\), each row corresponds to a spatial unit \(x_i\) (\(i = 1, 2, \ldots, n\)), and each column represents the embedding of \(x_i\) under progressively higher-order spatial lags. The parameter \(E\) defines the embedding dimension, \(\tau\) specifies the spatial lag step, and \(n\) is the total number of spatial units. The term \(h_{s(1+k\tau)}(x_i)\) represents the spatially lagged transformation of \(x_i\) at the \((1+k\tau)\)-th spatial lag (\(k = 0, 1, \ldots, E-1\)), where \(s(\cdot)\) denotes the spatial lag operator, identifying the neighbors at a specific lag order, and \(h(\cdot)\) is a transformation function that calculates the average attribute value of the neighbors identified by \(s(\cdot)\) at each spatial lag. For instance, as illustrated in figure~\ref{fig_ssr}, when the embedding dimension \(E\) is specified as 3 and the spatial lag step \(\tau\) is 1, the embedding vector for the focal unit \(i\) is computed as \(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\), \(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and \(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\), where the denominators correspond to the number of units included in each spatial lag calculation. The numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
 
 \subsection{Intersectional Cardinality (IC)}
+
+When conducting mutual cross mapping in a reconstructed state space, both linear and nonlinear measures can be applied to quantify the strength of causal association. A prominent example that employs linear method is convergent cross mapping (CCM), which employs a nearest-neighbor weighted sum (simplex projection) and the pearson correlation coefficient to assess causal strength \citep{sugihara1990simplex,sugihara2012ccm}. When mapping variable \(x\) to variable \(y\), it uses the distance of the nearest portion in the state-space vector (embeddings) of \(x\) corresponding to each sample of \(y\) as weights.
+These weights are combined with the values of \(y\) at the nearest portions to compute the weighted sum, yielding an estimate \(\widehat{y}\). The pearson correlation coefficient between \(y\) and \(\widehat{y}\) is then calculated to quantify the strength of causal association. The fundamental operations in this process, including the sample-weighted sum and pearson correlation coefficient, are inherently linear manner. On the other hand, the representative method employing a nonlinear approach to quantify the strength of causal association is cross mapping cardinality (CMC). CMC introduces a new causation concept, IC continuity, based on the intersection cardinality of nearest-neighbor sets \citep{tao2023cmc}. By varying the number of nearest neighbors and evaluating the intersection cardinality of the respective nearest-neighbor sets, an IC curve is constructed (analogous to a receiver operating characteristic (ROC) curve). The area under this curve (AUC value) serves as a measure of causal strength. The strategy followed by geographical cross mapping cardinality (GCMC) is identical.
+
+Consider two spatial variables \(x\) and \(y\), with their reconstructed state spaces denoted as \(E_x\) and \(E_y\), respectively. When measuring the causal strength from \(y\) to \(x\) using \(k\) nearest neighbors, the corresponding intersectional cardinality for single spatial unit is defined as
+
+\begin{equation}\label{eq-ic_ik}
+IC_{i,k} = \left| E_y^{nn}(i,k) \cap E_y^{nn}(E_x^{nn}(i,k),k)\right|
+\end{equation}
+
+where \(i\) denotes the \(i\)-th spatial unit in the spatial variables \(x\) and \(y\), and \(k\) represents the number of nearest neighbors. \(E_y^{nn}(i,k)\) refers to the set of \(k\) nearest neighbors of \(E_y\) corresponding to the \(i\)-th spatial unit, while \(E_x^{nn}(i,k)\) represents the set of \(k\) nearest neighbors of \(E_x\) corresponding to spatial unit \(i\). The term \(E_y^{nn}(E_x^{nn}(i,k),k)\) represents the union of the \(k\) nearest neighbors of \(E_y\) corresponding to the spatial units of each nearest neighbor in \(E_x^{nn}(i,k)\). The intersectional cardinality \(IC_{i,k}\) is given by the number of elements in the intersection of \(E_y^{nn}(i,k)\) and \(E_y^{nn}(E_x^{nn}(i,k),k)\).
+
+Each spatial variable typically consists of multiple spatial units. In GCMC, considering all spatial units with a selected number of nearest neighbors \(k\), the intersectional cardinality is given by
+
+\begin{equation}\label{eq-ic_k}
+IC_k = \frac{\sum_i^n IC_{i,k}}{n}
+\end{equation}
+
+By selecting different values of \(k\), the corresponding IC curve can be obtained:
+
+\begin{equation}\label{eq-ic_curve}
+IC_{Curve} = \{IC_{k} | k = 1, 2, \dots, n\}
+\end{equation}
+
+
+\subsection{Causal strength from IC curve}
 
 \begin{figure}
 \centering
@@ -168,8 +192,6 @@ Where \(E_x\) denotes the reconstructed state-space matrix for the spatial varia
 \caption{Schematic diagram of intersectional cardinality (IC) in GCMC}
 \label{fig_ic}
 \end{figure}
-
-\subsection{Causal strength from IC curve}
 
 \section{Results}
 
@@ -196,8 +218,7 @@ No conflict of interest exists in this manuscript, and the manuscript was approv
 
 \section*{Data availability statement}
 
-All the data used in this study are available from the website (https://regionalatlas.statistikportal.de/) of Federal Statistical Office of Germany.
-
+All the data used in this study are available from the spEDM package (https://github.com/stscl/spEDM/).
 
 %\section*{References}
 \baselineskip12pt

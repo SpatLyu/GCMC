@@ -14,6 +14,7 @@ doi2bib = \(doi,style = "aps"){
   return(rcrossref::cr_cn(dois = doi, style = style, format = "bibtex"))
 }
 
+doi2bib("10.1038/344734a0")           # simplex projection
 doi2bib("10.1126/science.1227079")    # ccm
 doi2bib("10.1038/s41467-020-16238-0") # pcm
 doi2bib("10.1016/j.fmre.2023.01.007") # cmc
