@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~             Plot Case Result             ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-18    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-20    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -25,7 +25,8 @@ plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
                         ggplot2::aes(x = effect, y = cause)) +
     ggplot2::geom_tile(color = "black", ggplot2::aes(fill = ca)) +
     ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.25) +
-    ggplot2::geom_text(ggplot2::aes(label = sig_marker), color = "black", family = "serif") +
+    ggplot2::geom_text(ggplot2::aes(label = sig_marker), color = "black", 
+                       family = "serif", size = 10, size.unit = "pt") +
     ggplot2::labs(x = "Effect", y = "Cause", fill = legend_title) +
     ggplot2::scale_x_discrete(expand = c(0, 0)) +
     ggplot2::scale_y_discrete(expand = c(0, 0)) +
@@ -33,10 +34,10 @@ plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
     ggplot2::coord_equal() +
     ggplot2::theme_void() +
     ggplot2::theme(
-      axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
-      axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
-      axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
-      axis.title.x = ggplot2::element_text(color = "black", family = "serif",
+      axis.text.x = ggplot2::element_text(angle = 0, family = "serif",size = 18),
+      axis.text.y = ggplot2::element_text(color = "black", family = "serif",size = 18),
+      axis.title.y = ggplot2::element_text(angle = 90, family = "serif",size = 20),
+      axis.title.x = ggplot2::element_text(color = "black", family = "serif", size = 20,
                                            margin = ggplot2::margin(t = 5.5, unit = "pt")),
       legend.text = ggplot2::element_text(family = "serif"),
       legend.title = ggplot2::element_text(family = "serif"),
