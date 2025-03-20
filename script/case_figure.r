@@ -49,7 +49,7 @@ plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
       panel.grid = ggplot2::element_blank(),
       panel.border = ggplot2::element_rect(color = "black", fill = NA)
     ) +
-    ggview::canvas(width = 3.5, height = 4.15)
+    ggview::canvas(width = 3.5, height = 4.05)
   return(fig)
 }
 
@@ -96,7 +96,12 @@ fig11 = tm_shape(columbus) +
   tm_compass(position = tm_pos_in(pos.h = 0.15,
                                   pos.v = 0.95)) +
   tm_layout(frame = FALSE,
-            legend.title.fontfamily = "serif")
+            legend.width = 25,
+            legend.height = 5,
+            legend.title.size = 2.5,
+            legend.title.fontfamily = "serif",
+            legend.text.size = 1.25,
+            legend.text.fontfamily = "serif")
 tmap_save(fig11,'./figure/case/map_case11.jpg',dpi = 300)
 
 fig12 = tm_shape(columbus) + 
@@ -118,7 +123,12 @@ fig12 = tm_shape(columbus) +
   tm_compass(position = tm_pos_in(pos.h = 0.15,
                                   pos.v = 0.95)) +
   tm_layout(frame = FALSE,
-            legend.title.fontfamily = "serif")
+            legend.width = 25,
+            legend.height = 5,
+            legend.title.size = 2.5,
+            legend.title.fontfamily = "serif",
+            legend.text.size = 1.25,
+            legend.text.fontfamily = "serif")
 tmap_save(fig12,'./figure/case/map_case12.jpg',dpi = 300)
 
 
@@ -126,7 +136,8 @@ fig13 = tm_shape(columbus) +
   tm_polygons(fill = "crime",
               fill.scale = tm_scale_continuous(n = 5),
               fill.legend = tm_legend(
-                title = "residential burglaries and vehicle thefts per thousand households in the neighborhood",
+                title = "residential burglaries & vehicle thefts",
+                # title = "residential burglaries & vehicle thefts (per 1000 households)",
                 orientation = "landscape",
                 frame = FALSE,
                 title.color = "black",
@@ -141,5 +152,10 @@ fig13 = tm_shape(columbus) +
   tm_compass(position = tm_pos_in(pos.h = 0.15,
                                   pos.v = 0.95)) +
   tm_layout(frame = FALSE,
-            legend.title.fontfamily = "serif")
+            legend.width = 25,
+            legend.height = 5,
+            legend.title.size = 2.5,
+            legend.title.fontfamily = "serif",
+            legend.text.size = 1.25,
+            legend.text.fontfamily = "serif")
 tmap_save(fig13,'./figure/case/map_case13.jpg',dpi = 300)
