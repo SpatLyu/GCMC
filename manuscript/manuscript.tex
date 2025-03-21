@@ -132,7 +132,7 @@ For an observed spatial cross-sectional dataset, GCMC requires three steps to me
 
 2. Obtain the intersection cardinality (IC) curve: When measuring the causal association from \(y\) to \(x\), for a given number of nearest neighbors \(k\), the number of shared nearest neighbors is counted between the \(k\) nearest neighbors \(E_y^{nn}(k)\) of \(E_y\) and the "projected" nearest neighbors \(E_y^{nn}(E_x^{nn}(k))\) mapped from \(E_x\) to \(E_y\). The IC curve is then obtained by calculating the number of shared nearest neighbors for each value of \(k = 1, 2, \dots, n\). Conversely, the process is also applicable (causal association from \(x\) to \(y\)).
 
-3. Quantify the strength of causal association: The AUC of the IC curves obtained in the previous step is calculated to quantify the causal association. Taking the null hypothesis of no causal association between the two variables \(x\) and \(y\), the DeLong method is used to test the statistical significance and confidence interval of the estimated causal association strength.
+3. Quantify the strength of causal association: The AUC of the IC curves derived in the previous step is calculated to quantify the causal association. Taking the null hypothesis of no causal association between the two variables \(x\) and \(y\), with the alternative hypothesis that a causal association exists, the DeLong method is utilized to estimate the AUC values of the IC curves under both hypotheses. Furthermore, the statistical significance and confidence interval of the estimated strength of causal association are also tested to ensure the feasibility of causal inference.
 
 The specific calculation methods for the corresponding steps are shown as follows.
 
@@ -161,7 +161,7 @@ where \(E_x\) denotes the reconstructed state-space matrix for the spatial varia
 \subsection{Intersectional Cardinality (IC)}
 
 When conducting mutual cross mapping in a reconstructed state space, both linear and nonlinear measures can be applied to quantify the strength of causal association. A prominent example that employs linear method is convergent cross mapping (CCM), which employs a nearest-neighbor weighted sum (simplex projection) and the pearson correlation coefficient to assess causal strength \citep{sugihara1990simplex,sugihara2012ccm}. When mapping variable \(x\) to variable \(y\), it uses the distance of the nearest portion in the state-space vector (embeddings) of \(x\) corresponding to each sample of \(y\) as weights.
-These weights are combined with the values of \(y\) at the nearest portions to compute the weighted sum, yielding an estimate \(\widehat{y}\). The pearson correlation coefficient between \(y\) and \(\widehat{y}\) is then calculated to quantify the strength of causal association. The fundamental operations in this process, including the sample-weighted sum and pearson correlation coefficient, are inherently linear manner. On the other hand, the representative method employing a nonlinear approach to quantify the strength of causal association is cross mapping cardinality (CMC). CMC introduces a new causation concept, IC continuity, based on the intersection cardinality of nearest-neighbor sets \citep{tao2023cmc}. By varying the number of nearest neighbors and evaluating the intersection cardinality of the respective nearest-neighbor sets, an IC curve is constructed (analogous to a receiver operating characteristic (ROC) curve). The area under this curve (AUC value) serves as a measure of causal strength. The strategy followed by geographical cross mapping cardinality (GCMC) is identical.
+These weights are combined with the values of \(y\) at the nearest portions to compute the weighted sum, yielding an estimate \(\widehat{y}\). The pearson correlation coefficient between \(y\) and \(\widehat{y}\) is then calculated to quantify the strength of causal association. The fundamental operations in this process, including the sample-weighted sum and pearson correlation coefficient, are inherently linear manner. On the other hand, the representative method employing a nonlinear approach to quantify the strength of causal association is cross mapping cardinality (CMC). CMC introduces a new causation concept, IC continuity, based on the intersection cardinality of nearest-neighbor sets \citep{tao2023cmc}. By varying the number of nearest neighbors and evaluating the intersection cardinality of the respective nearest-neighbor sets, an IC curve is constructed (analogous to a receiver operating characteristic (ROC) curve). The area under this curve (AUC value) serves as a measure of causal strength (the IC continuity). The strategy followed by geographical cross mapping cardinality (GCMC) is identical.
 
 Consider two spatial variables \(x\) and \(y\), with their reconstructed state spaces denoted as \(E_x\) and \(E_y\), respectively. When measuring the causal strength from \(y\) to \(x\) using \(k\) nearest neighbors, the corresponding intersectional cardinality for single spatial unit is defined as
 
@@ -183,8 +183,22 @@ By selecting different values of \(k\), the corresponding IC curve can be obtain
 IC_{Curve} = \{IC_{k} | k = 1, 2, \dots, n\}
 \end{equation}
 
-
 \subsection{Causal strength from IC curve}
+
+According to \cite{tao2023cmc}, the strength of causal association can be measured using two contradictory models, \(H_1\) and \(H_0\), as shown in figure~\ref{fig_ic}. When measuring the causal strength from \(y\) to \(x\), the null hypothesis \(H_0\) asserts that there is no causal association from \(y\) to \(x\) (figure~\ref{fig_ic}b), while the alternative hypothesis \(H_1\) posits that a causal association exists from \(y\) to \(x\) (figure~\ref{fig_ic}a):
+
+\begin{equation}\label{eq-hypothesis}
+H_0: y \not\Rightarrow x\quad 
+H_1: y \Rightarrow x 
+\end{equation}
+
+The IC curve corresponding to \(H_1\) can be obtained with equations~\ref{eq-ic_ik},\ref{eq-ic_k},\ref{eq-ic_curve}, while the IC curve corresponding to \(H_0\) can be approximated as a constant curve, \(IC_{Curve} = 0.5k\) \citep{tao2023cmc}. The causal strength (CS) is measured by the AUC values of the IC curves corresponding to \(H_1\) and \(H_0\) (figure~\ref{fig_ic}c):
+
+\begin{equation}\label{eq-cs}
+CS_{y \rightarrow x} = AUC(H_1) - AUC(H_0)
+\end{equation}
+
+
 
 \begin{figure}
 \centering
@@ -197,9 +211,30 @@ IC_{Curve} = \{IC_{k} | k = 1, 2, \dots, n\}
 
 \subsection{Causal associations among housing value, household income, and neighborhood burglary rate}
 
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{./figure/figure3.jpg}
+\caption{Causation among hoval, inc and crime}
+\label{fig_case1}
+\end{figure}
+
 \subsection{Causal associations among elevation, temperature, and population density}
 
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{./figure/figure4.jpg}
+\caption{Causation among elev, tem and popd}
+\label{fig_case2}
+\end{figure}
+
 \subsection{Causal associations among precipitation, temperature, and NPP}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\linewidth]{./figure/figure5.jpg}
+\caption{Causation among pre, tem and npp}
+\label{fig_case3}
+\end{figure}
 
 
 \section{Discussion}
