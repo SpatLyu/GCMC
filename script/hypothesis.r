@@ -26,7 +26,7 @@ fig1 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H1)) +
   ggplot2::annotate("text", x = 0.7, y = 0.2, 
                     label = latex2exp::TeX("$AUC(H_1)$"), 
                     color = "black", size = 7.25) +
-  ggplot2::labs(x = "Normalized r", y = "Normalized IC", color = "") +
+  ggplot2::labs(x = "Normalized k", y = "Normalized IC", color = "") +
   ggplot2::coord_equal() +
   ggplot2::theme_bw() +
   ggplot2::theme(axis.text = ggplot2::element_text(family = "serif",size = 15),
@@ -34,7 +34,7 @@ fig1 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H1)) +
                  panel.grid = ggplot2::element_blank()) +
   ggview::canvas(4.75,4.5)
 # ggview::save_ggplot(fig1, "./figure/AUC1.pdf", device = cairo_pdf)
-ggview::save_ggplot(fig1, "./figure/AUC1.pdf", dpi = 300)
+ggview::save_ggplot(fig1, "./figure/AUC1.jpg", dpi = 300)
 
 fig2 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H0)) +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = H0), fill = "#afefbd", alpha = 0.8) +
@@ -45,7 +45,7 @@ fig2 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H0)) +
   ggplot2::annotate("text", x = 0.65, y = 0.2, 
                     label = latex2exp::TeX("$AUC(H_0)$"), 
                     color = "black", size = 7.25) +
-  ggplot2::labs(x = "Normalized r", y = "Normalized IC", color = "") +
+  ggplot2::labs(x = "Normalized k", y = "Normalized IC", color = "") +
   ggplot2::coord_equal() +
   ggplot2::theme_bw() +
   ggplot2::theme(axis.text = ggplot2::element_text(family = "serif",size = 15),

@@ -192,13 +192,47 @@ H_0: y \not\Rightarrow x\quad
 H_1: y \Rightarrow x 
 \end{equation}
 
-The IC curve corresponding to \(H_1\) can be obtained with equations~\ref{eq-ic_ik},\ref{eq-ic_k},\ref{eq-ic_curve}, while the IC curve corresponding to \(H_0\) can be approximated as a constant curve, \(IC_{Curve} = 0.5k\) \citep{tao2023cmc}. The causal strength (CS) is measured by the AUC values of the IC curves corresponding to \(H_1\) and \(H_0\) (figure~\ref{fig_ic}c):
+The IC curve corresponding to \(H_1\) can be obtained with equations~\ref{eq-ic_ik},\ref{eq-ic_k},\ref{eq-ic_curve}, while the IC curve corresponding to \(H_0\) can be approximated as a constant curve, \(IC_{Curve} = 0.5k\) \citep{tao2023cmc}. The causal strength (CS) is measured by the AUC values of the IC curve under \(H_1\) relative to the IC curve under \(H_0\), which serves as a baseline reference. Specifically, \(CS_{y \rightarrow x}\) is computed as:
 
 \begin{equation}\label{eq-cs}
-CS_{y \rightarrow x} = AUC(H_1) - AUC(H_0)
+CS_{y \rightarrow x} = AUC(H_1|H_0) = AUC(H_1) - AUC(H_0)
 \end{equation}
 
+In GCMC, The causal strength (AUC value) is estimated using the DeLong method, which is a non-parametric approach for calculating the AUC and its variance \citep{delong1988,sun2014delongfi}. Given a set of positive cases \(\{X_i\}_{i=1}^{m}\) (IC curves corresponding to \(H_1\)) and negative controls \(\{Y_j\}_{j=1}^{n}\) (IC curves corresponding to \(H_0\)), the AUC is computed as:
 
+\begin{equation}
+\hat{\theta} = \frac{1}{mn} \sum_{i=1}^{m} \sum_{j=1}^{n} \mathbb{I}(X_i > Y_j) + \frac{1}{2} \mathbb{I}(X_i = Y_j),
+\end{equation}
+
+where \(\mathbb{I}(\cdot)\) is an indicator function that equals 1 if the condition holds and 0 otherwise.  
+
+To assess the statistical significance and confidence interval of the estimated AUC, the DeLong method provides a variance estimate based on the placement values \citep{delong1988,sun2014delongfi}:
+
+\begin{equation}
+\hat{\sigma}^2 = \frac{1}{m} \sum_{i=1}^{m} \left( X_i - \hat{\theta} \right)^2 + \frac{1}{n} \sum_{j=1}^{n} \left( Y_j - (1 - \hat{\theta}) \right)^2.
+\end{equation}
+
+Using this variance, a confidence interval for AUC can be constructed based on the normal approximation:
+
+\begin{equation}
+\text{CI} = \left[ \hat{\theta} - z_{\alpha/2} \hat{\sigma}, \hat{\theta} + z_{\alpha/2} \hat{\sigma} \right],
+\end{equation}
+
+where \( z_{\alpha/2} \) is the critical value from the standard normal distribution for a given confidence level (e.g., 1.96 for 95\% confidence). 
+
+To evaluate the statistical significance of \(\hat{\theta}\), a hypothesis test is conducted to determine whether the AUC significantly deviates from 0.5 under the null hypothesis \(\theta = 0.5\). The test statistic is computed as:
+
+\begin{equation}
+Z = \frac{\hat{\theta} - 0.5}{\hat{\sigma}}.
+\end{equation}
+
+The corresponding two-tailed p-value is obtained using the standard normal cumulative distribution function:
+
+\begin{equation}
+p = 2 \Phi(-|Z|),
+\end{equation}
+
+where \(\Phi(\cdot)\) is the cumulative distribution function of the standard normal distribution. 
 
 \begin{figure}
 \centering
