@@ -180,7 +180,7 @@ IC_k = \frac{\sum_i^n IC_{i,k}}{n}
 By selecting different values of \(k\), the corresponding IC curve can be obtained:
 
 \begin{equation}\label{eq-ic_curve}
-IC_{Curve} = \{IC_{k} | k = 1, 2, \dots, n\}
+IC_{curve} = \{IC_{k} | k = 1, 2, \dots, n\}
 \end{equation}
 
 \subsection{Causal strength from IC curve}
@@ -192,7 +192,7 @@ H_0: y \not\Rightarrow x\quad
 H_1: y \Rightarrow x 
 \end{equation}
 
-The IC curve corresponding to \(H_1\) can be obtained with equations~\ref{eq-ic_ik},\ref{eq-ic_k},\ref{eq-ic_curve}, while the IC curve corresponding to \(H_0\) can be approximated as a constant curve, \(IC_{Curve} = 0.5k\) \citep{tao2023cmc}. The causal strength (CS) is measured by the AUC values of the IC curve under \(H_1\) relative to the IC curve under \(H_0\), which serves as a baseline reference. Specifically, \(CS_{y \rightarrow x}\) is computed as:
+The IC curve corresponding to \(H_1\) can be obtained with equations~\ref{eq-ic_ik},\ref{eq-ic_k},\ref{eq-ic_curve}, while the IC curve corresponding to \(H_0\) can be approximated as a constant curve, \(IC_{curve} = 0.5k\) \citep{tao2023cmc}. The causal strength (CS) is measured by the AUC values of the IC curve under \(H_1\) relative to the IC curve under \(H_0\), which serves as a baseline reference. Specifically, \(CS_{y \rightarrow x}\) is computed as:
 
 \begin{equation}\label{eq-cs}
 CS_{y \rightarrow x} = AUC(H_1|H_0) = AUC(H_1) - AUC(H_0)
@@ -243,12 +243,14 @@ where \(\Phi(\cdot)\) is the cumulative distribution function of the standard no
 
 \section{Results}
 
+We employ three real-world datasets to demonstrate the effectiveness of GCMC and compare its results with PCC, GD, and GCCM. The first dataset is the classical Columbus OH spatial analysis dataset \citep{r-spData}, from which we select \textit{hoval} (housing value), \textit{inc} (household income), and \textit{crime} (residential burglaries and vehicle thefts per thousand households in the neighborhood) to investigate their causal relationships. The second and third datasets are derived from two case studies presented in the GCCM paper \citep{gao2023gccm}. The second dataset consists of county-level population density data in mainland China, where we examine the causal interactions among \textit{popd} (population density), \textit{elev} (elevation), and \textit{tem} (temperature). The third dataset involves the farmland NPP dataset in mainland China, analyzing the causal relationships among \textit{npp} (net primary productivity), \textit{pre} (precipitation), and \textit{tem} (temperature). In all three case studies, GCMC effectively quantifies the asymmetric causal strength and accurately identifies the dominant causal direction. The quantitative results align with known prior knowledge, thereby overcoming the limitations of PCC and GD while being consistent with GCCM.
+
 \subsection{Causal associations among housing value, household income, and neighborhood burglary rate}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\linewidth]{./figure/figure3.jpg}
-\caption{Causation among hoval, inc and crime}
+\caption{Causations among hoval, inc and crime}
 \label{fig_case1}
 \end{figure}
 
@@ -257,7 +259,7 @@ where \(\Phi(\cdot)\) is the cumulative distribution function of the standard no
 \begin{figure}
 \centering
 \includegraphics[width=1\linewidth]{./figure/figure4.jpg}
-\caption{Causation among elev, tem and popd}
+\caption{Causations among elev, tem and popd}
 \label{fig_case2}
 \end{figure}
 
@@ -266,10 +268,9 @@ where \(\Phi(\cdot)\) is the cumulative distribution function of the standard no
 \begin{figure}
 \centering
 \includegraphics[width=1\linewidth]{./figure/figure5.jpg}
-\caption{Causation among pre, tem and npp}
+\caption{Causations among pre, tem and npp}
 \label{fig_case3}
 \end{figure}
-
 
 \section{Discussion}
 
@@ -287,7 +288,7 @@ No conflict of interest exists in this manuscript, and the manuscript was approv
 
 \section*{Data availability statement}
 
-All the data used in this study are available from the spEDM package (https://github.com/stscl/spEDM/).
+All the data used in this study are available from the spEDM package (https://github.com/stscl/spEDM/) and codes supporting the findings of this study are publicly available at https://github.com/SpatLyu/GCMC.
 
 %\section*{References}
 \baselineskip12pt
