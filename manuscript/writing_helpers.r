@@ -25,7 +25,10 @@ doi2bib("10.1038/srep07464")          # cms
 doi2bib("10.1038/s41467-023-41619-6") # gccm
 doi2bib("10.1890/14-1479.1")          # multispatialccm
 doi2bib("10.2139/ssrn.2637764")       # sdid
-doi2bib("10.1177/0160017619869781")   # srdd         
+doi2bib("10.1177/0160017619869781")   # srdd 
+doi2bib("10.1038/s41467-019-10105-3") # review1 
+doi2bib("10.1038/s43017-023-00431-y") # review2
+doi2bib("10.1016/j.scib.2021.10.002") # ts vs scs
 
 # cit_styles = rcrossref::get_styles()
 # stringr::str_subset(cit_styles, "^international-journal-of")
