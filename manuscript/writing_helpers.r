@@ -3,13 +3,15 @@
   pdftools::pdf_convert(pdf = pdfname, filenames = jpgname, dpi = dpi)
 }
 
-.pdf2jpg('./figure/figure1.pdf','./manuscript/figure/figure1.jpg')
-.pdf2jpg('./figure/figure2.pdf','./manuscript/figure/figure2.jpg')
+1:5 |> 
+  purrr::walk(\(.x) {
+    .pdf2jpg(paste0('./figure/figure',.x,'.pdf'),
+             paste0('./manuscript/figure/figure',.x,'.jpg'))
+  })
+
 
 
 # references: doi -> bibtex
-
-
 doi2bib = \(doi,style = "aps"){
   return(rcrossref::cr_cn(dois = doi, style = style, format = "bibtex"))
 }
