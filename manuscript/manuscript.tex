@@ -124,9 +124,9 @@ Causal associations \sep spatial cross-sectional data \sep mutual cross mapping 
 
 Contents for Introduction
 
-\section{Methodology} % or Material and methods
+\section{Geographical Cross Mapping Cardinality (GCMC)} 
 
-For an observed spatial cross-sectional dataset, GCMC requires three steps to measure the strength of causal associations:
+This study introduces the geographical cross mapping cardinality (GCMC) model, designed to quantify the strength of causal associations among variables in spatial cross-sectional data. Given an observed spatial cross-sectional dataset, GCMC requires a three-step sequential process to measure the strength of causal associations:
 
 1. Construct the state space: For two spatial variables, \(x\) and \(y\), an appropriate embedding dimension \(E\) and spatial lag step \(\tau\) are required to reconstruct their state spaces \(E_x\) and \(E_y\). In particular, for each spatial unit \(i\), spatial lags of orders \(1, 1+\tau, \dots, 1+(E-1)\tau\) are taken sequentially, and then a statistical aggregation function (typically mean) is applied to aggregate the attribute values of the spatial unit corresponding to different spatial lags into a single vector. Finally, the embedding vectors of all spatial units are stacked row-wise to form the reconstructed state space.
 
@@ -134,7 +134,7 @@ For an observed spatial cross-sectional dataset, GCMC requires three steps to me
 
 3. Quantify the strength of causal association: The AUC of the IC curves derived in the previous step is calculated to quantify the causal association. Taking the null hypothesis of no causal association between the two variables \(x\) and \(y\), with the alternative hypothesis that a causal association exists, the DeLong method is utilized to estimate the AUC values of the IC curves under both hypotheses. Furthermore, the statistical significance and confidence interval of the estimated strength of causal association are also tested to ensure the feasibility of causal inference.
 
-The specific calculation methods for the corresponding steps are shown as follows.
+The specific calculation methods for the corresponding steps are shown below.
 
 \subsection{State Space Reconstruction (SSR)}
 
