@@ -12,6 +12,7 @@ npp = terra::rast(system.file("case/npp.tif", package = "spEDM"))
 # To save the computation time, we will aggregate the data by 3 times and 
 # select 1500 non-NA pixels to predict:
 npp = terra::aggregate(npp, fact = 3, na.rm = TRUE)
+npp = npp[[c("npp","pre","tem")]]
 npp
 
 terra::global(npp,"isNA")

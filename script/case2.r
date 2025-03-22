@@ -9,11 +9,11 @@
 
 library(spEDM)
 
-popd_nb = spdep::read.gal(system.file("case/popdensity_nb.gal",package = "spEDM"))
-popdensity = readr::read_csv(system.file("case/popdensity.csv",package = "spEDM"))
-popd_sf = popdensity |> 
+popd_nb = spdep::read.gal(system.file("case/popd_nb.gal",package = "spEDM"))
+popd = readr::read_csv(system.file("case/popd.csv",package = "spEDM"))
+popd_sf = popd |> 
   sf::st_as_sf(coords = c("x","y"), crs = 4326) |> 
-  dplyr::select(popd = popdensity,elev,tem)
+  dplyr::select(popd,elev,tem)
 popd_sf
 
 #------------------------------------------------------------------------------#
