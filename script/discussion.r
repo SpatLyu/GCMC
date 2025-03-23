@@ -6,3 +6,15 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+library(spEDM)
+columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
+columbus
+
+csk = 4:49 |> 
+  purrr::map(\(.k){
+    g = gcmc(data = columbus, cause = "crime", effect = "hoval", E = c(8,6), 
+             k = .k, trend.rm = F, bidirectional = F, progressbar = F)
+    return(g$xmap)
+  }) |> 
+  purrr::list_rbind()
