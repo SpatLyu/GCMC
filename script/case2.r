@@ -22,18 +22,19 @@ popd_sf
 
 # temperature and population density
 g1 = gcmc(data = popd_sf, cause = "tem", effect = "popd",
-          E = c(2,5), k = 160, nb = popd_nb, trend.rm = TRUE)
+          E = c(2,5), k = 210, nb = popd_nb, trend.rm = TRUE)
 g1
 
 # elevation and population density
 g2 = gcmc(data = popd_sf, cause = "elev", effect = "popd",
-          E = c(1,5), k = 150, nb = popd_nb, trend.rm = TRUE)
+          E = c(1,5), k = 210, nb = popd_nb, trend.rm = TRUE)
 g2
 
 # elevation and temperature
 g3 = gcmc(data = popd_sf, cause = "elev", effect = "tem",
-          E = c(1,2), k = 150, nb = popd_nb, trend.rm = TRUE)
-g3
+          E = c(1,2), k = 210, nb = popd_nb, trend.rm = TRUE)
+g3 # When there are insignificant results, we set spEDM to suppress output. This is not a bug.
+g3$xmap
 
 gcmc_case2 = list(g1,g2,g3)
 readr::write_rds(gcmc_case2,'./result/case/gcmc_case2.rds')
