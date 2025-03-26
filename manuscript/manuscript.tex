@@ -70,37 +70,37 @@
 \begin{frontmatter}
 \title{Measuring causal associations by geographical cross mapping cardinality}
 
-\author{Wenbo's thesis team}
+% \author{Wenbo's thesis team}
 
-% \author[a,b,c]{Wenbo Lv}
-% \ead{wenbo.lv@snnu.edu.cn}
+\author[a,b,c]{Wenbo Lv}
+\ead{wenbo.lv@snnu.edu.cn}
 
-% \author[b]{Yumiao Xiao}
-% \ead{yxiao224@connect.hkust-gz.edu.cn}
+\author[b]{Yumiao Xiao}
+\ead{yxiao224@connect.hkust-gz.edu.cn}
 
-% \author[d]{Yongze Song}
-% \ead{yongze.song@curtin.edu.au}
+\author[d]{Yongze Song}
+\ead{yongze.song@curtin.edu.au}
 
-% \author[c,e]{Wen Yi}
-% \ead{wen.yi@polyu.edu.hk}
+\author[c,e]{Wen Yi}
+\ead{wen.yi@polyu.edu.hk}
 
-% \author[f]{Nan Jia}
-% \ead{cannonjia17@gmail.com}
+\author[f]{Nan Jia}
+\ead{cannonjia17@gmail.com}
 
-% \author[g]{Shaoqing Dai}
-% \ead{shaoqing.dai@whu.edu.cn}
+\author[g]{Shaoqing Dai}
+\ead{shaoqing.dai@whu.edu.cn}
 
-% \author[b]{Wufan Zhao\corref{cor1}}
-% \cortext[cor1]{Corresponding author: Wufan Zhao, wufanzhao@hkust-gz.edu.cn}
+\author[b]{Wufan Zhao\corref{cor1}}
+\cortext[cor1]{Corresponding author: Wufan Zhao, wufanzhao@hkust-gz.edu.cn}
 
 
-% \address[a]{School of Geography and Tourism, Shaanxi Normal University, Xi'an, China}
-% \address[b]{Urban Governance and Design Thrust, Society Hub, The Hong Kong University of Science and Technology(Guangzhou), Guangzhou, China}
-% \address[c]{Department of Building and Real Estate, The Hong Kong Polytechnic University, Hong Kong, China}
-% \address[d]{School of Design and the Built Environment, Curtin University, Perth, Australia}
-% \address[e]{The Hong Kong Polytechnic University, Shenzhen Research Institute, Shenzhen, China}
-% \address[f]{School of Design, Shanghai Jiao Tong Univeristy, Shanghai, China}
-% \address[g]{School of Resource and Environmental Sciences, Wuhan University, Wuhan, China}
+\address[a]{School of Geography and Tourism, Shaanxi Normal University, Xi'an, China}
+\address[b]{Urban Governance and Design Thrust, Society Hub, The Hong Kong University of Science and Technology(Guangzhou), Guangzhou, China}
+\address[c]{Department of Building and Real Estate, The Hong Kong Polytechnic University, Hong Kong, China}
+\address[d]{School of Design and the Built Environment, Curtin University, Perth, Australia}
+\address[e]{The Hong Kong Polytechnic University, Shenzhen Research Institute, Shenzhen, China}
+\address[f]{School of Design, Shanghai Jiao Tong Univeristy, Shanghai, China}
+\address[g]{School of Resource and Environmental Sciences, Wuhan University, Wuhan, China}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
@@ -262,7 +262,7 @@ We employ three real-world datasets to demonstrate the effectiveness of GCMC and
 
 In this case, the variables crime, hoval, and inc from the Columbus OH spatial analysis dataset (as shown in figure~\ref{fig_case1}a–c) are analyzed to investigate their causal associations. These variables exhibit significant correlations (figure~\ref{fig_case1}d), while the strengths of causal associations identified by GCMC and GCCM maintain a consistent hierarchical structure in terms of primary and secondary associations between variable pairs, although numerical differences exist (figure~\ref{fig_case1}f-g). These discrepancies arise from the distinct strategies employed by GCMC and GCCM in quantifying causal associations. It is important to note that, similar to GCCM, GCMC effectively identifies the dominant causal direction (the direction corresponding to the stronger causal association in a given variable pair) within bivariate relationships. However, for secondary causal associations, the identified causal association may either indicate a reversed causal effect (feedback causal influence) or serve as a reflection of the primary causal association \citep{sugihara2012ccm,gao2023gccm}, necessitating further validation. Based on the strengths of causal associations  measured by GCMC in figure~\ref{fig_case1}g, combined with empirical knowledge of the dataset, we constructed a conceptual diagram illustrating the causal associations among crime, hoval, and inc, as shown in figure~\ref{fig_case1}h.
 
-A bidirectional causal association is observed between the variables inc and crime, where the predominant causal direction is from crime to inc (cs = 0.123, p < 0.001). In addition, a weaker reverse causal effect is identified, where inc influences crime (cs = 0.11, p < 0.001). The reverse causality (inc \(\rightarrow\) crime) is that individuals from low-income households may resort to theft or other criminal activities as a means of livelihood. Conversely, the primary causal direction (crime \(\rightarrow\) inc) aligns with the notion that higher crime rates, associated with poor public security, could contribute to reduced investment, commercial activity, and overall economic development, thereby affecting household income levels in those areas. The relationship between the variables inc and hoval is essentially a unidirectional causation, where inc influences hoval (cs = 0.256, p < 0.01), while the effect of hoval on inc is more reflective in nature. Higher household income is generally associated with the purchase of more expensive properties, leading to higher housing values. Conversely, housing value serves as an indicator of household income levels rather than exerting a direct causal influence. There is also a unidirectional causal association between hoval and crime (crime \(\rightarrow\) hoval, cs = 0.247, p < 0.01). Areas with high crime rates, such as theft, directly affect local housing values, whereas high housing values often indicate better local security conditions and fewer instances of crimes like theft. In this case, the effect of hoval on crime is more of a reflection. In contrast, the PD values detected by the GD model may lead to misunderstandings in causation interpretation. The PD values between hoval and crime, as well as between inc and hoval, cannot reflect a reasonable causal association.
+A bidirectional causal association is observed between the variables inc and crime, where the predominant causal direction is from crime to inc (cs = 0.123, p < 0.001). In addition, a weaker reverse causal effect is identified, where inc influences crime (cs = 0.11, p < 0.001). The reverse causality (inc \(\rightarrow\) crime) is that individuals from low-income households may resort to theft or other criminal activities as a means of livelihood. Conversely, the primary causal direction (crime \(\rightarrow\) inc) aligns with the notion that higher crime rates, associated with poor public security, could contribute to reduced investment, commercial activity, and overall economic development, thereby affecting household income levels in those areas. The relationship between the variables inc and hoval is essentially a unidirectional causation, where inc influences hoval (cs = 0.256, p < 0.01), while the effect of hoval on inc is more reflective in nature. Higher household income is generally associated with the purchase of more expensive properties, leading to higher housing values. Conversely, housing value serves as an indicator of household income levels rather than exerting a direct causal influence. There is also a unidirectional causal association between hoval and crime (crime \(\rightarrow\) hoval, cs = 0.247, p < 0.01). Areas with high crime rates, such as theft, directly affect local housing values, whereas high housing values often indicate better local security conditions and fewer instances of crimes like theft. In this case, the effect of hoval on crime is more of a reflection. In contrast, the PD values detected by the GD model may lead to misunderstandings in causation interpretation. The PD values between hoval and crime, as well as between inc and hoval, are merely a measure of the similarity in their spatial distributions. They can serve as a representation of their spatial association but cannot reflect a reasonable causal association. 
 
 \subsection{Causal associations among elevation, temperature, and population density}
 
@@ -273,9 +273,11 @@ A bidirectional causal association is observed between the variables inc and cri
 \label{fig_case2}
 \end{figure}
 
-Except for the previous case, we selected a case from the GCCM paper where the correlation between variables( population density, precipitation, and temperature at the county level in mainland China) is weaker compared to the previous case, to test the applicability of GCMC. The results are shown in figure~\ref{fig_case2}. Both the variable elev and the variable tem have causal influence on popd. The causal association of elev on popd is 0.836 (p < 0.001), indicating a strong causation, while tem influences popd with a causal strength of 0.754 (p < 0.001). On the other hand, popd has a feedback causal influence on tem, with a strength of 0.198 (p < 0.001), while popd acts as a reflection of elev rather than having a direct causal impact on it. Meanwhile, GCMC effectively detected the well-known causal association between elev and tem. The variable elev has a causal influence on tem with a strength of 0.628 (p < 0.001), while the causal association of tem on elev was not significant (p = 0.77). In fact, tem has a reflecting relationship with elev, rather than a reverse causation.
+Except for the previous case, we selected a case from the GCCM paper where the correlation between variables( population density, precipitation, and temperature at the county level in mainland China) is weaker compared to the previous case, to test the applicability of GCMC. The results are shown in figure~\ref{fig_case2}. Both the variable elev and the variable tem have causal influence on popd. The causal association from elev to popd is 0.836 (p < 0.001), indicating a strong causation, while tem influences popd with a causal strength of 0.754 (p < 0.001). On the other hand, popd exhibits a feedback causal influence on tem, with a strength of 0.198 (p < 0.001), whereas its relationship with elev is more reflective rather than causative. At the same time, GCMC successfully identified the well-known causation between elevation and temperature (the variable elev and tem), revealing that elevation influences temperature with a strength of 0.628 (p < 0.001). In contrast, the causal influence of temperature on elevation was not statistically significant (p = 0.77), further indicating that temperature partially reflects variations in elevation rather than driving changes in it. This result also demonstrates that the statistical test for causal strength introduced in the GCMC model is effective. Compared to the previous case, the greater numerical difference between the primary and secondary causal strengths in the GCMC measure for this case makes it easier to distinguish whether the secondary causal strength is reverse causation or a reflective relationship. In this context, the statistical significance of the causal strength measured by GCMC can serve as an effective auxiliary criterion. However, it is still necessary to determine whether the significant secondary causal strength represents reverse(feedback) causation or a reflective relationship. For the two pairs of weakly correlated variables (elev and popd, tem and popd), the GD model detects only minimal spatial associations (close to zero). However, there is an actual causation between them. This reinforces the notion that 'weak correlation does not imply no causation', a point that has already been confirmed \citep{pearl2000scm2}.
 
 \subsection{Causal associations among precipitation, temperature, and NPP}
+
+For the well-known NPP-Climate causation, where classical time series causal models failed to capture the causal associations \citep{gao2022tscess,gao2023gccm}, we also tested whether GCMC can effectively measure its causal associations. The relevant results are presented in figure~\ref{fig_case3} and the true causal associations of precipitation and temperature on NPP were detected by GCMC, with a causal strength of 0.609 (p < 0.001) from precipitation to NPP (pre  \(\rightarrow\) npp) and 0.64 (p < 0.001) from temperature to NPP (tem  \(\rightarrow\) npp). The causal association from NPP to precipitation (npp \(\rightarrow\) pre) did not pass the significance test (p = 0.17), indicating that NPP does not exert a causal influence on precipitation. Instead, this suggests that the observed association by GCMC is a result of the enslaved effect of the strong causal influence of precipitation on NPP. In this case, GCMC successfully identified the actual causal associations, whereas the GD model identifies spatial associations where NPP shows a stronger linkage to Pre and Tem than the reverse. This suggests that the strengths of spatial associations derived from the GD model do not provide a reliable indication of the true causal direction. The results of this case indicate that under strong coupling, GCMC can effectively measure the dominant causal associations, while also providing support for diagnosing secondary causal associations. In this case, the data is organized in a spatial grid format, whereas the previous two cases use spatial lattice data, thereby demonstrating that GCMC is applicable not only to spatial lattice data but also to spatial grid data.
 
 \begin{figure}
 \centering
@@ -283,10 +285,6 @@ Except for the previous case, we selected a case from the GCCM paper where the c
 \caption{Causations among pre, tem and npp}
 \label{fig_case3}
 \end{figure}
-
-For the well-known NPP-Climate causation, where classical time series causal models fail to capture the causal associations \citep{gao2022tscess,gao2023gccm}, we also tested whether GCMC can effectively measure its causal associations. The relevant results are presented in figure~\ref{fig_case3} and the true causal associations of precipitation and temperature on NPP were detected by GCMC, with a causal strength of 0.609 (p < 0.001) for precipitation on NPP (pre  \(\rightarrow\) npp) and 0.64 (p < 0.001) for temperature on NPP (tem  \(\rightarrow\) npp). 
-
-
 
 \section{Discussion}\label{sec4} 
 
