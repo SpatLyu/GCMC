@@ -67,6 +67,7 @@ fig6 = ggradar::ggradar(res,
                  label.gridline.min = F,
                  label.gridline.mid = F,
                  label.gridline.max = F,
+                 gridline.mid.colour = "transparent",
                  group.line.width = 0.75,
                  group.point.size = 2.05,
                  legend.position = "bottom") +
