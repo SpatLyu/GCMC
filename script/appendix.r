@@ -12,6 +12,10 @@ library(spEDM)
 popd_nb = spdep::read.gal(system.file("case/popd_nb.gal",package = "spEDM"))
 popd = readr::read_csv(system.file("case/popd.csv",package = "spEDM"))
 
+#------------------------------------------------------------------------------#
+#------------------    Run GCMC on the synthetic dataset    -------------------#
+#------------------------------------------------------------------------------#
+
 set.seed(2025)
 eta = rnorm(nrow(popd),0,1)
 a = seq(0,1,by = 0.1)
@@ -37,7 +41,10 @@ for (i in seq_along(a)) {
   res = rbind(res,tempdf)
 }
 res
-
 readr::write_csv(res,'./result/appendix.csv')
+
+#------------------------------------------------------------------------------#
+#----------------------------    Plot the result    ---------------------------#
+#------------------------------------------------------------------------------#
 
 res = readr::read_csv('./result/appendix.csv')
