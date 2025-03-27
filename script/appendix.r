@@ -47,4 +47,27 @@ readr::write_csv(res,'./result/appendix.csv')
 #----------------------------    Plot the result    ---------------------------#
 #------------------------------------------------------------------------------#
 
-res = readr::read_csv('./result/appendix.csv')
+noise_levels = paste0(a * 100, "% noise")
+noise_levels[1] = "no noise"
+
+res = readr::read_csv('./result/appendix.csv') |> 
+  dplyr::select(eta,
+                `popd -> elev` = x_xmap_y_mean,
+                `elev -> popd` = y_xmap_x_mean) |> 
+  dplyr::mutate(eta = noise_levels) |> 
+  tidyr::pivot_longer(cols = 2:3, names_to = "direction",values_to = "cs") |> 
+  tibble::rowid_to_column("id") |> 
+  tidyr::pivot_wider(id_cols = direction,
+                     names_from = eta,
+                     values_from = cs)
+res
+# readr::write_csv(res,'./result/figure6.csv')
+
+fig6 = ggradar::ggradar(res,
+                 label.gridline.min = F,
+                 label.gridline.mid = F,
+                 label.gridline.max = F,
+                 legend.position = "bottom") +
+  ggview::canvas(6.65,5.85)
+
+ggview::save_ggplot(fig6,"./figure/figure6_meta.jpg", dpi = 300)
