@@ -13,7 +13,7 @@ popd_nb = spdep::read.gal(system.file("case/popd_nb.gal",package = "spEDM"))
 popd = readr::read_csv(system.file("case/popd.csv",package = "spEDM"))
 
 set.seed(2025)
-eta = rnorm(nrow(popd_sf),0,1)
+eta = rnorm(nrow(popd),0,1)
 a = seq(0,1,by = 0.1)
 
 s_popd = a |> 
@@ -36,5 +36,8 @@ for (i in seq_along(a)) {
     dplyr::mutate(x = "elev", y = "popd",eta = a[i])
   res = rbind(res,tempdf)
 }
+res
 
-readr::write_rds(res,'./result/appendix,rds')
+readr::write_csv(res,'./result/appendix.csv')
+
+res = readr::read_csv('./result/appendix.csv')
