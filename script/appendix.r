@@ -67,6 +67,8 @@ fig6 = ggradar::ggradar(res,
                  label.gridline.min = F,
                  label.gridline.mid = F,
                  label.gridline.max = F,
+                 group.line.width = 1.05,
+                 group.point.size = 3.5,
                  legend.position = "bottom") +
   ggview::canvas(6.65,5.85)
 
