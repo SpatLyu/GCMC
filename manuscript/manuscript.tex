@@ -104,7 +104,7 @@
 \begin{abstract}
 
 
-Spatial cross-sectional data encapsulate rich information on spatial processes, serving as a critical foundation for examining causal associations between variables. From a spatial perspective, detecting and quantifying these causal associations is essential for understanding the mechanisms of complex natural and human phenomena. However, measuring causal associations using observed spatial cross-sectional data remains methodologically challenging, as current methods fail to quantify the strength of causal associations due to the lack of a rigorous causal concept. Here, we propose a geographical cross mapping cardinality (GCMC) model, which measures the strength of causal associations using the intersectional cardinality of neighbors identified through mutual cross mapping in the reconstructed state space, while integrating the classical DeLong method for ROC curves to test the statistical significance and confidence intervals of the causal strength. We validate the applicability of GCMC in measuring the strength of causal associations by applying it to three typical spatial cross-sectional datasets with clearly existing causations and evaluating its sensitivity to noise in observed data. The results indicate that GCMC can effectively measure causal associations in weakly, moderately, and strongly coupled systems while also revealing the dominant(primary) causal direction. Moreover, GCMC exhibits robustness to noise in observational data. GCMC is a new method within empirical dynamic modeling frameworks for spatial cross-sectional data and can be used alongside existing methods to more robustly infer causation.
+Spatial cross-sectional data encapsulate rich information on spatial processes, serving as a critical foundation for examining causal associations between variables. Detecting and quantifying these causal associations is essential for understanding the mechanisms of complex natural and human phenomena. However, measuring causal associations from spatial cross-sectional data remains challenging, as existing methods lack a rigorous causal framework to quantify the causal strength. Here, we propose a geographical cross mapping cardinality (GCMC) model, which measures the strength of causal associations using the intersectional cardinality of neighbors identified through mutual cross mapping in the reconstructed state space, while integrating the DeLong method to test the statistical significance and confidence intervals of the causal strength. We validate the applicability of GCMC by applying it to three typical spatial cross-sectional datasets with clearly existing causations and evaluating its sensitivity to noise in observed data. The results indicate that GCMC can effectively measure causal associations in weakly, moderately, and strongly coupled systems while also revealing the dominant(primary) causal direction. Moreover, GCMC exhibits robustness to noise in observational data. GCMC is a new method within empirical dynamic modeling frameworks for spatial cross-sectional data and can be used alongside existing methods to more robustly infer causation.
 
 
 \end{abstract}
@@ -352,15 +352,20 @@ We also tested the ability of GCMC to handle noise in observational data and the
 
 This study presents the geographical cross mapping cardinality (GCMC) model, which is used to measure causal associations between variables from spatial cross-sectional data. GCMC transforms the causal associations, which are difficult to measure in the original state space, into a lagged state space where empirical dynamic modeling theory can be applied, thus enabling the measurement of causation. In the reconstructed state space, GCMC characterizes causation based on the number of intersections of nearest neighbors in mutual cross mapping, quantifies causal strength using the classical DeLong method, and calculates its statistical significance and confidence intervals. The applicability of GCMC is demonstrated through three case studies with varying sample sizes, data formats, and coupling conditions, while its sensitivity to noise is tested by introducing noise into synthetic data. GCMC can be used alongside existing methods to better infer causation from spatial cross-sectional data. Future research can extend the GCMC model by distinguishing between direct and indirect causal associations, enabling a more automated approach to measuring complex causation in spatial cross-sectional data.
 
-% \section*{Disclosure statement}
+\section*{Disclosure statement}
 
-% No conflict of interest exists in this manuscript, and the manuscript was approved by all authors for publication.
+No conflict of interest exists in this manuscript, and the manuscript was approved by all authors for publication.
 
 % \section*{Funding}
 
-% \section*{Data availability statement}
+\section*{Data availability statement}
 
-% All the data used in this study are available from the spEDM package (https://github.com/stscl/spEDM) and codes supporting the findings of this study are publicly available at https://github.com/SpatLyu/GCMC.
+All the data used in this study are publicly available at \url{https://github.com/stscl/spEDM/tree/main/inst/case}.
+
+% All the data used in this study are available from the spEDM package repository 
+% (\url{https://github.com/stscl/spEDM}), specifically within the \texttt{inst/case} directory. 
+% The code supporting the findings of this study is publicly available at 
+% \url{https://github.com/SpatLyu/GCMC}.
 
 %\section*{References}
 \baselineskip12pt
