@@ -12,7 +12,7 @@ library(spEDM)
 popd_nb = spdep::read.gal(system.file("case/popd_nb.gal",package = "spEDM"))
 popd = readr::read_csv(system.file("case/popd.csv",package = "spEDM"))
 
-#-----data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAYAAAD7PHgWAAABBklEQVR4Xu2XMQrCQBBFBQvR6wgJHsEDpHVjBDvvoBhbI3bWCkZbFUyhFrYiEat0WgmC6AVkdQqbIVmWZAOi82C64b+/bDWZDEEQP4phTLMaa9d003bTGMgu1psF7JVGNzuWPdzs18GDz443rgrIcndXbvW8g1axGfZKo7P2eBXc+WB74a3FGXtiA1kwzfnpqTF7hL3SwDfAaz+BqvjkwYADe6WhglQwJlQwKVQwKakVTGOoYNL5z4JxwBlUMEwqAu9SwTCpCLxLBcOkIvCusoKT9/WFQ6OkIvCukoJwt5rO0sehUVIReBem6ng+OLBXmnKjn4PbGM5PeKnqgXIlo5vHXoL4Nl4ZYqbbEGA7+wAAAABJRU5ErkJggg==-------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
 #------------------    Run GCMC on the synthetic dataset    -------------------#
 #------------------------------------------------------------------------------#
 
@@ -57,7 +57,7 @@ res3 = .run_gcmc_with_noise(paste0("e","_",a),paste0("p","_",a))
 writexl::write_xlsx(list("popd_noise" = res1,
                          "elev_noise" = res2,
                          "all_noise" = res3),
-                    './result/appendix.xlsx')
+                    './result/sensitivity.xlsx')
 
 #------------------------------------------------------------------------------#
 #----------------------------    Plot the result    ---------------------------#
@@ -67,7 +67,7 @@ noise_levels = paste0(a * 100, "% noise")
 noise_levels[1] = "no noise"
 
 .rearrange_noise_result = \(sheetname){
-  res = readxl::read_xlsx('./result/appendix.xlsx',sheet = sheetname) |> 
+  res = readxl::read_xlsx('./result/sensitivity.xlsx',sheet = sheetname) |> 
     dplyr::select(eta,
                   `popd -> elev` = x_xmap_y_mean,
                   `elev -> popd` = y_xmap_x_mean) |> 
