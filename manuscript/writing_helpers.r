@@ -41,9 +41,12 @@ doi2bib("10.1177/0160017619869781")   # srdd
 
 doi2bib("10.1038/s41467-019-10105-3") # review1 
 doi2bib("10.1038/s43017-023-00431-y") # review2
-doi2bib("10.1016/j.scib.2021.10.002") # ts vs scs
 
+doi2bib("10.1016/j.scib.2021.10.002") # Temporally or spatially
+doi2bib("10.1111/gean.12312") # spatial causality review
+doi2bib("10.1016/j.spasta.2022.100621") # causal inference in spatial statistics
 
+                   
 # cit_styles = rcrossref::get_styles()
 # stringr::str_subset(cit_styles, "^international-journal-of")
 # "annals-of-the-association-of-american-geographers"
