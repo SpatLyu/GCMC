@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~     Discussing the sensitivity of GCMC to noice     ~~~~~~~~~~#
-#~~~~~~~~~~~~~~         Author: Wenbo Lv; Date: 2025-03-27          ~~~~~~~~~~#
+#~~~~~~~~~~~~~~         Author: Wenbo Lv; Date: 2025-06-25          ~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -39,7 +39,7 @@ popd_sf
   res = data.frame()
   for (i in seq_along(a)) {
     g = gcmc(data = popd_sf, cause = x[i], effect = y[i],
-             E = c(1,5), k = 210, nb = popd_nb, trend.rm = TRUE)
+             E = 10, k = 200, nb = popd_nb)
     
     tempdf = g$xmap |> 
       dplyr::select(x_xmap_y_mean,x_xmap_y_sig,
@@ -86,16 +86,16 @@ res = purrr::map(paste0(c("elev","popd","all"),"_noise"),
 
 writexl::write_xlsx(res,'./result/figure6.xlsx')
 
-  purrr::walk(seq_along(res),
-              \(.ind) {
-                fig = ggradar::ggradar(res[[.ind]],
-                                       label.gridline.min = F,
-                                       label.gridline.mid = F,
-                                       label.gridline.max = F,
-                                       gridline.mid.colour = "transparent",
-                                       group.line.width = 0.75,
-                                       group.point.size = 2.05,
-                                       legend.position = "bottom") +
+purrr::walk(seq_along(res),
+            \(.ind) {
+              fig = ggradar::ggradar(res[[.ind]],
+                                     label.gridline.min = F,
+                                     label.gridline.mid = F,
+                                     label.gridline.max = F,
+                                     gridline.mid.colour = "transparent",
+                                     group.line.width = 0.75,
+                                     group.point.size = 2.05,
+                                     legend.position = "bottom") +
                   ggview::canvas(6.65,5.85)
-                ggview::save_ggplot(fig, paste0("./figure/figure6_",.ind,".jpg"), dpi = 300)
-              })
+              ggview::save_ggplot(fig, paste0("./figure/figure6_",.ind,".jpg"), dpi = 300)
+            })
