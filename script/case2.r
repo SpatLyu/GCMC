@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~  Case: County Level Population Density In China  ~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~         Author: Wenbo Lv; Date: 2025-03-15       ~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~         Author: Wenbo Lv; Date: 2025-06-25       ~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -21,20 +21,16 @@ popd_sf
 #------------------------------------------------------------------------------#
 
 # temperature and population density
-g1 = gcmc(data = popd_sf, cause = "tem", effect = "popd",
-          E = c(2,5), k = 210, nb = popd_nb, detrend = TRUE)
+g1 = gcmc(popd_sf, "tem", "popd", E = 10, k = 200, nb = popd_nb)
 g1
 
 # elevation and population density
-g2 = gcmc(data = popd_sf, cause = "elev", effect = "popd",
-          E = c(1,5), k = 210, nb = popd_nb, detrend = TRUE)
+g2 = gcmc(popd_sf, "elev", "popd", E = 10, k = 200, nb = popd_nb)
 g2
 
 # elevation and temperature
-g3 = gcmc(data = popd_sf, cause = "elev", effect = "tem",
-          E = c(1,2), k = 210, nb = popd_nb, detrend = TRUE)
-g3 # When there are insignificant results, we set spEDM to suppress output. This is not a bug.
-g3$xmap
+g3 = gcmc(popd_sf, "elev", "tem", E = 10, k = 200, nb = popd_nb)
+g3
 
 gcmc_case2 = list(g1,g2,g3)
 readr::write_rds(gcmc_case2,'./result/case/gcmc_case2.rds')
@@ -44,18 +40,15 @@ readr::write_rds(gcmc_case2,'./result/case/gcmc_case2.rds')
 #------------------------------------------------------------------------------#
 
 # temperature and population density
-g1 = gccm(data = popd_sf, cause = "tem", effect = "popd",
-          libsizes = seq(10, 2800, by = 100),E = c(2,5),k = 6,nb = popd_nb)
+g1 = gccm(popd_sf, "tem", "popd", E = 10, k = 12, nb = popd_nb)
 g1
 
 # elevation and population density
-g2 = gccm(data = popd_sf, cause = "elev", effect = "popd",
-          libsizes = seq(10, 2800, by = 100),E = c(1,5),k = 6,nb = popd_nb)
+g2 = gccm(popd_sf, "elev", "popd", E = 10, k = 12, nb = popd_nb)
 g2
 
 # elevation and temperature
-g3 = gccm(data = popd_sf, cause = "elev", effect = "tem",
-          libsizes = seq(10, 2800, by = 100),E = c(1,2),k = 6,nb = popd_nb)
+g3 = gccm(popd_sf, "elev", "tem", E = 10, k = 12, nb = popd_nb)
 g3
 
 gccm_case2 = list(g1,g2,g3)

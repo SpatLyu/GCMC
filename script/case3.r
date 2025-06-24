@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~        Case: Farmland NPP In China       ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-15    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-06-25    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -32,19 +32,15 @@ predindice = nnaindice[indices,]
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
-g1 = gcmc(data = npp,cause = "pre",effect = "npp",E = 2,k = 270,
-          lib = predindice, pred = predindice, detrend = TRUE)
+g1 = gcmc(npp, "pre", "npp", E = 3, k = 350, lib = predindice, pred = predindice)
 g1
-g1$xmap
 
 # temperature and npp
-g2 = gcmc(data = npp,cause = "tem",effect = "npp",E = 2,k = 270,
-          lib = predindice, pred = predindice, detrend = TRUE)
+g2 = gcmc(npp, "tem", "npp", E = 3, k = 350, lib = predindice, pred = predindice)
 g2
 
 # precipitation and temperature
-g3 = gcmc(data = npp,cause = "pre",effect = "tem",E = 2,k = 270,
-          lib = predindice, pred = predindice, detrend = TRUE)
+g3 = gcmc(npp, "pre", "tem", E = 3, k = 350, lib = predindice, pred = predindice)
 g3
 
 gcmc_case3 = list(g1,g2,g3)
@@ -55,21 +51,15 @@ readr::write_rds(gcmc_case3,'./result/case/gcmc_case3.rds')
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
-g1 = gccm(data = npp,cause = "pre",effect = "npp",
-          libsizes = as.matrix(expand.grid(seq(10,130,10),seq(10,160,10))),
-          E = 2, k = 6, lib = predindice, pred = predindice)
+g1 = gccm(npp, "pre", "npp", E = 3, k = 5, lib = predindice, pred = predindice)
 g1
 
 # temperature and npp
-g2 = gccm(data = npp,cause = "tem",effect = "npp",
-          libsizes = as.matrix(expand.grid(seq(10,130,10),seq(10,160,10))),
-          E = 2, k = 6, lib = predindice, pred = predindice)
+g2 = gccm(npp, "tem", "npp", E = 3, k = 5, lib = predindice, pred = predindice)
 g2
 
 # precipitation and temperature
-g3 = gccm(data = npp,cause = "pre",effect = "tem",
-          libsizes = as.matrix(expand.grid(seq(10,130,10),seq(10,160,10))),
-          E = 2, k = 6, lib = predindice, pred = predindice)
+g3 = gccm(npp, "pre", "tem", E = 3, k = 5, lib = predindice, pred = predindice)
 g3
 
 gccm_case3 = list(g1,g2,g3)
