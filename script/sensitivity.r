@@ -101,5 +101,5 @@ purrr::walk(seq_along(res),
                                      group.point.size = 2.05,
                                      legend.position = "bottom") +
                   ggview::canvas(6.65,5.85)
-              ggview::save_ggplot(fig, paste0("./figure/figure6_",.ind,".jpg"), dpi = 300)
+              ggview::save_ggplot(fig, paste0("./figure/sensitivity/fig_sensitivity",.ind,".jpg"), dpi = 300)
             })
