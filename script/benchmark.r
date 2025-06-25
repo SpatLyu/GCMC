@@ -104,8 +104,15 @@ g3 = spEDM::gcmc(species_scenario1, "a", "c", E = 6, k = 120)
 g3
 g3$xmap
 
-s1 = list(g1,g2,g3)
-readr::write_rds(s1,'./result/benchmark/s1.rds')
+gcmc_s1 = list(g1,g2,g3)
+readr::write_rds(gcmc_s1,'./result/benchmark/gcmc_s1.rds')
+
+g1 = spEDM::gccm(species_scenario1, "a", "b", E = 6, k = 8)
+g2 = spEDM::gccm(species_scenario1, "b", "c", E = 6, k = 8)
+g3 = spEDM::gccm(species_scenario1, "a", "c", E = 6, k = 8)
+
+gccm_s1 = list(g1,g2,g3)
+readr::write_rds(gccm_s1,'./result/benchmark/gccm_s1.rds')
 
 #-----------------------------------------------------------------------------#
 #------                        Scenario 2: a→b←c                        ------#
@@ -129,20 +136,27 @@ spEDM::fnn(species_scenario2, "b", E = 1:25,
 spEDM::fnn(species_scenario2, "c", E = 1:25, 
            eps = stats::sd(terra::values(species_scenario2[["c"]]), na.rm = TRUE))
 
-g1 = spEDM::gcmc(species_scenario2, "a", "b", E = 6, k = 75)
+g1 = spEDM::gcmc(species_scenario2, "a", "b", E = 6, k = 72)
 g1
 g1$xmap
 
-g2 = spEDM::gcmc(species_scenario2, "b", "c", E = 6, k = 75)
+g2 = spEDM::gcmc(species_scenario2, "b", "c", E = 6, k = 72)
 g2
 g2$xmap
 
-g3 = spEDM::gcmc(species_scenario2, "a", "c", E = 6, k = 80)
+g3 = spEDM::gcmc(species_scenario2, "a", "c", E = 6, k = 72)
 g3
 g3$xmap
 
-s2 = list(g1,g2,g3)
-readr::write_rds(s2,'./result/benchmark/s2.rds')
+gcmc_s2 = list(g1,g2,g3)
+readr::write_rds(gcmc_s2,'./result/benchmark/gcmc_s2.rds')
+
+g1 = spEDM::gccm(species_scenario2, "a", "b", E = 6, k = 8)
+g2 = spEDM::gccm(species_scenario2, "b", "c", E = 6, k = 8)
+g3 = spEDM::gccm(species_scenario2, "a", "c", E = 6, k = 8)
+
+gccm_s2 = list(g1,g2,g3)
+readr::write_rds(gccm_s2,'./result/benchmark/gccm_s2.rds')
 
 #-----------------------------------------------------------------------------#
 #------                      Scenario 3: a←b→c                          ------#
@@ -178,80 +192,12 @@ g3 = spEDM::gcmc(species_scenario3, "a", "c", E = 8, k = 160)
 g3
 g3$xmap
 
-s3 = list(g1,g2,g3)
-readr::write_rds(s3,'./result/benchmark/s3.rds')
+gcmc_s3 = list(g1,g2,g3)
+readr::write_rds(gcmc_s3,'./result/benchmark/gcmc_s3.rds')
 
-#------------------------------------------------------------------------------#
-#----------------------------    Plot the result    ---------------------------#
-#------------------------------------------------------------------------------#
+g1 = spEDM::gccm(species_scenario3, "a", "b", E = 8, k = 10)
+g2 = spEDM::gccm(species_scenario3, "b", "c", E = 8, k = 10)
+g3 = spEDM::gccm(species_scenario3, "a", "c", E = 8, k = 10)
 
-.process_xmap_result = \(g){
-  tempdf = g$xmap
-  tempdf$x = g$varname[1]
-  tempdf$y = g$varname[2]
-  tempdf = dplyr::select(tempdf, 1, x, y,
-                         x_xmap_y_mean,x_xmap_y_sig,
-                         y_xmap_x_mean,y_xmap_x_sig,
-                         dplyr::everything())
-  
-  g1 = tempdf |>
-    dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
-    purrr::set_names(c("cause","effect","ca","sig"))
-  g2 = tempdf |>
-    dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |>
-    purrr::set_names(c("cause","effect","ca","sig"))
-  
-  return(rbind(g1,g2))
-}
-
-plot_ca_matrix = \(.tbf,legend_title = "Causal Association"){
-  .tbf = .tbf |>
-    dplyr::mutate(sig_marker = dplyr::case_when(
-      sig < 0.001 ~ "***",
-      sig < 0.01  ~ "**",
-      sig < 0.05  ~ "*",
-      .default =  ""
-    )) |>
-    dplyr::mutate(sig_marker = paste0(round(ca,3),sig_marker))
-  
-  fig = ggplot2::ggplot(data = .tbf,
-                        ggplot2::aes(x = effect, y = cause)) +
-    ggplot2::geom_tile(color = "black", ggplot2::aes(fill = ca)) +
-    ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.25) +
-    ggplot2::geom_text(ggplot2::aes(label = sig_marker), color = "black", family = "serif") +
-    ggplot2::labs(x = "Effect", y = "Cause", fill = legend_title) +
-    ggplot2::scale_x_discrete(expand = c(0, 0)) +
-    ggplot2::scale_y_discrete(expand = c(0, 0)) +
-    ggplot2::scale_fill_gradient(low = "#9bbbb8", high = "#256c68") +
-    ggplot2::coord_equal() +
-    ggplot2::theme_void() +
-    ggplot2::theme(
-      axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
-      axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
-      axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
-      axis.title.x = ggplot2::element_text(color = "black", family = "serif",
-                                           margin = ggplot2::margin(t = 5.5, unit = "pt")),
-      legend.text = ggplot2::element_text(family = "serif"),
-      legend.title = ggplot2::element_text(family = "serif"),
-      legend.background = ggplot2::element_rect(fill = NA, color = NA),
-      legend.direction = "horizontal",
-      legend.position = "bottom",
-      legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
-      legend.key.width = ggplot2::unit(20, "pt"),
-      panel.grid = ggplot2::element_blank(),
-      panel.border = ggplot2::element_rect(color = "black", fill = NA)
-    )
-  return(fig)
-}
-
-s_list = list(s1,s2,s3)
-
-purrr::walk(1:3, \(.i) {
-  fig_s = s_list[[.i]] |>
-    purrr::map(.process_xmap_result) |>
-    purrr::list_rbind() |> 
-    plot_ca_matrix()
-  ggview::save_ggplot(fig_s +
-                        ggview::canvas(width = 3.65, height = 4.05), 
-                      paste0("./figure/benchmark/fig_benchmark",.i,".jpg"), dpi = 300)
-})
+gccm_s3 = list(g1,g2,g3)
+readr::write_rds(gccm_s3,'./result/benchmark/gccm_s3.rds')
