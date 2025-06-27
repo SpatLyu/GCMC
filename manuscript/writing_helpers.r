@@ -10,7 +10,6 @@
   })
 
 
-
 # references: doi -> bibtex
 doi2bib = \(doi,style = "aps"){
   return(rcrossref::cr_cn(dois = doi, style = style, format = "bibtex"))
