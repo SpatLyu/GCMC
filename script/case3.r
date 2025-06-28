@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~        Case: Farmland NPP In China       ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-06-27    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-06-28    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -51,15 +51,15 @@ readr::write_rds(gcmc_case3,'./result/case/gcmc_case3.rds')
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
-g1 = gccm(npp, "pre", "npp", E = 3, k = 5, lib = predindice, pred = predindice)
+g1 = gccm(npp, "pre", "npp", E = 17, k = 19, lib = predindice, pred = predindice)
 g1
 
 # temperature and npp
-g2 = gccm(npp, "tem", "npp", E = 3, k = 5, lib = predindice, pred = predindice)
+g2 = gccm(npp, "tem", "npp", E = 17, k = 19, lib = predindice, pred = predindice)
 g2
 
 # precipitation and temperature
-g3 = gccm(npp, "pre", "tem", E = 3, k = 5, lib = predindice, pred = predindice)
+g3 = gccm(npp, "pre", "tem", E = 17, k = 19, lib = predindice, pred = predindice)
 g3
 
 gccm_case3 = list(g1,g2,g3)
