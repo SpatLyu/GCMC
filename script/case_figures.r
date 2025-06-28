@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~             Plot Case Result             ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-20    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-06-28    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -11,22 +11,19 @@
 #-------------            The causation matrix plot             ---------------#
 #------------------------------------------------------------------------------#
 
-plot_ca_matrix = \(.tbf,legend_title = "Association"){
+plot_ca_matrix = \(.tbf, legend_title = "Association") {
   .tbf = .tbf |> 
     dplyr::mutate(sig_marker = dplyr::case_when(
-      sig < 0.001 ~ "***",
-      sig < 0.01  ~ "**",
-      sig < 0.05  ~ "*",
-      .default =  ""
-    )) |> 
-    dplyr::mutate(sig_marker = paste0(round(ca,3),sig_marker))
+      sig > 0.05 ~ paste0(sprintf("%.4f", ca), "^a"),  
+      TRUE       ~ sprintf("%.4f", ca)              
+    ))
   
   fig = ggplot2::ggplot(data = .tbf,
                         ggplot2::aes(x = effect, y = cause)) +
     ggplot2::geom_tile(color = "black", ggplot2::aes(fill = ca)) +
     ggplot2::geom_abline(slope = 1, intercept = 0, color = "black", linewidth = 0.25) +
-    ggplot2::geom_text(ggplot2::aes(label = sig_marker), color = "black", 
-                       family = "serif", size = 15, size.unit = "pt") +
+    ggplot2::geom_text(ggplot2::aes(label = sig_marker), parse = TRUE,
+                       color = "black", family = "serif", size = 15, size.unit = "pt") +
     ggplot2::labs(x = "Effect", y = "Cause", fill = legend_title) +
     ggplot2::scale_x_discrete(expand = c(0, 0)) +
     ggplot2::scale_y_discrete(expand = c(0, 0)) +
