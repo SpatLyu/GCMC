@@ -32,15 +32,15 @@ predindice = nnaindice[indices,]
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
-g1 = gcmc(npp, "pre", "npp", E = 17, k = 172, lib = predindice, pred = predindice)
+g1 = gcmc(npp, "pre", "npp", E = 18, k = 165, lib = predindice, pred = predindice)
 g1
 
 # temperature and npp
-g2 = gcmc(npp, "tem", "npp", E = 17, k = 172, lib = predindice, pred = predindice)
+g2 = gcmc(npp, "tem", "npp", E = 18, k = 165, lib = predindice, pred = predindice)
 g2
 
 # precipitation and temperature
-g3 = gcmc(npp, "pre", "tem", E = 17, k = 172, lib = predindice, pred = predindice)
+g3 = gcmc(npp, "pre", "tem", E = 18, k = 165, lib = predindice, pred = predindice)
 g3
 
 gcmc_case3 = list(g1,g2,g3)
