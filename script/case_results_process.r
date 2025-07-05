@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~         Handling the case results        ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-03-16    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-07-06    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -22,10 +22,10 @@
   
   g1 = tempdf |> 
     dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|> 
-    purrr::set_names(c("cause","effect","ca","sig"))
+    purrr::set_names(c("cause","effect","cs","sig"))
   g2 = tempdf |> 
     dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |> 
-    purrr::set_names(c("cause","effect","ca","sig"))
+    purrr::set_names(c("cause","effect","cs","sig"))
   
   return(rbind(g1,g2))
 }
@@ -37,7 +37,7 @@
     tibble::rownames_to_column(var = "cause") |> 
     tidyr::pivot_longer(cols = -1,
                         names_to = "effect",
-                        values_to = "ca") |> 
+                        values_to = "cs") |> 
     dplyr::filter(cause != effect)
   pcc_p = g |> 
     purrr::pluck("p") |> 
@@ -66,7 +66,7 @@
       .process_pcc_result(),
     gd = paste0('./result/case/gd_case',casenum,'.rds') |>
       readr::read_rds() |>
-      dplyr::select(cause = x, effect = y, ca = qv, sig)
+      dplyr::select(cause = x, effect = y, cs = qv, sig)
   )
   
   if (save) writexl::write_xlsx(case,paste0("./result/case/case",casenum,".xlsx"))
