@@ -25,6 +25,8 @@ doi2bib("10.1103/PhysRevLett.85.461") # transfer entropy
 
 doi2bib("10.1111/pirs.12144")         # sem
 doi2bib("10.1126/sciadv.aau4996")     # pcmci
+doi2bib("10.1038/s41467-024-53373-4") # surd
+
 doi2bib("10.1103/PhysRevA.45.3403")   # fnn
 doi2bib("10.1063/1.1568692")          # spatial logistic map
 
