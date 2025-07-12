@@ -127,7 +127,7 @@ The Earth system is a complex dynamical system with deeply interconnected compon
 
 Recent efforts have extended EDM to spatial domains. Notably, the Geographical Convergent Cross Mapping (GCCM) model adapts the original CCM method \citep{sugihara2012ccm} to spatial cross-sectional data by leveraging state-space reconstruction techniques \citep{lorenz1969ssr,Takens1981embedding,Mane1981embedding}. This pioneering approach enables the inference of causal links from spatial snapshots, addressing longstanding challenges in spatial causal inference that traditional temporal EDM methods cannot resolve \citep{gao2022tscess,gao2023gccm}.
 
-Building on these developments, this study proposes a novel model, Geographical Cross Mapping Cardinality (GCMC), for quantifying causal strengths between variables in spatial cross-sectional data. Inspired by Cross Mapping Cardinality (CMC), which uses the area under the intersectional cardinality (IC) curve to measure causal strength \citep{tao2023cmc}, GCMC constructs spatially reconstructed state spaces and evaluates the intersectional cardinality curves between variable manifolds. To statistically estimate the causal strength and its confidence interval, we apply the DeLong placement method \citep{delong1988,sun2014delongfi} to the IC curve. We demonstrate the effectiveness of GCMC using a benchmark system consisting of three variables in canonical causal interaction structures \citep{sanchez2024surd}: mediator ($A \rightarrow B \rightarrow C$), confounder ($A \leftarrow B \rightarrow C$), and collider ($A \rightarrow B \leftarrow C$); three real-world case studies covering distinct coupling states; and further assess its robustness against observational noise using a synthetic dataset. Comparative analysis with PCC, GD, and GCCM confirms the practical advantages of GCMC.
+Building on these developments, this study proposes a novel model, Geographical Cross Mapping Cardinality (GCMC), for quantifying causal strengths between variables in spatial cross-sectional data. Inspired by Cross Mapping Cardinality (CMC), which uses the area under the intersectional cardinality (IC) curve to measure causal strength \citep{tao2023cmc}, GCMC constructs spatially reconstructed state spaces and evaluates the intersectional cardinality curves between variable manifolds. To statistically estimate the causal strength and its confidence interval, we apply the DeLong placement method \citep{delong1988,sun2014delongfi} to the IC curve. We demonstrate the effectiveness of GCMC using a benchmark system consisting of three variables in canonical causal interaction structures \citep{sanchez2024surd}: mediator ($A \rightarrow B \rightarrow C$), collider ($A \rightarrow B \leftarrow C$), and confounder ($A \leftarrow B \rightarrow C$); three real-world case studies covering distinct coupling states; and further assess its robustness against observational noise using a synthetic dataset. Comparative analysis with PCC, GD, and GCCM confirms the practical advantages of GCMC.
 
 The remainder of this manuscript is structured as follows: Section~\ref{sec2} outlines the theoretical foundations and methodology of the proposed GCMC method, including its rationale and validation design. Section~\ref{sec3} reports the experimental results from synthetic and real-world datasets. Section~\ref{sec4} discusses key findings, and Section~\ref{sec5} concludes this study.
 
@@ -261,12 +261,20 @@ The developed GCMC model is implemented in three case studies in the Earth and s
 
 \subsection{Performance on benchmark systems}\label{benchmark}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure3.jpg}
+\caption{Benchmark evaluation of GCMC on canonical causal structures.
+\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (Values near edges). Edge types indicate causal inference correctness: true positives (black solid), false positives (red solid), true negatives (gray dashed), and false negatives (red dashed). Non-significant values are marked with $^\#$ and orange-highlighted thresholds indicate the optimal decision boundary.}
+\label{fig_benchmark}
+\end{figure}
+
 \subsection{Case of residential crime study}\label{case1}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure3.jpg}
-\caption{Causal associations among residential crime, house value, and household income. \textbf{a-c} Maps of the variables crime, hoval, and inc. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Spatial associations detected by GD. \textbf{f} Causal associations measured by GCCM. \textbf{g} Causal associations measured by GCMC. \textbf{h} The diagram of causal link, which is constructed using the results from GCMC in conjunction with prior knowledge}
+\includegraphics[width=1\textwidth]{./figure/figure4.jpg}
+\caption{Causation among residential crime, house value, and household income. \textbf{a-c} Maps of the variables crime, hoval, and inc. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Stratified power detected by GD. \textbf{f} Causal strengths measured by GCCM. \textbf{g} Causal strengths measured by GCMC. \textbf{h} The diagram of causal link, which is constructed using the results from GCMC in conjunction with prior knowledge}
 \label{fig_case1}
 \end{figure}
 
@@ -278,8 +286,8 @@ A bidirectional causal association is observed between inc and crime, where the 
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure4.jpg}
-\caption{Causal associations among elevation, temperature and population density. \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The strength of spatial associations quantified with GD. \textbf{c} Causal associations measured by GCCM. \textbf{d} Causal associations measured by GCMC. \textbf{e} The diagram of causal link constructed based on the results from GCMC combined with known knowledge.}
+\includegraphics[width=0.9\textwidth]{./figure/figure5.jpg}
+\caption{Causation among elevation, temperature and population density. \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The stratified power quantified with GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} The diagram of causal link constructed based on the results from GCMC combined with known knowledge.}
 \label{fig_case2}
 \end{figure}
 
@@ -289,8 +297,8 @@ Except for the previous case, we selected a case from the GCCM paper where the c
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure5.jpg}
-\caption{Causations among temperature, precipitation and net primary productivity. \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Spatial associations detected by GD. \textbf{c} Causal associations measured by GCCM. \textbf{d} Causal associations measured by GCMC. \textbf{e} Causal links inferred by combining the results from GCMC with known knowledge.}
+\includegraphics[width=0.9\textwidth]{./figure/figure6.jpg}
+\caption{Causation among temperature, precipitation and net primary productivity. \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power detected by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by combining the results from GCMC with known knowledge.}
 \label{fig_case3}
 \end{figure}
 
@@ -311,8 +319,8 @@ S_{elev} &= elev + a \times \eta \times elev
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure6.jpg}
-\caption{Results of GCMC applied to synthetic datasets with varying noise levels. \textbf{a} Causal strength between elev(with added noise) and popd by GCMC. \textbf{b} Causal strength between elev and popd(with added noise) by GCMC. \textbf{c} Causal strength between elev(with added noise) and popd(with added noise) by GCMC.}
+\includegraphics[width=1\textwidth]{./figure/figure7.jpg}
+\caption{Results of GCMC applied to synthetic datasets with varying noise levels. \textbf{a} Causal strengths between elev(with added noise) and popd by GCMC. \textbf{b} Causal strengths between elev and popd(with added noise) by GCMC. \textbf{c} Causal strengths between elev(with added noise) and popd(with added noise) by GCMC.}
 \label{fig_noise}
 \end{figure}
 
