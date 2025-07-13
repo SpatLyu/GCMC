@@ -234,19 +234,48 @@ The causal strength measured by GCMC is a metric grounded in the perspective of 
 
 \subsection{Validation strategy and experimental design}
 
-\section{Results}\label{sec3} 
+\subsubsection{Synthetic benchmark via spatial logistic map}
 
-The developed GCMC model is implemented in three case studies in the Earth and social sciences, where the effectiveness of GCMC is evaluated through comparing with PCC, GD, and GCCM. The first case dataset is the classical Columbus OH spatial analysis dataset \citep{r-spData}, from which we select \textit{hoval} (housing value), \textit{inc} (household income), and \textit{crime} (residential burglaries and vehicle thefts per thousand households in the neighborhood) to investigate their causal associations. The second and third cases are derived from studies presented in the GCCM paper \citep{gao2023gccm}. The second case consists of county-level population density data in mainland China, where we examine the causal associations among \textit{popd} (population density), \textit{elev} (elevation), and \textit{tem} (temperature). The third case involves the farmland NPP dataset in mainland China, analyzing the causal relationships among \textit{npp} (net primary productivity), \textit{pre} (precipitation), and \textit{tem} (temperature). In all three case studies, GCMC effectively quantifies the asymmetric causal strength and accurately identifies the dominant causal direction. The quantitative results align with known prior knowledge, thereby overcoming the limitations of PCC and GD while being consistent with GCCM. Adding noise to the synthetic data, we found that GCMC is still able to effectively measure causal associations even when noise is present in the observational data.
+To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a \textit{spatial logistic map} process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): \textbf{mediator} $A \rightarrow B \rightarrow C$, \textbf{collider} $A \rightarrow B \leftarrow C$, and \textbf{confounder} $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
 
-\subsection{Performance on benchmark systems}\label{benchmark}
-
-\begin{figure}[htbp]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure3.jpg}
 \caption{Benchmark evaluation of GCMC on canonical causal structures.
 \textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (Values near edges). Edge types indicate causal inference correctness: true positives (black solid), false positives (red solid), true negatives (gray dashed), and false negatives (red dashed). Non-significant values are marked with $^\#$ and orange-highlighted thresholds indicate the optimal decision boundary.}
 \label{fig_benchmark}
 \end{figure}
+
+Each synthetic spatial variable is initialized using a stochastic spatial field generated over a regular 2D grid. Specifically, we construct a distance matrix across all spatial units and apply an exponential covariance function \(\text{Cov}(d) = \sigma^2 \exp(-d / \rho)\), where \(d\) is the Euclidean distance between spatial locations, \(\sigma^2 = 1\) is the marginal variance, and \(\rho = 1.5\) is the range parameter controlling spatial autocorrelation. Spatially correlated fields are then drawn from a multivariate normal distribution parameterized by this covariance matrix. To ensure non-negativity and comparability across simulations, the resulting fields are truncated at zero to remove negative values and rescaled to the unit interval \([0,1]\). Each of the three variables \(A\), \(B\), and \(C\) is initialized independently through this procedure, producing realistic spatial patterns with inherent autocorrelation.
+
+We then evolve the system using the spatial logistic map for 15 time steps. The update rule for any variable \(V \in \{A, B, C\}\) at location \(\mathbf{s}_i\) and time \(t+1\) is given by:
+\begin{equation}\label{slm}
+V_{t+1}(\mathbf{s}_i) = 1 - \alpha_V V_t(\mathbf{s}_i)\left(\frac{1}{k}\sum_{j\in \mathcal{N}(i)} V_t(\mathbf{s}_j) - \sum_{U\in \mathcal{C}(V)}\beta_{UV} U_t(\mathbf{s}_i)\right)
+\end{equation}
+\noindent where \(k\) is the neighborhood size; \(\mathcal{N}(i)\) denotes the spatial neighborhood of unit \(i\); \(\alpha_V\) controls the strength of nonlinear spatial self-interaction via a logistic growth term; \(\beta_{UV}\) denotes the causal influence from variable \(U\) to \(V\); and \(\mathcal{C}(V)\) denotes the set of causal parent variables of \(V\).
+
+To generate spatial cross-sectional data for testing, we discard the transient initial state at \(t=0\) and compute the average value of each variable over all spatial units at each subsequent time step. The final test data are obtained by averaging these spatial unit values across the simulation steps after the initial transient period, thereby capturing the stabilized spatial patterns. The parameters for the three causal scenarios are set as follows: for the \textbf{mediator} case, we set \(\beta_{AB}=1\), \(\beta_{BC}=1\), and all other \(\beta\) coefficients are set to $0$; for the \textbf{collider} case, \(\beta_{AB}=1\), \(\beta_{CB}=1\), with all remaining \(\beta\) coefficients equal to $0$; and for the \textbf{confounder} case, \(\beta_{BA}=1\), \(\beta_{BC}=1\), while all other \(\beta\) coefficients are $0$. In all scenarios, the spatial logistic parameters are fixed at \(\alpha_A = \alpha_B = \alpha_C = 0.2\), and the spatial neighborhood size is set to \(k=4\).
+
+\subsubsection{Case studies in earth and social systems}
+
+The developed GCMC model is validated through three real-world case studies covering diverse socio-economic and environmental contexts to comprehensively assess its practical applicability and comparative performance under realistic spatial conditions. The first case employs the Columbus Neighborhood Data from the Columbus, Ohio metropolitan area \citep{r-spData}, examining causal relationships among housing value (\textit{hoval}), household income (\textit{inc}), and crime rates (\textit{crime}, measured by residential burglaries and vehicle thefts per thousand households). The second case analyzes county-level data across mainland China \citep{gao2023gccm}, investigating potential causal links among population density (\textit{popd}), elevation (\textit{elev}), and temperature (\textit{tem}). The third case focuses on farmland productivity in China, using the same data source \citep{gao2023gccm} to explore causal interactions among net primary productivity (\textit{npp}), precipitation (\textit{pre}), and temperature (\textit{tem}). Across all cases, causal inference results generated by the GCMC model are benchmarked against PCC, GD, and GCCM to evaluate empirical validity and robustness. Comprehensive visualizations accompany the analyses to support thorough interpretation of the results.
+
+\subsubsection{Noise sensitivity analysis}
+
+To evaluate the robustness of the GCMC model against observational noise, a controlled noise sensitivity experiment is conducted. We focus on the variable pair \textit{popd} and \textit{elev} from the population density case study. Noise is introduced to these variables following the formulations:
+
+\begin{equation}\label{eq-sensitivity}
+\begin{aligned}
+S_{popd} &= popd + a \cdot \eta \cdot popd, \\
+S_{elev} &= elev + a \cdot \eta \cdot elev,
+\end{aligned}
+\end{equation}
+
+where \(popd\) and \(elev\) represent the original data vectors, \(a\) denotes the noise ratio varying from 0 to 1 in increments of 0.1, and \(\eta\) is a standard normal random vector matching the length of the variables. The resulting \(S_{popd}\) and \(S_{elev}\) correspond to the noisy versions of the original variables. The noise sensitivity of GCMC is assessed under three scenarios: noise added to \textit{elev} only, noise added to \textit{popd} only, and noise simultaneously added to both variables.
+
+\section{Results}\label{sec3} 
+
+\subsection{Performance on benchmark systems}\label{benchmark}
 
 \subsection{Case of residential crime study}\label{case1}
 
@@ -284,17 +313,6 @@ Except for the previous case, we selected a case from the GCCM paper where the c
 For the well-known Climate-NPP causation, where classical time series causal models failed to capture the causal associations \citep{gao2022tscess,gao2023gccm}, we also tested whether GCMC can effectively measure its causal associations. The relevant results are presented in Figure~\ref{fig_case3} and the true causal associations of precipitation and temperature on NPP were detected by GCMC, with a causal strength of 0.609 (p < 0.001) from precipitation to NPP (pre  \(\rightarrow\) npp) and 0.64 (p < 0.001) from temperature to NPP (tem  \(\rightarrow\) npp). The causal association from NPP to precipitation (npp \(\rightarrow\) pre) did not pass the significance test (p = 0.17), indicating that NPP does not exert a causal influence on precipitation. Instead, this suggests that the observed association by GCMC is a result of the enslaved effect of the strong causal influence of precipitation on NPP. In this case, GCMC successfully identified the actual causal associations, whereas the GD model identifies spatial associations where NPP shows a stronger linkage to Pre and Tem than the reverse. This suggests that the strengths of spatial associations derived from the GD model do not provide a reliable indication of the true causal direction. The results of this case indicate that under strong coupling, GCMC can effectively measure the dominant causal associations, while also providing support for diagnosing secondary causal associations. In this case, the data is organized in a spatial grid format, whereas the previous two cases use spatial lattice data, thereby demonstrating that GCMC is applicable not only to spatial lattice data but also to spatial grid data.
 
 \subsection{Sensitivity to observational noise}\label{sensitivity}
-
-To evaluate the sensitivity of GCMC to noise, we select the variable pair popd and elev from the case of population density study and add noise to with the following formulas:
-
-\begin{equation}\label{eq-sensitivity}
-\begin{aligned}
-S_{popd} &= popd + a \times \eta \times popd \\
-S_{elev} &= elev + a \times \eta \times elev
-\end{aligned}
-\end{equation}
-
-\noindent where \(popd\) and \(elev\) are numerical vectors corresponding to the variables popd and elev in case 2, \(a\) represents the noise ratio (with values ranging from 0 to 1 in increments of 0.1 for testing), and \(\eta\) is a standard normally distributed random vector of the same length as \(popd\). \(S_{popd}\) and \(S_{elev}\) denote the synthesized data after noise addition. We evaluate the noise-handling capability of GCMC under three scenarios: noisy elev with popd, noisy popd with elev, and both popd and elev with added noise.
 
 \begin{figure}[htb]
 \centering
