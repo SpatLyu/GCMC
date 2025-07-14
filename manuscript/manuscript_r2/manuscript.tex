@@ -277,6 +277,8 @@ where \(popd\) and \(elev\) represent the original data vectors, \(a\) denotes t
 
 \subsection{Performance on benchmark systems}\label{benchmark}
 
+Figure~\ref{fig_benchmark} illustrates the performance of GCMC and GCCM on three canonical three-variable causal configurations: mediator, collider, and confounder structures. In each scenario (Figure~\ref{fig_benchmark}a), variables \(A\), \(B\), and \(C\) interact according to a distinct causal topology, and Figure~\ref{fig_benchmark}b presents the causal strengths inferred by both methods, with arrows indicating detected directions and numeric labels denoting strength values. In the mediator case ($A \rightarrow B \rightarrow C$), both methods successfully identify the causal link from \(A\) to \(B\), and both detect a causal link from \(A\) to \(C\), which is theoretically justified due to the transitive effect of \(A\) on \(C\) mediated through \(B\) \citep{leng2020pcm}; however, only GCMC correctly detects the causal link from \(B\) to \(C\), while GCCM misses this link. In the collider case ($A \rightarrow B \leftarrow C$), GCMC identifies only the two true causes of \(B\), whereas GCCM erroneously infers a link from \(A\) to \(C\), likely reflecting collider bias. In the confounder configuration ($A \leftarrow B \rightarrow C$), both methods detect the true outgoing links from \(B\), but only GCCM incorrectly infers a nonexistent link from \(A\) to \(C\), which GCMC avoids. Overall, GCMC achieves higher causal inference accuracy than GCCM across all tested structures, demonstrating its effectiveness in reducing both false positives and false negatives under nonlinear spatial causal configurations.
+
 \subsection{Case of residential crime study}\label{case1}
 
 \begin{figure}[htbp]
