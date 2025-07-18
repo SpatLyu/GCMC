@@ -236,7 +236,7 @@ The causal strength measured by GCMC is a metric rooted in dynamical systems the
 
 \subsubsection{Synthetic benchmark via spatial logistic map}
 
-To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a \textit{spatial logistic map} process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): \textbf{mediator} $A \rightarrow B \rightarrow C$, \textbf{collider} $A \rightarrow B \leftarrow C$, and \textbf{confounder} $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
+To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a \textit{spatial logistic map} process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): mediator $A \rightarrow B \rightarrow C$, collider $A \rightarrow B \leftarrow C$, and confounder $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
 
 \begin{figure}[htb!]
 \centering
@@ -254,7 +254,7 @@ V_{t+1}(\mathbf{s}_i) = 1 - \alpha_V V_t(\mathbf{s}_i)\left(\frac{1}{k}\sum_{j\i
 \end{equation}
 \noindent where \(k\) is the neighborhood size; \(\mathcal{N}(i)\) denotes the spatial neighborhood of unit \(i\); \(\alpha_V\) controls the strength of nonlinear spatial self-interaction via a logistic growth term; \(\beta_{UV}\) denotes the causal influence from variable \(U\) to \(V\); and \(\mathcal{C}(V)\) denotes the set of causal parent variables of \(V\).
 
-To generate spatial cross-sectional data for testing, we discard the transient initial state at \(t=0\) and compute the average value of each variable over all spatial units at each subsequent time step. The final test data are obtained by averaging these spatial unit values across the simulation steps after the initial transient period, thereby capturing the stabilized spatial patterns. The parameters for the three causal scenarios are set as follows: for the \textbf{mediator} case, we set \(\beta_{AB}=1\), \(\beta_{BC}=1\), and all other \(\beta\) coefficients are set to $0$; for the \textbf{collider} case, \(\beta_{AB}=1\), \(\beta_{CB}=1\), with all remaining \(\beta\) coefficients equal to $0$; and for the \textbf{confounder} case, \(\beta_{BA}=1\), \(\beta_{BC}=1\), while all other \(\beta\) coefficients are $0$. In all scenarios, the spatial logistic parameters are fixed at \(\alpha_A = \alpha_B = \alpha_C = 0.2\), and the spatial neighborhood size is set to \(k=4\).
+To generate spatial cross-sectional data for testing, we discard the transient initial state at \(t=0\) and compute the average value of each variable over all spatial units at each subsequent time step. The final test data are obtained by averaging these spatial unit values across the simulation steps after the initial transient period, thereby capturing the stabilized spatial patterns. The parameters for the three causal scenarios are set as follows: for the mediator case, we set \(\beta_{AB}=1\), \(\beta_{BC}=1\), and all other \(\beta\) coefficients are set to $0$; for the collider case, \(\beta_{AB}=1\), \(\beta_{CB}=1\), with all remaining \(\beta\) coefficients equal to $0$; and for the confounder case, \(\beta_{BA}=1\), \(\beta_{BC}=1\), while all other \(\beta\) coefficients are $0$. In all scenarios, the spatial logistic parameters are fixed at \(\alpha_A = \alpha_B = \alpha_C = 0.2\), and the spatial neighborhood size is set to \(k=4\).
 
 \subsubsection{Case studies in earth and social systems}
 
@@ -366,12 +366,16 @@ This study introduces the geographical cross mapping cardinality model, a novel 
 
 No conflict of interest exists in this manuscript, and the manuscript was approved by all authors for publication.
 
-% \section*{Funding}
-
 \section*{Data availability statement}
 
 All data and codes supporting the findings of this study are publicly available at \\
 \url{https://figshare.com/s/a1a9af2cafdf33581c55}. A high-performance and concurrency-enabled C++ implementation of the GCMC method is provided, which is wrapped as an R package named \texttt{spEDM} to support user-friendly access and integration with spatial empirical dynamic modeling workflows. The package is available at \url{https://github.com/stscl/spEDM}.
+
+% \section*{Funding}
+
+\section*{Acknowledgments}
+
+We sincerely thank the anonymous reviewers for their valuable comments and constructive suggestions, which significantly contributed to refining the conceptual framework of the model, enhancing its application clarity, and elevating the overall quality of the manuscript.
 
 % All data and codes supporting the findings of this study are publicly available at \\
 % \url{https://github.com/SpatLyu/GCMC_IJGIS}.
