@@ -1,0 +1,200 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{lipsum} % to generate some filler text
+\usepackage{fullpage}
+\usepackage{mathrsfs}
+\usepackage{svg}
+\usepackage{xr}
+\usepackage{amsthm,cite,natbib,url,graphicx,booktabs,lipsum,color,bm,caption,subcaption,soul}
+\usepackage{pifont,tikz,paralist,multirow,amssymb}
+\usepackage{xifthen}
+\usepackage{enumerate}
+\usepackage{titlesec}
+
+% 自定义 Reviewer 计数器
+\newcounter{reviewer}
+\setcounter{reviewer}{0}
+\newcounter{point}[reviewer]
+\setcounter{point}{0}
+
+% % 将 Reviewer 的计数方式改为字母（A, B, C, D, ...）
+% \renewcommand{\thereviewer}{\Alph{reviewer}}
+
+% 定义 Reviewer 的引用格式
+\renewcommand{\thepoint}{Comment\,\thereviewer.\arabic{point}}
+
+% 定义 Associate Editor 的评论环境
+\newenvironment{point1}
+   {\refstepcounter{point} \bigskip \noindent {\textbf{Editor Comment~}} ---\ }
+   {\par }
+
+% 定义 Reviewer 的评论环境
+\newenvironment{point}
+   {\refstepcounter{point} \bigskip \noindent {\textbf{Reviewer~\thepoint} } ---\ }
+   {\par }
+
+% 定义 Reviewer 的简短评论命令
+\newcommand{\shortpoint}[1]{\refstepcounter{point}   \bigskip \noindent 
+	{\textbf{Reviewer~Point~\thepoint} } ---~#1  }
+
+% 定义回复环境
+\newenvironment{reply}
+   {\medskip \noindent \color{blue} \begin{sf}\textbf{Reply}:\  }
+   {\medskip \par \end{sf}}
+
+% 定义简短回复命令
+\newcommand{\shortreply}[2][]{\medskip \noindent \begin{sf}\textbf{Reply}:\  #2
+	\ifthenelse{\equal{#1}{}}{}{ \hfill \footnotesize (#1)}%
+	\medskip \end{sf}}
+
+% 允许跳过某些 Reviewer
+\newcommand{\skipreviewer}{\stepcounter{reviewer}}
+
+% 定义 Reviewer 部分
+\newcommand{\reviewersection}{\stepcounter{reviewer} \bigskip \hrule
+                  \section*{Reviewer \thereviewer}}
+
+% Title
+% \title{Notes on resubmitting revision made to manuscript 259887128}
+\title{Authors' Responses of the manuscript 259887128}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-30pt}
+
+The authors would like to thank the editor and reviewers for their constructive comments and suggestions on the manuscript entitled “Measuring causal strengths by geographical cross mapping cardinality”, which have helped improve the quality of this work. The resubmitted manuscript has undergone a thorough revision according to the editor’s and reviewers’ comments. Please see our responses below. For the reviewers’ convenience, we have highlighted significant changes in the revised manuscript in \textcolor{blue}{blue}.
+
+\section*{Editor Comments}
+\begin{point1}
+In view of the criticisms of the reviewers, I have decided to reject the manuscript for publication in the International Journal of Geographical Information Science in its present form. However, I would welcome a new submission with substantial reworking of this material considering the reviewers' comments.
+\end{point1}
+\begin{reply}
+We thank the editor for the opportunity to resubmit our manuscript. In light of the editor’s and reviewers’ constructive suggestions, we have substantially revised the manuscript to improve its clarity, methodological rigor, and overall presentation. Below, we summarize the major revisions:
+
+\begin{itemize}
+  \item In response to the reviewers’ valuable comments, we carefully re-examined the proposed GCMC method and substantially rewrote Section~2 (\textit{Materials and methods}). Specifically, we clarified the theoretical foundations of GCMC within the original method description and added a new subsection that provides detailed descriptions of the benchmark experiment setup and the three spatial cross-sectional datasets used in the case studies. Additionally, we placed the setup of the noise sensitivity analysis in this new subsection to improve the organization and clarity of the methods section.
+  
+  \item We thoroughly revised the \textit{Results} section. In particular, we:
+  \begin{itemize}
+    \item Adjusted the parameter settings for GCMC by using the false nearest neighbors method \citep{kennel1992fnn} to select an appropriate embedding dimension $E$. Following the recommendation in the original GCCM paper \citep{gao2023gccm}, we set the number of nearest neighbors $k$ for GCCM as $E + 2$, while for GCMC, $k$ was determined using a greedy search strategy that selects the value maximizing the estimated causal strength.
+    \item Re-ran the three original case studies and the noise sensitivity tests using the updated settings;
+    \item Introduced a new benchmark experiment to demonstrate the advantages of GCMC over GCCM.
+  \end{itemize}
+  
+  \item In response to the reviewers’ broader concerns, we re-evaluated the overall contribution of our work and accordingly revised the \textit{Title}, \textit{Abstract}, \textit{Introduction}, \textit{Discussion}, and \textit{Conclusion} sections to better emphasize the novelty and significance of the proposed approach.
+\end{itemize}
+
+We hope that the extensive revisions address the editor’s and reviewers’ concerns, and we respectfully submit the revised manuscript for reconsideration.
+
+\end{reply}
+
+\reviewersection
+
+\begin{point}
+The underlying mechanism is unclear. While CCM has some theoretical interpretations and guarantees regarding causality, the analogy drawn in GCCM—using nearest neighbors in the spatial domain to substitute for time delays in the temporal domain—lacks theoretical support. Introducing the IC indicator into the GCCM framework further lacks a reasonable explanation.
+\end{point}
+\begin{reply}
+We acknowledge the reviewer’s concern regarding the theoretical basis of GCMC, particularly the adaptation from temporal to spatial domains and the introduction of the Intersectional Cardinality (IC) indicator. 
+
+We would like to clarify that GCMC is grounded in generalized embedding theory \citep{Takens1981embedding,Mane1981embedding}, which posits that the dynamics of a system can be reconstructed from a single observable through delay-coordinate embedding. While traditional CCM employs time-delayed observations to construct state spaces, the GCMC method extends this principle to spatial domains by treating spatial lags as analogs of temporal lags. Although spatial lags differ in that multiple spatially adjacent values exist at a single lag step (as opposed to single temporal observations), this distinction is addressed through appropriate statistical aggregation before embedding. This spatial extension maintains the theoretical foundation established by dynamical systems theory and ensures that the shadow manifolds reconstructed from spatial neighbors can capture the intrinsic structure of the system.
+
+Regarding the IC indicator, its introduction is motivated by the following principle: if two variables are driven by a shared underlying dynamical mechanism, their reconstructed state spaces (or manifolds) will exhibit structural overlap \citep{sugihara2012ccm,gao2023gccm}. This overlap allows for mutual cross mapping, as in CCM, but can also be directly reflected by the similarity in local neighborhood structures \citep{tao2023cmc}. GCMC leverages this idea by quantifying the degree of such structural overlap using the IC metric—i.e., the intersectional cardinality of nearest neighbors across reconstructed manifolds. This provides a compact, interpretable, and directional measure of dynamical causality, rooted in shared system dynamics.
+
+To address the reviewer’s concern more explicitly, we have expanded the discussion of these theoretical underpinnings in Section~2.1 (Lines~87--91 and Lines~102--108) of the revised manuscript.
+\end{reply}
+
+\begin{point}
+The unclear mechanism leads to unclear results. All three examples in the manuscript exhibit problematic causality outcomes. For instance, in the first example, the causality from house value to crime (0.193) is stronger than that from crime to income (0.123) and from income to crime (0.11), yet only the latter two appear in the diagram of causal links. The explanation provided in the manuscript is "with empirical knowledge," which is unreasonable. The same issue arises in the second and third examples. In the second example, the causality from temperature to elevation (0.509) is significantly higher than from population density to temperature (0.198), yet the latter is shown in the causal diagram while the former is not. In the third example, the causality strength from productivity to temperature reaches 0.61, which is obviously unreasonable, but it is omitted in the diagram. All these examples demonstrate that the GCMC results are highly unstable and lack interpretability; the causal strength it yields fails to reflect the true causal links and thus cannot be applied to real-world cases.
+\end{point}
+\begin{reply}
+We appreciate the reviewer’s careful examination and critical feedback. This comment helped us carefully reassess the logic and methodological rigor behind applying GCMC to real-world dataset.
+
+In the original version of the manuscript, we underestimated the influence of the embedding dimension $E$ on the performance of GCMC. Specifically, we adopted a simple rule-of-thumb—setting $E = 2$ for smaller datasets and $E = 3$ for larger ones—without systematic justification. However, since the core of our method relies on the intersectional structure of nearest neighbors in reconstructed state spaces, using an inadequately low embedding dimension can lead to a high proportion of false nearest neighbors\citep{kennel1992fnn,ma2017cme}, thereby distorting the reconstructed manifold geometry and biasing the estimated causal strength.
+
+To address this critical issue, we have now implemented the \textit{false nearest neighbors} method to determine appropriate embedding dimensions \citep{kennel1992fnn} for all variables prior to running GCMC or GCCM. The updated procedure is described in Lines~216--220 of the revised manuscript.
+
+Furthermore, we have re-run all three case studies and the noise sensitivity analysis using the corrected embedding dimensions. The causal diagrams for the three case studies have been revised accordingly, incorporating both statistical significance testing and a stricter causal strength threshold to determine the presence of links. The updated results (presented in Figures~4–6 of the revised manuscript) no longer exhibit the inconsistencies criticized in the original submission. Specifically, in the first example, only causal links that are both statistically significant and have strength exceeding 0.1 are retained in the diagram of causal links (i.e., \texttt{crime}$\rightarrow$\texttt{hoval}, \texttt{inc}$\rightarrow$\texttt{hoval}); in the second example, the causal link from temperature to elevation is excluded due to lack of statistical significance, while the link from population density to elevation is removed because its strength falls below the 0.10 threshold; in the third example, the link from NPP to temperature is excluded due to lack of statistical significance (Lines 156–169 introduce how to infer causation from the causal strengths measured by GCMC).
+
+\end{reply}
+
+\begin{point}
+GCMC is derived from GCCM by introducing the evaluation indicator, both within the GCM framework, but what is the advantage of this modification? In Figure 5, GCCM effectively suppresses the spurious causality from productivity to temperature (0.158, and significantly lower than the precipitation to productivity causality of 0.481). However, using the same data, GCMC finds that productivity to temperature has strong causality (0.611), even greater than the true causal link from precipitation to productivity (0.609). From this result, GCMC appears to perform worse than GCCM.
+\end{point}
+\begin{reply}
+Thank you very much for your insightful comments. The main advantage of GCMC compared to GCCM lies in its relatively lower false positive rate and fewer causal omissions. For instance, in our own controlled benchmark tests where the causal structure is known, GCCM either misses causal paths or detects false positives in all three scenarios (as illustrated in Figure~3 of the revised manuscript, or as shown below). 
+
+Regarding the specific case you mentioned in the NPP study, the issue you raised is resolved in GCMC when using the correct embedding dimension \( E \). In the revised results, the causal strength from NPP to temperature is statistically insignificant, leading us to exclude the causal link from NPP to temperature altogether.
+
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure3.jpg}
+\caption{Benchmark evaluation of GCMC on canonical causal structures.
+\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (Values near edges). Edge types indicate causal inference correctness: true positives (black solid), false positives (red solid), true negatives (gray dashed), and false negatives (red dashed). Non-significant values are marked with $^\#$ and orange-highlighted thresholds indicate the optimal decision boundary.}
+\label{fig_benchmark}
+\end{figure}
+\end{reply}
+
+
+\reviewersection 
+
+\begin{point}
+It said in Line 41-48 Page 2 that existing method are not strictly designed based on causal principles. What are causal principles?
+\end{point}
+\begin{reply}
+Thank you for raising this important question. By "causal principles", we refer primarily to well-established frameworks in causal inference, such as counterfactual reasoning \citep{rubin2005pom3}, structural causal models using directed acyclic graphs \citep{pearl2018scm4}, and predictive causality based on temporal or dynamical predictability \citep{granger1969grangertest,sugihara2012ccm}. These principles define causality as a relationship that can be identified under specific assumptions (e.g., ignorability, consistency) and not merely through statistical correlations. The GCMC method we introduce in this study is grounded in predictive causality, particularly as formalized in the empirical dynamic modeling (EDM) framework. Predictive causality—including Granger causality and its nonlinear extension such as convergent cross mapping (CCM)—posits that if variable $X$ causally influences $Y$, then the historical states of $Y$ should contain information about $X$. This form of causality is based on temporal predictability and dynamic information flow, which differs from traditional counterfactual or graph-based frameworks but remains a widely accepted causal concept in dynamic systems. To enhance clarity and avoid ambiguity, we have explicitly stated the specific causal principles referenced in this study in the revised manuscript (see Lines~37--42).
+\end{reply}
+
+\begin{point}
+What is AUC?  The name should be given in full when it first appears.
+\end{point}
+\begin{reply}
+We acknowledge the reviewer’s comment regarding the need to define abbreviations upon first use. While ``AUC'' typically stands for \textit{area under the curve} in many analytical contexts, in our study it specifically refers to the \textit{area under the intersectional cardinality curve}. In GCMC, the difference between the AUCs under the null and alternative hypotheses of mutual cross mapping is further quantified as causal strength. To improve clarity, we have revised Line~70 of the manuscript to define AUC in full at its first appearance.
+\end{reply}
+
+\begin{point}
+What is the difference between spatial association and reasonable causal association? The results of GCMC are also based on associations.
+\end{point}
+\begin{reply}
+We sincerely thank the reviewer for raising this thought-provoking and fundamental question. While both spatial association and causal association describe relationships between variables, they differ in nature and implication. Spatial association reflects the degree to which similar or dissimilar values co-occur in space, often measured by statistics such as Moran’s~$I$, Geary’s~$C$, or the GeoDetector $q$-statistic, and does not imply a directional or mechanistic relationship. In contrast, causal association implies that changes in one variable lead to or influence changes in another, underpinned by logical directionality and typically requiring additional assumptions or modeling frameworks to infer.
+
+In the context of GCMC, although the estimation relies on patterns observed in reconstructed state spaces, it is designed to capture \textit{dynamical causality} by leveraging the intersectional cardinality of neighbors identified through mutual cross mapping. This approach provides directional insights by comparing the structure of mappings under the null and alternative hypotheses, combined with statistical significance testing and threshold filtering. These features distinguish GCMC from conventional measures of spatial association. To avoid misunderstanding, we have consistently used the term \textit{causal strength} throughout the manuscript to describe the results obtained from GCMC. Corresponding revisions have also been made to the manuscript title and related sections to emphasize this clarification.
+\end{reply}
+
+\begin{point}
+For GD, one most important point is how to stratify explanatory variable. Different stratification would have difference results. Therefore, the stratification method should be introduced in detail and justified.
+\end{point}
+\begin{reply}
+We thank the reviewer for highlighting this important point. Indeed, the way in which the explanatory variable is stratified can significantly affect the GD results. In all our case studies, we used the natural breaks method to discretize the explanatory variables into five classes when calculating the $q$-statistic (stratified power). This information has been explicitly reported in the revised manuscript (Lines~215--216).
+\end{reply}
+
+\begin{point}
+What is the main contribution of this study? It is better to clearly stated. The most important contribution of GCCM is to bridge the dynamic system with cross-sectional geographic data. Based on it, GCMC changes the measure of causal strength from predictability to intersectional cardinality.
+\end{point}
+\begin{reply}
+We thank the reviewer for this constructive comment. We agree that clearly stating the main contribution of this study is important for improving the clarity and impact of the manuscript. 
+
+The main contributions of this study are twofold: First, building upon the empirical dynamic modeling (EDM) framework, we integrate the spatial state space reconstruction approach from GCCM with the intersectional cardinality concept from CMC, and innovatively apply the DeLong placement method to estimate causal strength along with its statistical significance and confidence intervals. This leads to a substantially lower false positive rate in causal inference compared to existing models (see the revised \textit{Results} section, including the benchmark experiment and the three case studies in Sections~3.1--3.4). Second, we introduce, for the first time, a spatial logistic map approach to simulate causal structures in spatial cross-sectional data, providing methodological guidance for future benchmark designs.
+
+These contributions have also been summarized in the revised \textit{Conclusion} section (see Lines~386--391).
+\end{reply}
+
+\begin{point}
+It is better to give more details on how GCMC to identify the direction of causality.
+\end{point}
+\begin{reply}
+We appreciate the reviewer for raising this important point regarding the identification of causal direction, which is central to causal inference. In response, we have carefully clarified and elaborated the procedure in Section~2.1 of the revised manuscript. In particular, Lines~156--169 now provide a detailed explanation of how GCMC interprets causal directionality based on the estimated causal strengths. Specifically, as summarized in the revised Section~2.1, the causal strength estimated by GCMC is grounded in dynamical systems theory and quantifies the difference between intersection cardinality curves under the null and alternative hypotheses of mutual cross mapping. To reliably infer a causal relationship, GCMC requires that the estimated strength in a given direction be both statistically significant and sufficiently large. In bivariate systems, if neither direction yields significant causal strength, it suggests the absence of a causal link. If one or both directions are significant, prior domain knowledge is needed to assess whether the strength reflects a genuine causal effect or is confounded by phenomena such as strong coupling or synchronization (e.g., enslaved dynamics), which may lead to false positives. In multivariate settings, GCMC evaluates all possible directional pairs and retains only those that satisfy both a statistical significance criterion and exceed a user-defined threshold (e.g., 0.1).
+
+It is also worth noting that the choice of threshold depends on the coupling characteristics of the spatial cross-sectional system to which GCMC is applied. In weakly or moderately coupled settings, a threshold of 0.1 is generally sufficient to filter out spurious causal links. We have discussed this point further in the revised \textit{Discussion} section (Lines~362--373).
+\end{reply}
+
+
+\baselineskip12pt
+\bibliographystyle{elsarticle-harv} 
+\bibliography{references.bib} 
+
+\end{document}
