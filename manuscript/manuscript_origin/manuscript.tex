@@ -135,16 +135,16 @@ The remainder of this manuscript is structured as follows: Section~\ref{sec2} ou
 
 \subsection{The geographical cross mapping cardinality method}
 
-Generalized embedding theory \citep{Takens1981embedding,Mane1981embedding} posits that the dynamics of a system can be reconstructed from a single observable through delay-coordinate embedding. Building upon this foundation, we extend the theory to the spatial domain by using spatial neighbors as analogs to temporal delays, thereby constructing shadow manifolds that capture the intrinsic structure of the system. Let $x$ and $y$ denote two spatially distributed (spatial cross-sectional) variables with $n$ observations each, the reconstructed state space $E_x$ of variable $x$ is given by:
+Generalized embedding theory \citep{Takens1981embedding,Mane1981embedding} establishes that the dynamics of a system can be reconstructed from a single observable through delay-coordinate embedding, where delayed values serve as independent coordinates of the reconstructed state space. Extending this principle to spatial data, recent developments of GCCM demonstrate that spatial neighbors can be treated as analogous observation functions, analogous to the temporal delays in classical embeddings \citep{gao2023gccm}. Specifically, for two spatial variables \(x\) and \(y\) defined on the same set of spatial units (e.g., grids or polygons), their values and spatial lags constitute valid observables from which embeddings (shadow manifolds) \(E_x\) and \(E_y\) can be reconstructed. Formally, the embedding of variable \(x\) in the spatial domain is represented as
 \begin{equation}\label{eq-embedding}
 E_x = \begin{bmatrix}
 h_{s(\tau)}(x_1) & h_{s(2\tau)}(x_1) & \cdots & h_{s(E\tau)}(x_1) \\
-h_{s(\tau)}(x_2) & h_{s(2\tau)}(x_2) & \cdots & h_{s(E)\tau)}(x_2) \\
+h_{s(\tau)}(x_2) & h_{s(2\tau)}(x_2) & \cdots & h_{s(E\tau)}(x_2) \\
 \vdots & \vdots & \ddots & \vdots \\
 h_{s(\tau)}(x_n) & h_{s(2\tau)}(x_n) & \cdots & h_{s(E\tau)}(x_n)
-\end{bmatrix}
+\end{bmatrix},
 \end{equation}
-\noindent where $E$ denotes the embedding dimension; $\tau$ is the spatial lag step; $s(k)$ identifies the $k$-th order spatial neighbors of each unit; and $h(\cdot)$ aggregates attribute values from neighboring units into scalar using the mean. 
+\noindent where \(E\) denotes the embedding dimension, \(\tau\) is the spatial lag step, \(s(k)\) identifies the \(k\)-th order spatial neighbors of each unit, and \(h(\cdot)\) is an aggregation function (e.g., the mean) that maps attribute values from neighboring units into a scalar. This construction preserves the intrinsic spatial dynamics and provides the theoretical basis for spatial cross-sectional embeddings.
 
 For instance, as illustrated in Figure~\ref{fig_ssr}, when the embedding dimension \(E = 3\) and the spatial lag step \(\tau = 1\), the embedding vector for a focal unit \(i\) is computed as 
 \(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\),  
@@ -155,11 +155,13 @@ where the denominators correspond to the number of units included in each spatia
 \begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure1.jpg}
-\caption{Demonstration of reconstructing state space for spatial cross-sectional data.}
+\caption{Demonstration of reconstructing embedding for spatial cross-sectional data.}
 \label{fig_ssr}
 \end{figure}
 
-If variables \(x\) and \(y\) originate from the same dynamical system, they are constrained by a common underlying manifold that governs their trajectories. According to the generalized embedding theory, the reconstructed attractors (shadow manifolds) from \(x\) and \(y\) are topologically equivalent representations of this manifold \citep{Takens1981embedding,Mane1981embedding}, and the one-to-one correspondence between them can be formalized as a diffeomorphism. Such a mapping preserves both topological conjugacy and the dynamical invariants of trajectories, ensuring that the evolution observed in one attractor can be faithfully recovered from the other \citep{sugihara2012ccm}. This theoretical foundation implies that information contained in one reconstructed attractor can be systematically recovered from the other, providing the basis for cross mapping and causal inference. Once the shadow manifolds $E_x$ and $E_y$ are reconstructed, GCMC evaluates the consistency of mutual cross mapping between them to infer causality. For a given number of nearest neighbors $k$, let $E_y^{nn}(i,k)$ denote the set of the $k$ nearest neighbors of the $i$-th spatial unit in $E_y$, and $E_x^{nn}(i,k)$ denote the analogous set for the \(i\)-th spatial unit in \(E_x\). By projecting the neighbors from $E_x$ to $E_y$, we obtain $E_y^{nn}(E_x^{nn}(i,k),k)$—that is, the set of $k$ nearest neighbors in $E_y$ corresponding to the $k$ nearest neighbors of unit $i$ in $E_x$. This projection reflects the idea of using the local structure in $x$ to reconstruct the neighborhood of $y$, a hallmark of causality in nonlinear dynamical systems.
+If variables \(x\) and \(y\) originate from the same dynamical system, they are constrained by a common underlying manifold that governs their trajectories. According to the generalized embedding theory, the reconstructed embeddings (shadow manifolds) \(E_x\) and \(E_y\) from \(x\) and \(y\) are topologically equivalent representations of this manifold \citep{Takens1981embedding,Mane1981embedding}, and the one-to-one correspondence between them can be formalized as a diffeomorphism. Such a mapping preserves both topological conjugacy and the dynamical invariants of trajectories, ensuring that the evolution observed in one embedding can be faithfully recovered from the other \citep{sugihara2012ccm}. This theoretical foundation implies that information contained in one reconstructed embedding can be systematically recovered from the other, providing the basis for cross mapping and causal inference.
+
+Building upon this principle, GCCM evaluates the consistency of mutual cross mapping between \(E_x\) and \(E_y\) to infer causality in spatial systems. For a given number of nearest neighbors \(k\), let \(E_y^{nn}(i,k)\) denote the set of the \(k\) nearest neighbors of the \(i\)-th spatial unit in \(E_y\), and \(E_x^{nn}(i,k)\) denote the analogous set in \(E_x\). By projecting the neighbors from \(E_x\) onto \(E_y\), we obtain \(E_y^{nn}(E_x^{nn}(i,k),k)\)—that is, the set of \(k\) nearest neighbors in \(E_y\) corresponding to the \(k\) nearest neighbors of unit \(i\) in \(E_x\). This procedure leverages the diffeomorphic correspondence between the embeddings: the local neighborhood structure in one embedding contains sufficient information to reconstruct the corresponding neighborhood in the other, which is the operational manifestation of causal influence in dynamical systems.
 
 To quantify the consistency between these neighborhoods, we define the intersection cardinality for the $i$-th unit as:
 \begin{equation}\label{eq-ic_ik}
