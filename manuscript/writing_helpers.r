@@ -6,7 +6,7 @@
 1:7 |> 
   purrr::walk(\(.x) {
     .pdf2jpg(paste0('./figure/figure',.x,'.pdf'),
-             paste0('./manuscript/figure/figure',.x,'.jpg'))
+             paste0('./manuscript/manuscript_origin/figure',.x,'.jpg'))
   })
 
 
