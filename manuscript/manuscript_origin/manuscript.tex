@@ -238,7 +238,7 @@ The causal strength measured by GCMC is a metric rooted in dynamical systems the
 
 \subsubsection{Synthetic benchmark via spatial logistic map}
 
-To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a \textit{spatial logistic map} process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): mediator $A \rightarrow B \rightarrow C$, collider $A \rightarrow B \leftarrow C$, and confounder $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
+To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a spatial logistic map process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): mediator $A \rightarrow B \rightarrow C$, collider $A \rightarrow B \leftarrow C$, and confounder $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
 
 \begin{figure}[htb!]
 \centering
@@ -255,7 +255,8 @@ We then evolve the system using the spatial logistic map for 15 time steps. The 
 \begin{equation}\label{slm}
 V_{t+1}(\mathbf{s}_i) = 1 - \alpha_V V_t(\mathbf{s}_i)\left(\frac{1}{k}\sum_{j\in \mathcal{N}(i)} V_t(\mathbf{s}_j) - \sum_{U\in \mathcal{C}(V)}\beta_{UV} U_t(\mathbf{s}_i)\right)
 \end{equation}
-\noindent where \(k\) is the neighborhood size; \(\mathcal{N}(i)\) denotes the spatial neighborhood of unit \(i\); \(\alpha_V\) controls the strength of nonlinear spatial self-interaction via a logistic growth term; \(\beta_{UV}\) denotes the causal influence from variable \(U\) to \(V\); and \(\mathcal{C}(V)\) denotes the set of causal parent variables of \(V\).
+
+\noindent where \(k\) is the neighborhood size; \(\mathcal{N}(i)\) denotes the spatial neighborhood of unit \(i\); \(\alpha_V\) controls the strength of nonlinear spatial self-interaction via a logistic growth term; \(\beta_{UV}\) denotes the causal influence from variable \(U\) to \(V\); and \(\mathcal{C}(V)\) denotes the set of causal parent variables of \(V\). It is important to note that spatial causality in this benchmark is expressed through the temporal evolution of multiple interacting spatial units. In practice, causal influence requires time to manifest, and the spatial cross-sections at each step can be viewed as snapshots of this evolving process. Because neighboring units and cross-variable interactions are explicitly coupled in the update rule, the observed spatial patterns at equilibrium are direct reflections of underlying causal dynamics, even though these dynamics unfold temporally. This approach is consistent with how real-world spatial data often capture the outcome of ongoing causal processes. Moreover, although Equation~\ref{slm} contains linear combination terms (e.g., neighbor averaging and additive causal influences), the overall updating mechanism is intrinsically nonlinear due to the logistic multiplicative form. Consequently, the system does not generate persistent linear trends; instead, it converges toward stabilized spatial patterns after discarding the transient initialization phase.
 
 To generate spatial cross-sectional data for testing, we discard the transient initial state at \(t=0\) and compute the average value of each variable over all spatial units at each subsequent time step. The final test data are obtained by averaging these spatial unit values across the simulation steps after the initial transient period, thereby capturing the stabilized spatial patterns. The parameters for the three causal scenarios are set as follows: for the mediator case, we set \(\beta_{AB}=1\), \(\beta_{BC}=1\), and all other \(\beta\) coefficients are set to $0$; for the collider case, \(\beta_{AB}=1\), \(\beta_{CB}=1\), with all remaining \(\beta\) coefficients equal to $0$; and for the confounder case, \(\beta_{BA}=1\), \(\beta_{BC}=1\), while all other \(\beta\) coefficients are $0$. In all scenarios, the spatial logistic parameters are fixed at \(\alpha_A = \alpha_B = \alpha_C = 0.2\), and the spatial neighborhood size is set to \(k=4\).
 
@@ -284,10 +285,10 @@ Figure~\ref{fig_benchmark} illustrates the performance of GCMC and GCCM on three
 
 \subsection{Case of residential crime study}\label{case1}
 
-\begin{figure}[htbp]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure4.jpg}
-\caption{Causation among residential crime, house value, and household income (non-significant values are marked with $^\#$). \textbf{a-c} Spatial distributions of the three variables. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Stratified power computed by GD. \textbf{f} Causal strengths measured by GCCM. \textbf{g} Causal strengths measured by GCMC. \textbf{h} Conceptual diagram summarizing the inferred causal pathways based on GCMC estimates, where false positive links are excluded based on a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 7\); the number of nearest neighbors used was \(k = 25\) for GCMC and \(k = 9\) for GCCM.}
+\caption{Causation among residential crime, house value, and household income (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a-c} Spatial distributions of the three variables. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Stratified power computed by GD. \textbf{f} Causal strengths measured by GCCM. \textbf{g} Causal strengths measured by GCMC. \textbf{h} Conceptual diagram summarizing the inferred causal pathways based on GCMC estimates, where false positive links are excluded based on a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 7\); the number of nearest neighbors used was \(k = 25\) for GCMC and \(k = 9\) for GCCM.}
 \label{fig_case1}
 \end{figure}
 
@@ -295,10 +296,10 @@ This case study investigates the causal relationships among residential crime (c
 
 \subsection{Case of population density study}\label{case2}
 
-\begin{figure}[htb]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{./figure/figure5.jpg}
-\caption{Causation among elevation, temperature and population density (non-significant values are marked with $^\#$). \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The stratified power quantified with GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Diagram of causal links constructed from GCMC results, with false positives filtered using a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 10\); the number of nearest neighbors used was \(k = 200\) for GCMC and \(k = 12\) for GCCM.}
+\caption{Causation among elevation, temperature and population density (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The stratified power quantified with GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Diagram of causal links constructed from GCMC results, with false positives filtered using a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 10\); the number of nearest neighbors used was \(k = 200\) for GCMC and \(k = 12\) for GCCM.}
 \label{fig_case2}
 \end{figure}
 
@@ -309,7 +310,7 @@ As illustrated in Figure~\ref{fig_case2}, this case reveals distinct capabilitie
 \begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{./figure/figure6.jpg}
-\caption{Causation among temperature, precipitation and net primary productivity (non-significant values are marked with $^\#$). \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power computed by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
+\caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power computed by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
 \label{fig_case3}
 \end{figure}
 
@@ -317,7 +318,7 @@ For the well-known Climate-NPP causation, where classical time series causal mod
 
 \subsection{Sensitivity to observational noise}\label{sensitivity}
 
-\begin{figure}[htb]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure7.jpg}
 \caption{Results of GCMC applied to synthetic datasets with varying noise levels. \textbf{a} Causal strengths when noise is added only to \textit{elev}. \textbf{b} Causal strengths when noise is added only to \textit{popd}. \textbf{c} Causal strengths when noise is added to both \textit{elev} and \textit{popd}.}
