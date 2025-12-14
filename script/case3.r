@@ -90,9 +90,9 @@ readr::write_rds(pcc,'./result/case/pcc_case3.rds')
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-q1 = ssh_q(data = npp.df,cause = "pre",effect = "npp")
-q2 = ssh_q(data = npp.df,cause = "tem",effect = "npp")
-q3 = ssh_q(data = npp.df,cause = "pre",effect = "tem")
+q1 = ssh_q(data = npp.df, cause = "pre", effect = "npp")
+q2 = ssh_q(data = npp.df, cause = "tem", effect = "npp")
+q3 = ssh_q(data = npp.df, cause = "pre", effect = "tem")
 qv = do.call(rbind,list(q1,q2,q3))
 qv
 readr::write_rds(qv,'./result/case/gd_case3.rds')

@@ -71,9 +71,9 @@ readr::write_rds(pcc,'./result/case/pcc_case1.rds')
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-q1 = ssh_q(data = columdf,cause = "hoval",effect = "crime")
-q2 = ssh_q(data = columdf,cause = "inc",effect = "crime")
-q3 = ssh_q(data = columdf,cause = "hoval",effect = "inc")
+q1 = ssh_q(data = columdf, cause = "hoval", effect = "crime")
+q2 = ssh_q(data = columdf, cause = "inc", effect = "crime")
+q3 = ssh_q(data = columdf, cause = "hoval", effect = "inc")
 qv = do.call(rbind,list(q1,q2,q3))
 qv
 readr::write_rds(qv,'./result/case/gd_case1.rds')
