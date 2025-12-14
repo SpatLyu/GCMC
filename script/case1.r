@@ -18,7 +18,7 @@ columbus
 spEDM::fnn(columbus, "hoval", E = 1:10, eps = stats::sd(columbus$hoval) / 10)
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
+#------    Causation by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
 ceiling(sqrt(7 * nrow(columbus)))
@@ -39,7 +39,7 @@ gcmc_case1 = list(g1,g2,g3)
 readr::write_rds(gcmc_case1,'./result/case/gcmc_case1.rds')
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------    Causation by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
 # housing value and crime (residential burglaries and vehicle thefts)

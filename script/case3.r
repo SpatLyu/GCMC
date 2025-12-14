@@ -35,7 +35,7 @@ spEDM::fnn(npp, "npp", E = 1:25, lib = predindice, pred = predindice,
            eps = stats::sd(terra::values(npp[["npp"]]),na.rm = TRUE) / 10)
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
+#------    Causation by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
 ceiling(sqrt(18 * 1500))
@@ -56,7 +56,7 @@ gcmc_case3 = list(g1,g2,g3)
 readr::write_rds(gcmc_case3,'./result/case/gcmc_case3.rds')
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------    Causation by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
 # precipitation and npp

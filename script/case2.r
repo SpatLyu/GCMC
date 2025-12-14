@@ -23,7 +23,7 @@ popd_sf
 spEDM::fnn(popd_sf, "popd", E = 1:15, eps = stats::sd(popd_sf$popd) / 10)
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
+#------    Causation by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
 ceiling(sqrt(10 * nrow(popd_sf)))
@@ -44,7 +44,7 @@ gcmc_case2 = list(g1,g2,g3)
 readr::write_rds(gcmc_case2,'./result/case/gcmc_case2.rds')
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------    Causation by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
 # temperature and population density
