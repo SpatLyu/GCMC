@@ -104,11 +104,11 @@ terra::values(species_scenario2[["c"]]) = sim2$z
 species_scenario2
 terra::plot(species_scenario2)
 
-spEDM::fnn(species_scenario2, "a", E = 1:10, 
+spEDM::fnn(species_scenario2, "a", E = 1:25,
            eps = stats::sd(terra::values(species_scenario2[["a"]]), na.rm = TRUE))
-spEDM::fnn(species_scenario2, "b", E = 1:10, 
+spEDM::fnn(species_scenario2, "b", E = 1:25, 
            eps = stats::sd(terra::values(species_scenario2[["b"]]), na.rm = TRUE))
-spEDM::fnn(species_scenario2, "c", E = 1:10, 
+spEDM::fnn(species_scenario2, "c", E = 1:25, 
            eps = stats::sd(terra::values(species_scenario2[["c"]]), na.rm = TRUE))
 
 g1 = spEDM::gcmc(species_scenario2, "a", "b", E = 6, k = 72)
