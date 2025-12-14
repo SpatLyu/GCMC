@@ -27,9 +27,18 @@ indices = sample(nrow(nnaindice), size = 1500, replace = FALSE)
 libindice = nnaindice[-indices,]
 predindice = nnaindice[indices,]
 
+#-----------------------------------------------------------------------------#
+#------            Determining minimum embedding dimension              ------#
+#-----------------------------------------------------------------------------#
+
+spEDM::fnn(npp, "npp", E = 1:25, lib = predindice, pred = predindice,
+           eps = stats::sd(terra::values(npp[["npp"]]),na.rm = TRUE) / 10)
+
 #------------------------------------------------------------------------------#
 #------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
+
+ceiling(sqrt(18 * 1500))
 
 # precipitation and npp
 g1 = gcmc(npp, "pre", "npp", E = 18, k = 165, lib = predindice, pred = predindice)
