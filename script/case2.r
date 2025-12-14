@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~  Case: County Level Population Density In China  ~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~         Author: Wenbo Lv; Date: 2025-06-25       ~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~         Author: Wenbo Lv; Date: 2025-12-15       ~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -16,27 +16,35 @@ popd_sf = popd |>
   dplyr::select(popd,elev,tem)
 popd_sf
 
+#-----------------------------------------------------------------------------#
+#------            Determining minimum embedding dimension              ------#
+#-----------------------------------------------------------------------------#
+
+spEDM::fnn(popd_sf, "popd", E = 1:15, eps = stats::sd(popd_sf$popd) / 10)
+
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
+#------    Causation by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
 
+ceiling(sqrt(10 * nrow(popd_sf)))
+
 # temperature and population density
-g1 = gcmc(popd_sf, "tem", "popd", E = 10, k = 200, nb = popd_nb)
+g1 = gcmc(popd_sf, "tem", "popd", E = 10, k = 168, nb = popd_nb)
 g1
 
 # elevation and population density
-g2 = gcmc(popd_sf, "elev", "popd", E = 10, k = 200, nb = popd_nb)
+g2 = gcmc(popd_sf, "elev", "popd", E = 10, k = 168, nb = popd_nb)
 g2
 
 # elevation and temperature
-g3 = gcmc(popd_sf, "elev", "tem", E = 10, k = 200, nb = popd_nb)
+g3 = gcmc(popd_sf, "elev", "tem", E = 10, k = 168, nb = popd_nb)
 g3
 
 gcmc_case2 = list(g1,g2,g3)
 readr::write_rds(gcmc_case2,'./result/case/gcmc_case2.rds')
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------    Causation by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
 # temperature and population density

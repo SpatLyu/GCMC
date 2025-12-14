@@ -2,7 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~        Case: Farmland NPP In China       ~~~~~~~~~~~~~~~~#
-#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-07-03    ~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~    Author: Wenbo Lv; Date: 2025-12-15    ~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -27,9 +27,18 @@ indices = sample(nrow(nnaindice), size = 1500, replace = FALSE)
 libindice = nnaindice[-indices,]
 predindice = nnaindice[indices,]
 
+#-----------------------------------------------------------------------------#
+#------            Determining minimum embedding dimension              ------#
+#-----------------------------------------------------------------------------#
+
+spEDM::fnn(npp, "npp", E = 1:25, lib = predindice, pred = predindice,
+           eps = stats::sd(terra::values(npp[["npp"]]),na.rm = TRUE) / 10)
+
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Cross Mapping Cardinality (GCMC)    ------#
+#------    Causation by Geographical Cross Mapping Cardinality (GCMC)    ------#
 #------------------------------------------------------------------------------#
+
+ceiling(sqrt(18 * 1500))
 
 # precipitation and npp
 g1 = gcmc(npp, "pre", "npp", E = 18, k = 165, lib = predindice, pred = predindice)
@@ -47,7 +56,7 @@ gcmc_case3 = list(g1,g2,g3)
 readr::write_rds(gcmc_case3,'./result/case/gcmc_case3.rds')
 
 #------------------------------------------------------------------------------#
-#------    Causality by Geographical Convergent Cross Mapping (GCCM)     ------#
+#------    Causation by Geographical Convergent Cross Mapping (GCCM)     ------#
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
@@ -81,9 +90,9 @@ readr::write_rds(pcc,'./result/case/pcc_case3.rds')
 #------------------------------------------------------------------------------#
 
 source('./script/ssh_q.r')
-q1 = ssh_q(data = npp.df,cause = "pre",effect = "npp")
-q2 = ssh_q(data = npp.df,cause = "tem",effect = "npp")
-q3 = ssh_q(data = npp.df,cause = "pre",effect = "tem")
+q1 = ssh_q(data = npp.df, cause = "pre", effect = "npp")
+q2 = ssh_q(data = npp.df, cause = "tem", effect = "npp")
+q3 = ssh_q(data = npp.df, cause = "pre", effect = "tem")
 qv = do.call(rbind,list(q1,q2,q3))
 qv
 readr::write_rds(qv,'./result/case/gd_case3.rds')
