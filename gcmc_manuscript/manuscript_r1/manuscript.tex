@@ -254,11 +254,12 @@ The causal strength measured by GCMC is a metric rooted in dynamical systems the
 
 To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a spatial logistic map process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): mediator $A \rightarrow B \rightarrow C$, collider $A \rightarrow B \leftarrow C$, and confounder $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
 
-\begin{figure}[htbp]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure4.png}
 \caption{Benchmark evaluation of GCMC on canonical causal structures.
-\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (values near edges). Edge types indicate causal inference correctness: true causality (black solid), false positive causality (red solid), and ruled-out non-causal links (gray dashed). Non-significant values ($p > 0.05$) are marked with $^\#$, and orange-highlighted thresholds indicate the optimal decision boundary. This threshold is determined by varying the threshold continuously from 0 to 1 at an interval of 0.01 and selecting the maximum value at which the simulated ground-truth causal links remain valid.
+\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. 
+\textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (values near edges). Edge types indicate causal inference correctness: true causality (black solid), false positive causality (red solid), and ruled-out non-causal links (gray dashed). Non-significant values ($p > 0.05$) are marked with $^\#$, and orange-highlighted thresholds indicate the optimal decision boundary. This threshold is determined by varying the threshold continuously from 0 to 1 at an interval of 0.01 and selecting the maximum value at which the simulated ground-truth causal links remain valid.
 }
 \label{fig_benchmark}
 \end{figure}
