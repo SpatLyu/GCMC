@@ -154,7 +154,7 @@ where the denominators correspond to the number of units included in each spatia
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure1.jpg}
+\includegraphics[width=1\textwidth]{./figure/figure1.png}
 \caption{Demonstration of reconstructing embedding for spatial cross-sectional data.}
 \label{fig_ssr}
 \end{figure}
@@ -163,9 +163,16 @@ If variables \(x\) and \(y\) originate from the same dynamical system, they are 
 
 Building upon this principle, GCCM evaluates the consistency of mutual cross mapping between \(E_x\) and \(E_y\) to infer causality in spatial systems. For a given number of nearest neighbors \(k\), let \(E_y^{nn}(i,k)\) denote the set of the \(k\) nearest neighbors of the \(i\)-th spatial unit in \(E_y\), and \(E_x^{nn}(i,k)\) denote the analogous set in \(E_x\). By projecting the neighbors from \(E_x\) onto \(E_y\), we obtain \(E_y^{nn}(E_x^{nn}(i,k),k)\)—that is, the set of \(k\) nearest neighbors in \(E_y\) corresponding to the \(k\) nearest neighbors of unit \(i\) in \(E_x\). This procedure leverages the diffeomorphic correspondence between the embeddings: the local neighborhood structure in one embedding contains sufficient information to reconstruct the corresponding neighborhood in the other, which is the operational manifestation of causal influence in dynamical systems.
 
+\begin{figure}[htb!]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure2.png}
+\caption{Schematic diagram of intersectional cardinality (IC) in GCMC. \textbf{a} The intersectional cardinality corresponding to the \(H_1\) model, which indicates the existence of a causation when neighbors map to neighbors. \textbf{b} The intersectional cardinality corresponding to the \(H_0\) model, where neighbors map to random points, shows no significant causation. \textbf{c} The intersectional cardinality curve, formed by the intersectional cardinality values corresponding to \(H_1\) and \(H_0\) for different numbers of nearest neighbors \(k\)}
+\label{fig_ic}
+\end{figure}
+
 To quantify the consistency between these neighborhoods, we define the intersection cardinality for the $i$-th unit as:
 \begin{equation}\label{eq-ic_ik}
-IC_{i,k} = \left| E_y^{nn}(i,k) \cap E_y^{nn}(E_x^{nn}(i,k),k) \right|
+IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \right|
 \end{equation}
 \noindent This value measures the number of shared neighbors between the directly observed neighborhood in $E_y$ and the neighborhood inferred via cross mapping from $E_x$. A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and predicted neighborhood structures, suggesting a more robust causal link from $y$ to $x$.
 
@@ -191,7 +198,7 @@ CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure2.jpg}
+\includegraphics[width=1\textwidth]{./figure/figure3.png}
 \caption{Schematic diagram of intersectional cardinality (IC) in GCMC. \textbf{a} The intersectional cardinality corresponding to the \(H_1\) model, which indicates the existence of a causation when neighbors map to neighbors. \textbf{b} The intersectional cardinality corresponding to the \(H_0\) model, where neighbors map to random points, shows no significant causation. \textbf{c} The intersectional cardinality curve, formed by the intersectional cardinality values corresponding to \(H_1\) and \(H_0\) for different numbers of nearest neighbors \(k\)}
 \label{fig_ic}
 \end{figure}
@@ -242,7 +249,7 @@ To evaluate the capability of the proposed GCMC method in measuring causal stren
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure3.jpg}
+\includegraphics[width=1\textwidth]{./figure/figure4.png}
 \caption{Benchmark evaluation of GCMC on canonical causal structures.
 \textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (values near edges). Edge types indicate causal inference correctness: true causality (black solid), false positive causality (red solid), and ruled-out non-causal links (gray dashed). Non-significant values ($p > 0.05$) are marked with $^\#$, and orange-highlighted thresholds indicate the optimal decision boundary. This threshold is determined by varying the threshold continuously from 0 to 1 at an interval of 0.01 and selecting the maximum value at which the simulated ground-truth causal links remain valid.
 }
@@ -287,7 +294,7 @@ Figure~\ref{fig_benchmark} illustrates the performance of GCMC and GCCM on three
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure4.jpg}
+\includegraphics[width=1\textwidth]{./figure/figure5.png}
 \caption{Causation among residential crime, house value, and household income (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a-c} Spatial distributions of the three variables. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Stratified power computed by GD. \textbf{f} Causal strengths measured by GCCM. \textbf{g} Causal strengths measured by GCMC. \textbf{h} Conceptual diagram summarizing the inferred causal pathways based on GCMC estimates, where false positive links are excluded based on a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 7\); the number of nearest neighbors used was \(k = 25\) for GCMC and \(k = 9\) for GCCM.}
 \label{fig_case1}
 \end{figure}
@@ -298,7 +305,7 @@ This case study investigates the causal relationships among residential crime (c
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure5.jpg}
+\includegraphics[width=0.9\textwidth]{./figure/figure6.png}
 \caption{Causation among elevation, temperature and population density (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The stratified power quantified with GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Diagram of causal links constructed from GCMC results, with false positives filtered using a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 10\); the number of nearest neighbors used was \(k = 200\) for GCMC and \(k = 12\) for GCCM.}
 \label{fig_case2}
 \end{figure}
@@ -309,7 +316,7 @@ As illustrated in Figure~\ref{fig_case2}, this case reveals distinct capabilitie
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure6.jpg}
+\includegraphics[width=0.9\textwidth]{./figure/figure7.png}
 \caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power computed by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
 \label{fig_case3}
 \end{figure}
@@ -320,7 +327,7 @@ For the well-known Climate-NPP causation, where classical time series causal mod
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure7.jpg}
+\includegraphics[width=1\textwidth]{./figure/figure8.png}
 \caption{Results of GCMC applied to synthetic datasets with varying noise levels. \textbf{a} Causal strengths when noise is added only to \textit{elev}. \textbf{b} Causal strengths when noise is added only to \textit{popd}. \textbf{c} Causal strengths when noise is added to both \textit{elev} and \textit{popd}.}
 \label{fig_noise}
 \end{figure}
