@@ -161,10 +161,14 @@ where the denominators correspond to the number of units included in each spatia
 
 If variables \(x\) and \(y\) originate from the same dynamical system, they are constrained by a common underlying manifold that governs their trajectories. According to the generalized embedding theory, the reconstructed embeddings (shadow manifolds) \(M_x\) and \(M_y\) from \(x\) and \(y\) are topologically equivalent representations of this manifold \citep{Takens1981embedding,Mane1981embedding}, and the one-to-one correspondence between them can be formalized as a diffeomorphism. Such a mapping preserves both topological conjugacy and the dynamical invariants of trajectories, ensuring that the evolution observed in one embedding can be faithfully recovered from the other \citep{sugihara2012ccm}. This theoretical foundation implies that information contained in one reconstructed embedding can be systematically recovered from the other, providing the basis for cross mapping and causal inference.
 
-\begin{figure}[htbp]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure2.png}
-\caption{Schematic illustration of intersectional cardinality in the reconstructed state space. \textbf{a} The intersectional cardinality corresponding to the \(H_1\) model, which indicates the existence of a causation when neighbors map to neighbors. \textbf{b} The intersectional cardinality corresponding to the \(H_0\) model, where neighbors map to random points, shows no significant causation. \textbf{c} The intersectional cardinality curve, formed by the intersectional cardinality values corresponding to \(H_1\) and \(H_0\) for different numbers of nearest neighbors \(k\)}
+\caption{Schematic illustration of intersectional cardinality in the reconstructed state space.
+\textbf{a} Local neighborhood in manifold $M_x$.
+\textbf{b} Local neighborhood in manifold $M_y$.
+\textbf{c} Projection of the neighborhood from $M_x$ to $M_y$.
+\textbf{d} Intersectional cardinality between the mapped neighborhoods.}
 \label{fig_ic}
 \end{figure}
 
