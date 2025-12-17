@@ -316,7 +316,7 @@ This case study investigates the causal relationships among residential crime (c
 
 \subsection{Case of population density study}\label{case2}
 
-\begin{figure}[htbp]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{./figure/figure6.png}
 \caption{Causation among elevation, temperature and population density (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
@@ -333,7 +333,11 @@ As illustrated in Figure~\ref{fig_case2}, this case reveals distinct capabilitie
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{./figure/figure7.png}
-\caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power computed by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
+\caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
+\textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. 
+\textbf{b} Stratified power computed by GD. 
+\textbf{c} Causal strengths measured by LiNGAM. 
+\textbf{d} Causal strengths measured by GCCM. \textbf{e} Causal strengths measured by GCMC. \textbf{f} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
 \label{fig_case3}
 \end{figure}
 
