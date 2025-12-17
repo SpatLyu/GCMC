@@ -166,7 +166,7 @@ Building upon this principle, GCCM evaluates the consistency of mutual cross map
 \begin{figure}[htb!]
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure2.png}
-\caption{Schematic diagram of intersectional cardinality (IC) in GCMC. \textbf{a} The intersectional cardinality corresponding to the \(H_1\) model, which indicates the existence of a causation when neighbors map to neighbors. \textbf{b} The intersectional cardinality corresponding to the \(H_0\) model, where neighbors map to random points, shows no significant causation. \textbf{c} The intersectional cardinality curve, formed by the intersectional cardinality values corresponding to \(H_1\) and \(H_0\) for different numbers of nearest neighbors \(k\)}
+\caption{Schematic illustration of intersectional cardinality in the reconstructed state space. \textbf{a} The intersectional cardinality corresponding to the \(H_1\) model, which indicates the existence of a causation when neighbors map to neighbors. \textbf{b} The intersectional cardinality corresponding to the \(H_0\) model, where neighbors map to random points, shows no significant causation. \textbf{c} The intersectional cardinality curve, formed by the intersectional cardinality values corresponding to \(H_1\) and \(H_0\) for different numbers of nearest neighbors \(k\)}
 \label{fig_ic}
 \end{figure}
 
@@ -186,12 +186,12 @@ By varying $k$ from $1$ to $n$, we obtain the complete IC curve:
 IC_{\text{curve}} = \{ IC_k \mid k = 1, 2, \dots, n \}
 \end{equation}
 
-According to \cite{tao2023cmc}, the shape of the IC curve reveals critical information about the presence and strength of causality. Under the null hypothesis $H_0$(Figure~\ref{fig_ic}b,which assumes no causal influence from $y$ to $x$), the IC curve increases linearly with $k$, reflecting the expected number of intersecting neighbors under random mapping. In contrast, under the alternative hypothesis $H_1$(Figure~\ref{fig_ic}a), where a causal link exists, the IC curve exhibits a concave-down shape, indicating improved neighborhood consistency with increasing $k$. This IC concavity serves as a dynamical signature of causality. Formally, to test for causality from $y$ to $x$, we specify the hypotheses as:
+According to \cite{tao2023cmc}, the shape of the IC curve reveals critical information about the presence and strength of causality. Under the null hypothesis $H_0$(Figure~\ref{fig_cross_mapping}b,which assumes no causal influence from $y$ to $x$), the IC curve increases linearly with $k$, reflecting the expected number of intersecting neighbors under random mapping. In contrast, under the alternative hypothesis $H_1$(Figure~\ref{fig_cross_mapping}a), where a causal link exists, the IC curve exhibits a concave-down shape, indicating improved neighborhood consistency with increasing $k$. This IC concavity serves as a dynamical signature of causality. Formally, to test for causality from $y$ to $x$, we specify the hypotheses as:
 \begin{equation}\label{eq-hypothesis}
 H_0: y \not\Rightarrow x \quad \text{vs.} \quad H_1: y \Rightarrow x
 \end{equation}
 
-The IC curve under $H_1$ is obtained through equations~\ref{eq-ic_ik}–\ref{eq-ic_curve}, whereas the IC curve under $H_0$ is approximated by a baseline linear function, $IC_k = 0.5k$, representing the expected overlap under random association \citep{tao2023cmc}. The causal strength (CS) from $y$ to $x$ is then defined as the difference in the area under the IC curve (AUC) between the alternative and null hypotheses(Figure~\ref{fig_ic}c):
+The IC curve under $H_1$ is obtained through equations~\ref{eq-ic_ik}–\ref{eq-ic_curve}, whereas the IC curve under $H_0$ is approximated by a baseline linear function, $IC_k = 0.5k$, representing the expected overlap under random association \citep{tao2023cmc}. The causal strength (CS) from $y$ to $x$ is then defined as the difference in the area under the IC curve (AUC) between the alternative and null hypotheses(Figure~\ref{fig_cross_mapping}c):
 \begin{equation}\label{eq-cs}
 CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
 \end{equation}
@@ -200,7 +200,7 @@ CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
 \centering
 \includegraphics[width=1\textwidth]{./figure/figure3.png}
 \caption{Schematic diagram of intersectional cardinality (IC) in GCMC. \textbf{a} The intersectional cardinality corresponding to the \(H_1\) model, which indicates the existence of a causation when neighbors map to neighbors. \textbf{b} The intersectional cardinality corresponding to the \(H_0\) model, where neighbors map to random points, shows no significant causation. \textbf{c} The intersectional cardinality curve, formed by the intersectional cardinality values corresponding to \(H_1\) and \(H_0\) for different numbers of nearest neighbors \(k\)}
-\label{fig_ic}
+\label{fig_cross_mapping}
 \end{figure}
 
 In GCMC, the causal strength (AUC value) is estimated using the DeLong placement method, which is a non-parametric approach for calculating the AUC and its variance \citep{delong1988,sun2014delongfi}. Given a set of positive cases \(\{X_i\}_{i=1}^{m}\) (IC curves corresponding to \(H_1\)) and negative controls \(\{Y_j\}_{j=1}^{n}\) (IC curves corresponding to \(H_0\)), the AUC is computed as:
