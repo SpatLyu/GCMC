@@ -17,11 +17,6 @@ nnamat = terra::as.matrix(npp[[1]], wide = TRUE)
 nnaindice = which(!is.na(nnamat), arr.ind = TRUE)
 dim(nnaindice)
 
-set.seed(2025)
-indices = sample(nrow(nnaindice), size = 1500, replace = FALSE)
-libindice = nnaindice[-indices,]
-predindice = nnaindice[indices,]
-
 #-----------------------------------------------------------------------------#
 #------            Determining minimum embedding dimension              ------#
 #-----------------------------------------------------------------------------#
@@ -36,15 +31,15 @@ spEDM::fnn(npp, "npp", E = 1:25,
 ceiling(sqrt(5 * dim(nnaindice)[1]))
 
 # precipitation and npp
-g1 = gcmc(npp, "pre", "npp", E = 5, k = 144)
+g1 = spEDM::gcmc(npp, "pre", "npp", E = 5, k = 144)
 g1
 
 # temperature and npp
-g2 = gcmc(npp, "tem", "npp", E = 5, k = 144)
+g2 = spEDM::gcmc(npp, "tem", "npp", E = 5, k = 144)
 g2
 
 # precipitation and temperature
-g3 = gcmc(npp, "pre", "tem", E = 5, k = 144)
+g3 = spEDM::gcmc(npp, "pre", "tem", E = 5, k = 144)
 g3
 
 gcmc_case3 = list(g1,g2,g3)
@@ -55,15 +50,15 @@ readr::write_rds(gcmc_case3,'./Case of net primary productivity study/gcmc_case3
 #------------------------------------------------------------------------------#
 
 # precipitation and npp
-g1 = gccm(npp, "pre", "npp", E = 5, k = 7)
+g1 = spEDM::gccm(npp, "pre", "npp", E = 5, k = 7)
 g1
 
 # temperature and npp
-g2 = gccm(npp, "tem", "npp", E = 5, k = 7)
+g2 = spEDM::gccm(npp, "tem", "npp", E = 5, k = 7)
 g2
 
 # precipitation and temperature
-g3 = gccm(npp, "pre", "tem", E = 5, k = 7)
+g3 = spEDM::gccm(npp, "pre", "tem", E = 5, k = 7)
 g3
 
 gccm_case3 = list(g1,g2,g3)
