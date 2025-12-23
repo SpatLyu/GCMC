@@ -1,6 +1,5 @@
 \documentclass[authoryear,preprint,review,12pt]{elsarticle}
 
-
 \textheight24cm
 \textwidth15.5cm              
 \oddsidemargin0.25cm
@@ -14,8 +13,6 @@
 \usepackage{amsmath}
 \usepackage{tcolorbox}
 \usepackage{soul}
-
-
 \usepackage{caption}
 % Adjust the page margins to fit the table size
 \geometry{
@@ -24,8 +21,6 @@
   top=1in,
   bottom=1in
 }
-
-
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{pifont}
@@ -51,15 +46,12 @@
 \usepackage{booktabs} 
 \usepackage{tabularx}
 \usepackage{geometry} 
-
 %\usepackage[x11names]{xcolor}
 \usepackage[
   colorlinks,
 ]{hyperref}
 \definecolor{DodgerBlue4}{rgb}{0.0627, 0.3059, 0.5451}
 \AtBeginDocument{\hypersetup{citecolor=DodgerBlue4}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \journal{International Journal of Geographical Information Science}
 
 \begin{document}
@@ -95,13 +87,9 @@
 \address[f]{College of Public Administration, Nanjing Agricultural University, Nanjing, China}
 \address[g]{Department of Fisheries and Wildlife, Michigan State University, East Lansing, United States}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-
 Spatial cross-sectional data encapsulate rich information on spatial processes, forming a critical foundation for examining causation between variables. Detecting and quantifying such causation is essential for understanding complex natural and human phenomena. However, measuring causal strengths from spatial cross-sectional data remains challenging, as existing methods often lack a rigorous framework to quantify causation. Here, we propose a geographical cross mapping cardinality (GCMC) model, which quantifies causal strength via the intersectional cardinality of neighbors identified through mutual cross mapping in the reconstructed state space, and integrates the DeLong placement method to assess statistical significance and confidence intervals. We validate GCMC using a simulated three-variable causal benchmark and three typical spatial cross-sectional datasets with known causations, and assess its sensitivity to noise in observational data. Results show that GCMC effectively measures causal strengths in weakly, moderately, and strongly coupled systems, while maintaining a low false positive rate. Moreover, GCMC exhibits robustness to noise in observational data. As a new method within empirical dynamic modeling frameworks for spatial cross-sectional data, GCMC complements existing approaches and supports more robust causal inference.
-
 
 \end{abstract}
 
@@ -111,11 +99,9 @@ Causal Strength \sep Spatial Cross-Sectional Data \sep Empirical Dynamic Modelin
 
 \end{frontmatter}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \linenumbers
 
-
- \section{Introduction}
+\section{Introduction}
 
 Understanding causation in the Earth system is fundamental for addressing scientific and societal challenges, yet direct interventions are often impractical or ethically problematic \citep{gao2022tscess,runge2023tsc,gao2023gccm}. Traditionally, Earth system sciences have relied on physics-based simulations to infer causal mechanisms, offering a controlled framework for experimentation. However, these models come with high computational costs and rely on strong assumptions about underlying processes, limiting their applicability in complex, nonlinear, and poorly understood systems. Meanwhile, the increasing availability of large-scale observational datasets, including time series and spatial cross-sectional data, has opened new avenues for data-driven causal inference in Earth sciences \citep{runge2019esstsc,runge2023tsc}. A variety of methods based on observational data have been developed, including prediction-based approaches that test temporal precedence and predictive power \citep{granger1969grangertest,geweke1982grangertest2}, entropy-based techniques that capture nonlinear dependencies \citep{schreiber2000te1,vicente2010te2,sun2014ce1}, structural causal modeling frameworks that encode domain knowledge into graphical models \citep{pearl2000scm2,pearl2009scm3,pearl2018scm4}, potential outcome frameworks that enable counterfactual reasoning in quasi-experimental designs \citep{rubin1974pom1,rubin1986pom2,rubin2005pom3}, and empirical dynamic modeling approaches that detect causation through delay-coordinate embedding and attractor reconstruction in nonlinear dynamic systems \citep{sugihara2012ccm,ma2014cms,clark2015multispatialccm}.
 
