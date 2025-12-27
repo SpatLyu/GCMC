@@ -197,8 +197,7 @@ CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
 \label{fig_cross_mapping}
 \end{figure}
 
-In GCMC, causal strength is quantified by the area under the intersectional cardinality curve, which captures how consistently the neighborhood of one variable overlaps with that of another across different neighborhood scales in the reconstructed state space. A steeper IC curve and a larger area under the curve indicate stronger and more systematic neighborhood overlap, reflecting a higher likelihood of genuine causal influence rather than incidental spatial association. Conversely, a flat or slowly increasing IC curve suggests weak or inconsistent neighborhood correspondence, which is more likely to arise from spurious associations induced by confounding, collider, or other complex interaction structures, or from observational noise, rather than from genuine causal influence. To statistically estimate this causal strength and its uncertainty, we employ the DeLong placement method, a non-parametric approach originally developed for estimating the area under the receiver operating characteristic (ROC) curve and its variance \citep{delong1988,sun2014delongfi}. Here, the DeLong method is used to compare IC curves corresponding to causal hypotheses and null controls Specifically, given a set of positive cases $\{X_i\}_{i=1}^{m}$ representing IC curves under the alternative hypothesis ($H_1$), and a set of negative controls $\{Y_j\}_{j=1}^{n}$ representing IC curves under the null hypothesis ($H_0$), the AUC is computed as
-
+In GCMC, causal strength is quantified by the area under the intersectional cardinality curve, which captures how consistently the neighborhood of one variable overlaps with that of another across different neighborhood scales in the reconstructed state space. A steeper IC curve and a larger area under the curve indicate stronger and more systematic neighborhood overlap, reflecting a higher likelihood of genuine causal influence rather than incidental spatial association. Conversely, a flat or slowly increasing IC curve suggests weak or inconsistent neighborhood correspondence, which is more likely to arise from spurious associations induced by confounding, collider, or other complex interaction structures, or from observational noise, rather than from genuine causal influence. To statistically estimate this causal strength and its uncertainty, we employ the DeLong placement method, a non-parametric approach originally developed for estimating the area under the receiver operating characteristic (ROC) curve and its variance \citep{delong1988,sun2014delongfi}. Here, the DeLong method is used to compare IC curves corresponding to the null hypothesis and the alternative hypothesis. Specifically, given a set of positive cases $\{X_i\}_{i=1}^{m}$ representing IC curves under the alternative hypothesis ($H_1$), and a set of negative controls $\{Y_j\}_{j=1}^{n}$ representing IC curves under the null hypothesis ($H_0$), the AUC is computed as
 \begin{equation}
 \hat{\theta} = \frac{1}{mn} \sum_{i=1}^{m} \sum_{j=1}^{n} \mathbb{I}(X_i > Y_j) + \frac{1}{2} \mathbb{I}(X_i = Y_j),
 \end{equation}
@@ -206,13 +205,11 @@ In GCMC, causal strength is quantified by the area under the intersectional card
 \noindent where \(\hat{\theta}\) represents the estimated AUC value, and \(\mathbb{I}(\cdot)\) is an indicator function that equals 1 if the condition holds and 0 otherwise.  
 
 To assess the statistical significance and confidence interval of the estimated AUC, the DeLong placement method provides a variance estimate based on the placement values \citep{delong1988,sun2014delongfi}:
-
 \begin{equation}
 \hat{\sigma}^2 = \frac{1}{m} \sum_{i=1}^{m} \left( X_i - \hat{\theta} \right)^2 + \frac{1}{n} \sum_{j=1}^{n} \left( Y_j - (1 - \hat{\theta}) \right)^2.
 \end{equation}
 
 Using this variance, a confidence interval for AUC can be constructed based on the normal approximation:
-
 \begin{equation}
 \text{CI} = \left[ \hat{\theta} - z_{\alpha/2} \hat{\sigma}, \hat{\theta} + z_{\alpha/2} \hat{\sigma} \right],
 \end{equation}
@@ -220,13 +217,11 @@ Using this variance, a confidence interval for AUC can be constructed based on t
 \noindent where \( z_{\alpha/2} \) is the critical value of the standard normal distribution for a given confidence level (e.g., 1.96 for 95\% confidence), and \(\hat{\sigma} \) is the estimated standard error of \(\hat{\theta}\), which quantifies the uncertainty in the estimated AUC value.
 
 To evaluate the statistical significance of \(\hat{\theta}\) (the AUC value), a hypothesis test is conducted to determine whether the AUC significantly deviates from 0.5 under the null hypothesis \(\theta = 0.5\), where the test statistic is given by
-
 \begin{equation}
 Z = \frac{\hat{\theta} - 0.5}{\hat{\sigma}}.
 \end{equation}
 
 The corresponding two-tailed p-value is obtained using the standard normal cumulative distribution function:
-
 \begin{equation}
 p = 2 \Phi(-|Z|),
 \end{equation}
