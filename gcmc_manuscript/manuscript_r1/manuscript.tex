@@ -164,9 +164,9 @@ Building upon this principle, GCMC infers causation by assessing whether local n
 
 To quantify the consistency between these neighborhoods, we define the intersectional cardinality for the $i$-th unit as:
 \begin{equation}\label{eq-ic_ik}
-IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \right|
+IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \right|,
 \end{equation}
-\noindent This value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by cross mapping the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and predicted neighborhood structures, suggesting a more robust causal link from $y$ to $x$.
+\noindent this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
 
 Averaging across all spatial units yields the global IC value for a given neighborhood size $k$:
 \begin{equation}\label{eq-ic_k}
