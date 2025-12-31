@@ -183,7 +183,7 @@ According to \cite{tao2023cmc}, the shape of the IC curve reveals critical infor
 H_0: y \not\Rightarrow x \quad \text{vs.} \quad H_1: y \Rightarrow x
 \end{equation}
 
-The IC curve under $H_1$ is obtained through equations~\ref{eq-ic_ik}--\ref{eq-ic_curve}, whereas the IC curve under $H_0$ is approximated by a baseline linear function, $IC_k = 0.5k$, representing the expected overlap under random association \citep{tao2023cmc}. The causal strength (CS) from $y$ to $x$ is then defined as the difference in the area under the IC curve (AUC) between the alternative and null hypotheses(Figure~\ref{fig_cross_mapping}c):
+The IC curve under $H_1$ is obtained through equations~\ref{eq-ic_ik}--\ref{eq-ic_curve}, whereas the IC curve under $H_0$ is approximated by a linear function, $IC_k = 0.5k$, representing the expected overlap under random mapping \citep{tao2023cmc}. The causal strength (CS) from $y$ to $x$ is then defined as the difference in the area under the IC curve (AUC) between the alternative and null hypotheses(Figure~\ref{fig_cross_mapping}c):
 \begin{equation}\label{eq-cs}
 CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
 \end{equation}
