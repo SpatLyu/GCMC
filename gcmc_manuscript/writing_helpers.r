@@ -1,5 +1,5 @@
 # figures: pdf -> png
-.pdf2png = \(pdfname,pngname,dpi = 300){
+.pdf2png = \(pdfname,pngname,dpi = 600){
   pdftools::pdf_convert(pdf = pdfname, filenames = pngname, dpi = dpi)
 }
 
