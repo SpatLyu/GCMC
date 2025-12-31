@@ -168,7 +168,7 @@ IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \r
 \end{equation}
 \noindent this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
 
-Averaging across all spatial units yields the global IC value for a given neighborhood size $k$:
+Averaging across all states yields the global IC value for a given neighborhood size $k$:
 \begin{equation}\label{eq-ic_k}
 IC_k = \frac{1}{n} \sum_{i=1}^n IC_{i,k}
 \end{equation}
@@ -178,7 +178,7 @@ By varying $k$ from $1$ to $n$, we obtain the complete IC curve:
 IC_{\text{curve}} = \{ IC_k \mid k = 1, 2, \dots, n \}
 \end{equation}
 
-According to \cite{tao2023cmc}, the shape of the IC curve reveals critical information about the presence and strength of causality. Under the null hypothesis $H_0$(Figure~\ref{fig_cross_mapping}b,which assumes no causal influence from $y$ to $x$), the IC curve increases linearly with $k$, reflecting the expected number of intersecting neighbors under random mapping. In contrast, under the alternative hypothesis $H_1$(Figure~\ref{fig_cross_mapping}a), where a causal link exists, the IC curve exhibits a concave-down shape, indicating improved neighborhood consistency with increasing $k$. This IC concavity serves as a dynamical signature of causality. Formally, to test for causality from $y$ to $x$, we specify the hypotheses as:
+According to \cite{tao2023cmc}, the shape of the IC curve reveals critical information about the presence and strength of causality. Under the null hypothesis $H_0$ (Figure~\ref{fig_cross_mapping}b, which assumes no causal influence from $y$ to $x$), the IC curve increases linearly with $k$, reflecting the expected number of intersecting neighbors under random mapping. In contrast, under the alternative hypothesis $H_1$ (Figure~\ref{fig_cross_mapping}a), where a causal link exists, the IC curve exhibits a concave-down shape, indicating improved neighborhood consistency with increasing $k$. This IC concavity serves as a dynamical signature of causality. Formally, to test for causality from $y$ to $x$, we specify the hypotheses as:
 \begin{equation}\label{eq-hypothesis}
 H_0: y \not\Rightarrow x \quad \text{vs.} \quad H_1: y \Rightarrow x
 \end{equation}
