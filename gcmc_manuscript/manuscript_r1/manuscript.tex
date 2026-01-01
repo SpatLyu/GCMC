@@ -60,36 +60,36 @@
 \begin{frontmatter}
 \title{Measuring causal strengths from spatial cross-sectional data with geographical cross mapping cardinality}
 
-\author[a,b,c]{Wenbo Lv}
-% \ead{wenbolyu@hkust-gz.edu.cn}
+% \author[a,b,c]{Wenbo Lv}
+% % \ead{wenbolyu@hkust-gz.edu.cn}
 
-\author[d]{Shaoqing Dai}
-% \ead{shaoqing.dai@whu.edu.cn}
+% \author[d]{Shaoqing Dai}
+% % \ead{shaoqing.dai@whu.edu.cn}
 
-\author[e]{Yongze Song\corref{cor}}
-% \ead{yongze.song@curtin.edu.au}
+% \author[e]{Yongze Song\corref{cor}}
+% % \ead{yongze.song@curtin.edu.au}
 
-\author[a]{Wufan Zhao}
-% \ead{wufanzhao@hkust-gz.edu.cn}
+% \author[a]{Wufan Zhao}
+% % \ead{wufanzhao@hkust-gz.edu.cn}
 
-\author[b]{Wen Yi}
-% \ead{wen.yi@polyu.edu.hk}
+% \author[b]{Wen Yi}
+% % \ead{wen.yi@polyu.edu.hk}
 
-\author[a]{Yumiao Xiao}
-% \ead{yxiao224@connect.hkust-gz.edu.cn}
+% \author[a]{Yumiao Xiao}
+% % \ead{yxiao224@connect.hkust-gz.edu.cn}
 
-\author[f,g]{Nan Jia}
-% \ead{ninjaone@njau.edu.cn}
+% \author[f,g]{Nan Jia}
+% % \ead{ninjaone@njau.edu.cn}
 
-\cortext[cor]{Corresponding author: Yongze Song, yongze.song@curtin.edu.au}
+% \cortext[cor]{Corresponding author: Yongze Song, yongze.song@curtin.edu.au}
 
-\address[a]{Urban Governance and Design Thrust, The Hong Kong University of Science and Technology (Guangzhou), Guangzhou, China}
-\address[b]{Department of Building and Real Estate, The Hong Kong Polytechnic University, Hong Kong, China}
-\address[c]{The Hong Kong Polytechnic University, Shenzhen Research Institute, Shenzhen, China}
-\address[d]{School of Resource and Environmental Sciences, Wuhan University, Wuhan, China}
-\address[e]{School of Design and the Built Environment, Curtin University, Perth, Australia}
-\address[f]{College of Public Administration, Nanjing Agricultural University, Nanjing, China}
-\address[g]{Department of Fisheries and Wildlife, Michigan State University, East Lansing, United States}
+% \address[a]{Urban Governance and Design Thrust, The Hong Kong University of Science and Technology (Guangzhou), Guangzhou, China}
+% \address[b]{Department of Building and Real Estate, The Hong Kong Polytechnic University, Hong Kong, China}
+% \address[c]{The Hong Kong Polytechnic University, Shenzhen Research Institute, Shenzhen, China}
+% \address[d]{School of Resource and Environmental Sciences, Wuhan University, Wuhan, China}
+% \address[e]{School of Design and the Built Environment, Curtin University, Perth, Australia}
+% \address[f]{College of Public Administration, Nanjing Agricultural University, Nanjing, China}
+% \address[g]{Department of Fisheries and Wildlife, Michigan State University, East Lansing, United States}
 
 \begin{abstract}
 
@@ -376,9 +376,9 @@ When using GCMC to measure causal strengths, the number of nearest neighbors $k$
 
 In this paper, we have selected three real-world cases with clear causation to demonstrate the use of GCMC. Among these, the residential crime and population density cases involve spatial lattice data, while the NPP case uses spatial grid data, covering scenarios of weak, medium, and strong coupling. In the crime case, the causal strength measured by GCMC is relatively small due to the limited sample size (49 spatial units), resulting in fewer available neighbors. Nevertheless, GCMC still effectively measures the causal strengths between variables in this case. In the population density and NPP cases, the sample size is two orders of magnitude larger, and here the internal statistical test for causal strength employed by GCMC proves particularly useful. Thus, an appropriate sample size is a critical prerequisite for applying GCMC effectively.
 
-We also tested the ability of GCMC to handle noise in observational data, with results showing that GCMC can reliably measure causal strengths even under varying noise levels. However, inferring causation from the causal strengths measured by GCMC requires the use of domain-specific prior knowledge to select an appropriate threshold, in order to filter out statistically significant but weak causal strength values (i.e., relatively weak in the context of expected domain coupling, though statistically nonzero) that may reflect spurious causation. In this study, we adopted a unified threshold of 0.2 across all case studies as an empirical reference value. This threshold was found to effectively exclude spurious causal links while retaining meaningful causal relationships under different coupling regimes. It should be noted that this threshold is not universal, but empirical in nature, and can be adjusted according to domain knowledge, expected coupling strength, and specific application contexts. These decisions underscore the importance of informed and flexible threshold selection in interpreting GCMC results.
+We also tested the ability of GCMC to handle noise in observational data, with results showing that GCMC can reliably measure causal strengths even under varying noise levels. However, inferring causation from the causal strengths measured by GCMC requires the use of domain-specific prior knowledge to select an appropriate threshold, in order to filter out statistically significant but weak causal strength values (i.e., relatively weak in the context of expected domain coupling, though statistically nonzero) that may reflect spurious causation. In this study, we adopted a unified threshold of 0.2 across all case studies as an empirical reference value. This threshold was found to effectively exclude spurious causal links while retaining meaningful causal relationships under different coupling regimes. It should be noted that this threshold is not universal, but empirical in nature, and can be adjusted according to domain knowledge, expected coupling strength, and specific application contexts. These decisions underscore the importance of informed and flexible threshold selection in interpreting GCMC results. More generally, the applicability of GCMC depends on the degree of spatial structure present in the data. As an EDM-based approach, GCMC is suitable for spatial cross-sectional datasets that are not purely random and retain sufficient deterministic spatial organization to support meaningful neighborhood reconstruction. When spatial patterns are dominated by stochastic noise or lack coherent structure, neighborhood information becomes uninformative, and the causal strengths estimated by GCMC may be unreliable. In such cases, the results should be interpreted with caution.
 
-Currently, no well-established method exists to determine this threshold directly from the data, which represents an important direction for future improvement. Moreover, in Earth systems, many causal relationships arise through causal transmission \citep{runge2019esstsc,runge2023tsc}. To better understand causal mechanisms in such complex systems, it is sometimes necessary to distinguish direct causation from indirect causation transmitted through intermediate variables. For example, in our benchmark experiments under the mediator scenario (Figure~\ref{fig_benchmark}), indirect causation such as \(A \to C\) induced by causal transmission is detected by both GCCM and GCMC. While theoretically reasonable, this also illustrates that neither method can currently differentiate direct from indirect causation. Future research could extend both GCCM and GCMC to enable such distinctions, enhancing their applicability in complex causal systems.
+Currently, no well-established method exists to determine the causal strength threshold directly from the data, which represents an important direction for future improvement. Moreover, in Earth systems, many causal relationships arise through causal transmission \citep{runge2019esstsc,runge2023tsc}. To better understand causal mechanisms in such complex systems, it is sometimes necessary to distinguish direct causation from indirect causation transmitted through intermediate variables. For example, in our benchmark experiments under the mediator scenario (Figure~\ref{fig_benchmark}), indirect causation such as \(A \to C\) induced by causal transmission is detected by both GCCM and GCMC. While theoretically reasonable, this also illustrates that neither method can currently differentiate direct from indirect causation. Future research could extend both GCCM and GCMC to enable such distinctions, enhancing their applicability in complex causal systems.
 
 \section{Conclusion}\label{sec5} 
 
