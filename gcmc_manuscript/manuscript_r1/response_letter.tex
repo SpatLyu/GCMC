@@ -111,13 +111,13 @@ We sincerely thank the reviewer for this insightful and theoretically grounded c
 \textbf{On state space reconstruction:}  
 Takens' embedding theorem establishes that, given (a) a smooth deterministic dynamical system evolving on a compact $m$-dimensional manifold $\mathcal{M}$, and (b) a smooth scalar observable $h:\mathcal{M}\to\mathbb{R}$ satisfying genericity conditions, the delay-coordinate mapping
 \[
-\Phi(t) = \big( h(z(t)),\, h(z(t - \tau)),\, \dots,\, h(z(t - (d-1)\tau)) \big)
+\Phi(t) = \big< h(z(t)),\, h(z(t - \tau)),\, \dots,\, h(z(t - (d-1)\tau)) \big>
 \]
 with embedding dimension $d \geq 2m+1$ yields a reconstructed manifold $\tilde{\mathcal{M}}$ that is diffeomorphic to $\mathcal{M}$ \citep{Takens1981embedding,Mane1981embedding}. This diffeomorphism ensures that the topological and dynamical invariants of the original system, such as Lyapunov exponents, fractal dimensions, and periodic orbits, are preserved in the reconstructed space. Consequently, the intrinsic dynamics of the system can be faithfully analyzed from a single observed variable. Crucially, these geometric guarantees are independent of any causal interpretation of time delays. The theorem relies solely on the structure of the underlying dynamical system and the smoothness of the observation function \citep{sauer1991generalized_embedding_theorem1,wells2017generalized_embedding_theorem2}.
 
 The ``delay'' in Takens' framework is merely a device to generate a set of coordinates that collectively span the system’s state space, thereby enabling reconstruction of its underlying geometry. In spatial settings, where the indexing set consists of geographic locations (spatial units) rather than temporal instants, an analogous embedding can be constructed by replacing temporal lags with spatial neighbors. Specifically, for a spatial field $x(\mathbf{s})$ defined over locations $\mathbf{s} \in \mathcal{S} \subset \mathbb{R}^2$, one defines a spatial embedding map as
 \[
-\Psi(\mathbf{s}) = \big( x(\mathbf{s}),\, x(\mathbf{s} + \boldsymbol{\delta}_1),\, x(\mathbf{s} + \boldsymbol{\delta}_2),\, \dots,\, x(\mathbf{s} + \boldsymbol{\delta}_{d-1}) \big),
+\Psi(\mathbf{s}) = \big< x(\mathbf{s}),\, x(\mathbf{s} + \boldsymbol{\delta}_1),\, x(\mathbf{s} + \boldsymbol{\delta}_2),\, \dots,\, x(\mathbf{s} + \boldsymbol{\delta}_{d-1}) \big>,
 \]
 where $\{\boldsymbol{\delta}_i\}_{i=1}^{d-1}$ are displacement vectors specifying neighboring locations within a local spatial neighborhood.
 
