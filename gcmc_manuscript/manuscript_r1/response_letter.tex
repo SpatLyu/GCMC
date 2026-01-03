@@ -127,18 +127,7 @@ Furthermore, regarding the practicalities of the method itself, I see the proble
 \end{point}
 
 \begin{reply}
-Thank you very much for your insightful comments. The main advantage of GCMC compared to GCCM lies in its relatively lower false positive rate and fewer causal omissions. For instance, in our own controlled benchmark tests where the causal structure is known, GCCM either misses causal paths or detects false positives in all three scenarios (as illustrated in Figure~3 of the revised manuscript, or as shown below). 
 
-Regarding the specific case you mentioned in the NPP study, the issue you raised is resolved in GCMC when using the correct embedding dimension \( E \). In the revised results, the causal strength from NPP to temperature is statistically insignificant, leading us to exclude the causal link from NPP to temperature altogether.
-
-
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=1\textwidth]{./figure/figure3.png}
-\caption{Benchmark evaluation of GCMC on canonical causal structures.
-\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (Values near edges). Edge types indicate causal inference correctness: true positives (black solid), false positives (red solid), true negatives (gray dashed), and false negatives (red dashed). Non-significant values are marked with $^\#$ and orange-highlighted thresholds indicate the optimal decision boundary.}
-\label{fig_benchmark}
-\end{figure}
 \end{reply}
 
 \begin{point}
