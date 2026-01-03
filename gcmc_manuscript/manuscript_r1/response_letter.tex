@@ -57,7 +57,7 @@
 
 % Title
 % \title{Notes on resubmitting revision made to manuscript 259887128}
-\title{Authors' Responses of the manuscript 259887128}
+\title{Authors' Responses of the manuscript 256384230}
 \author{}
 \date{}
 
@@ -99,18 +99,38 @@ We hope that this extensive revisions address the reviewers’ concerns, and we 
 
 \reviewersection
 
-
 \begin{point}
 The main methodological problem that I see with this method is its main idea to infer causality from consistency of spatial patterns between spatial variables. The original idea, temporal delay embedding (Takens, 1981) leverages the fact that time introduces a directed dependence—past states determine future evolution—so if variable x can reconstruct the manifold of y through time delays, it reflects causality encoded in temporal successions. Spatial embeddings, in contrast, lack such directionality: spatial coordinates capture coexistence rather than succession. consistency between spatial embeddings of x and y however only indicates similarity between spatial autocorrelation, not causal influence. Without an explicit process model describing how effects propagate across space, spatial embedding consistency captures only a necessary, but not a sufficient condition of causality. What is lacking is the control of counterfactual conditions, which only allows to infer causality (Pearl, Rubin, Peters & Schölkopf, etc.). For this reason, I would expect that the method still should be prone to confounding and other causal spurious effects.
 \end{point}
+
 \begin{reply}
-We acknowledge the reviewer’s concern regarding the theoretical basis of GCMC, particularly the adaptation from temporal to spatial domains and the introduction of the Intersectional Cardinality (IC) indicator. 
+We sincerely thank the reviewer for this insightful and theoretically grounded critique. The concern centers on two pivotal issues:  
+(i) the validity of reconstructing state space from spatial cross-sectional data using spatial lags, and 
+(ii) the legitimacy of inferring causality from the intersectional cardinality of cross-mapped neighborhoods between reconstructed shadow manifolds. We attempt to address these issues in turn, with a focused emphasis on clarifying potential conceptual ambiguities that may have contributed to misunderstandings during the review process.
 
-We would like to clarify that GCMC is grounded in generalized embedding theory \citep{Takens1981embedding,Mane1981embedding}, which posits that the dynamics of a system can be reconstructed from a single observable through delay-coordinate embedding. While traditional CCM employs time-delayed observations to construct state spaces, the GCMC method extends this principle to spatial domains by treating spatial lags as analogs of temporal lags. Although spatial lags differ in that multiple spatially adjacent values exist at a single lag step (as opposed to single temporal observations), this distinction is addressed through appropriate statistical aggregation before embedding. This spatial extension maintains the theoretical foundation established by dynamical systems theory and ensures that the shadow manifolds reconstructed from spatial neighbors can capture the intrinsic structure of the system.
+\textbf{On state space reconstruction:}  
+Takens' embedding theorem establishes that, given (a) a smooth deterministic dynamical system evolving on a compact $m$-dimensional manifold $\mathcal{M}$, and (b) a smooth scalar observable $h:\mathcal{M}\to\mathbb{R}$ satisfying genericity conditions, the delay-coordinate mapping
+\[
+\Phi(t) = \big( h(z(t)),\, h(z(t - \tau)),\, \dots,\, h(z(t - (d-1)\tau)) \big)
+\]
+with embedding dimension $d \geq 2m+1$ yields a reconstructed manifold $\tilde{\mathcal{M}}$ that is diffeomorphic to $\mathcal{M}$ \citep{Takens1981embedding,Mane1981embedding}. This diffeomorphism ensures that the topological and dynamical invariants of the original system, such as Lyapunov exponents, fractal dimensions, and periodic orbits, are preserved in the reconstructed space. Consequently, the intrinsic dynamics of the system can be faithfully analyzed from a single observed variable. Crucially, these geometric guarantees are independent of any causal interpretation of time delays. The theorem relies solely on the structure of the underlying dynamical system and the smoothness of the observation function \citep{sauer1991generalized_embedding_theorem1,wells2017generalized_embedding_theorem2}.
 
-Regarding the IC indicator, its introduction is motivated by the following principle: if two variables are driven by a shared underlying dynamical mechanism, their reconstructed state spaces (or manifolds) will exhibit structural overlap \citep{sugihara2012ccm,gao2023gccm}. This overlap allows for mutual cross mapping, as in CCM, but can also be directly reflected by the similarity in local neighborhood structures \citep{tao2023cmc}. GCMC leverages this idea by quantifying the degree of such structural overlap using the IC metric—i.e., the intersectional cardinality of nearest neighbors across reconstructed manifolds. This provides a compact, interpretable, and directional measure of dynamical causality, rooted in shared system dynamics.
+The ``delay'' in Takens' framework is merely a device to generate a set of coordinates that collectively span the system’s state space, thereby enabling reconstruction of its underlying geometry. In spatial settings, where the indexing set consists of geographic locations (spatial units) rather than temporal instants, an analogous embedding can be constructed by replacing temporal lags with spatial neighbors. Specifically, for a spatial field $x(\mathbf{s})$ defined over locations $\mathbf{s} \in \mathcal{S} \subset \mathbb{R}^2$, one defines a spatial embedding map as
+\[
+\Psi(\mathbf{s}) = \big( x(\mathbf{s}),\, x(\mathbf{s} + \boldsymbol{\delta}_1),\, x(\mathbf{s} + \boldsymbol{\delta}_2),\, \dots,\, x(\mathbf{s} + \boldsymbol{\delta}_{d-1}) \big),
+\]
+where $\{\boldsymbol{\delta}_i\}_{i=1}^{d-1}$ are displacement vectors specifying neighboring locations within a local spatial neighborhood.
 
-To address the reviewer’s concern more explicitly, we have expanded the discussion of these theoretical underpinnings in Section~2.1 (Lines~87--91 and Lines~102--108) of the revised manuscript.
+This construction is theoretically justified when the observed spatial cross-sectional data arises as a snapshot of a spatially coupled dynamical system, for instance, a reaction-diffusion process at quasi-steady state, an advection-diffusion equilibrium, or a network of interacting spatial units. In such systems, the state at location $\mathbf{s}$ is dynamically influenced by the states of its neighbors, implying that the joint configuration of $x$ over a local neighborhood encodes information about the local system state. Under the assumptions that (i) the underlying spatial process is generated by a smooth deterministic dynamics on a compact manifold, and (ii) the spatial sampling is sufficiently dense to resolve local interactions, the spatial embedding map $\Psi$ can be viewed as a spatial analogue of the delay-coordinate map. Consequently, the reconstructed shadow manifold $\tilde{\mathcal{M}}_{\text{spatial}}$ preserves the geometric structure of the latent spatial dynamics, up to a diffeomorphism. Therefore, spatial embedding is not a heuristic analogy to temporal embedding but a mathematically coherent extension of the same geometric reconstruction principle to spatial cross-sectional data, provided the spatial field exhibits sufficient local variability and coupling structure.
+
+\textbf{On causal inference in GCMC:}  
+GCMC does \textit{not} infer causality from the consistency of spatial patterns in the original spatial variables, nor from any direct consistency between their reconstructed shadow manifolds (spatial embeddings). Rather, it infers causation by assessing whether local neighborhoods in \(M_x\) are consistently mapped to corresponding neighborhoods in \(M_y\) (lines~126--141 describe this procedure in detail). This asymmetric neighborhood recoverability reflects the directional dynamical coupling between variables. Such asymmetry can be operationalized either through local weighted prediction as in convergent cross mapping \citep{sugihara1990simplex,sugihara2012ccm}, or as in GCMC, through the intersectional cardinality of projected neighborhoods \citep{tao2023cmc}. The latter is graphically illustrated in the newly added Figure~2 and provides a concrete operationalization of mutual cross mapping.
+
+GCMC is grounded in dynamical systems theory and operationalizes a notion of \textit{dynamical causality}. Specifically, it leverages reconstructed shadow manifolds to assess whether the state of one variable can be recovered from the state space of another \citep{sugihara2012ccm,gao2023gccm,tao2023cmc}. This approach does not rely on counterfactual reasoning, potential outcomes, or explicit intervention models. The counterfactual framework of causality, as referenced by the reviewer, constitutes a distinct inferential paradigm, primarily designed for settings where interventions or randomized assignments are feasible (lines~37--43 discuss these differing conceptualizations of causality). In contrast, empirical dynamic modeling, upon which GCMC is built, is tailored for observational, complex systems where the underlying mechanisms are unknown but the dynamics are sufficiently structured and deterministic. Consequently, GCMC is not intended as a substitute for controlled experiments, but rather as a \textit{causal discovery tool} aimed at reducing false positives and identifying relative causal influence under spatial cross-sectional constraints. Our benchmark simulations explicitly include both confounding and collider structures, and the results show that GCMC is still able to correctly identify the true causal influences under these challenging scenarios (Figure~4 and lines~289--303).
+
+We would like to clarify that the two components questioned by the reviewer are precisely the elements we identify as practically viable solutions grounded in prior literature. As stated in the \textit{Conclusion} (lines~459--462), the use of spatial lag embedding in GCMC follows a strategy already adopted in previously published spatial causal methods, such as geographical convergent cross mapping and geographical pattern causality \citep{gao2023gccm,zhang2025gpc}. Similarly, the use of intersectional cardinality as a measure of cross-mappability has also been operationally implemented in prior work \citep{tao2023cmc}.
+
+We hope that our responses above have helped clarify the methodological foundations of GCMC and address the reviewer’s concerns. We sincerely thank the reviewer once again for raising this insightful point, which has provided us with a valuable opportunity to reflect deeply on the theoretical underpinnings of our work.
 \end{reply}
 
 \begin{point}
@@ -118,39 +138,9 @@ The authors designed evaluation experiments that in principle seems to be defens
 \end{point}
 
 \begin{reply}
-We appreciate the reviewer’s careful examination and critical feedback. This comment helped us carefully reassess the logic and methodological rigor behind applying GCMC to real-world dataset.
+We thank the reviewer for this insightful comment. We agree that broader benchmarking is important for evaluating the effectiveness of a new causal discovery method. In the revised manuscript, we have therefore expanded the comparative evaluation by including LiNGAM as an additional causal discovery baseline. LiNGAM represents a widely used causal inference approach with fundamentally different assumptions from GCMC and GCCM, providing a more stringent and informative point of comparison.
 
-In the original version of the manuscript, we underestimated the influence of the embedding dimension $E$ on the performance of GCMC. Specifically, we adopted a simple rule-of-thumb—setting $E = 2$ for smaller datasets and $E = 3$ for larger ones—without systematic justification. However, since the core of our method relies on the intersectional structure of nearest neighbors in reconstructed state spaces, using an inadequately low embedding dimension can lead to a high proportion of false nearest neighbors\citep{kennel1992fnn,ma2017cme}, thereby distorting the reconstructed manifold geometry and biasing the estimated causal strength.
-
-To address this critical issue, we have now implemented the \textit{false nearest neighbors} method to determine appropriate embedding dimensions \citep{kennel1992fnn} for all variables prior to running GCMC or GCCM. The updated procedure is described in Lines~216--220 of the revised manuscript.
-
-Furthermore, we have re-run all three case studies and the noise sensitivity analysis using the corrected embedding dimensions. The causal diagrams for the three case studies have been revised accordingly, incorporating both statistical significance testing and a stricter causal strength threshold to determine the presence of links. The updated results (presented in Figures~4–6 of the revised manuscript) no longer exhibit the inconsistencies criticized in the original submission. Specifically, in the first example, only causal links that are both statistically significant and have strength exceeding 0.1 are retained in the causal diagram (i.e., \texttt{crime}~$\rightarrow$~\texttt{hoval}, \texttt{inc}~$\rightarrow$~\texttt{hoval}; see Figure~\ref{fig_case1} below, or Figure~4 in the revised manuscript). In the second example, the causal link from temperature to elevation is excluded due to lack of statistical significance, while the link from population density to elevation is removed because its strength falls below the 0.10 threshold (see Figure~\ref{fig_case2} below or Figure~5 in the revised manuscript). In the third example, the link from NPP to temperature is excluded as well, owing to its lack of statistical significance (see Figure~\ref{fig_case3} below or Figure~6 in the revised manuscript). Lines~156–169 of the revised manuscript explain how causation is inferred from the causal strengths measured by GCMC.
-
-\clearpage
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=1\textwidth]{./figure/figure4.png}
-\caption{Causation among residential crime, house value, and household income (non-significant values are marked with $^\#$). \textbf{a-c} Spatial distributions of the three variables. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Stratified power computed by GD. \textbf{f} Causal strengths measured by GCCM. \textbf{g} Causal strengths measured by GCMC. \textbf{h} Conceptual diagram summarizing the inferred causal pathways based on GCMC estimates, where false positive links are excluded based on a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 7\); the number of nearest neighbors used was \(k = 25\) for GCMC and \(k = 9\) for GCCM.}
-\label{fig_case1}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{./figure/figure5.png}
-\caption{Causation among elevation, temperature and population density (non-significant values are marked with $^\#$). \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The stratified power quantified with GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Diagram of causal links constructed from GCMC results, with false positives filtered using a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 10\); the number of nearest neighbors used was \(k = 200\) for GCMC and \(k = 12\) for GCCM.}
-\label{fig_case2}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{./figure/figure6.png}
-\caption{Causation among temperature, precipitation and net primary productivity (non-significant values are marked with $^\#$). \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power computed by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
-\label{fig_case3}
-\end{figure}
-
-\clearpage
-
+The results of this additional comparison are now reported and discussed in the revised manuscript (Figure~5f, lines~317--318 for the residential crime case study; Figure~6c, lines~326--327 for the population density case study; and Figure~7c, lines~348--349 for the farmland net primary productivity case study), demonstrating that GCMC maintains more robust performance in spatial cross-sectional settings, particularly in reducing false-positive causal detections, relative to LiNGAM. We further observe that LiNGAM often produces spurious or uninterpretable causal links when applied to spatial cross-sectional data, failing to capture meaningful causal relationships and frequently misidentifying causal influences. We believe that this expanded benchmark substantially strengthens the empirical evidence for the proposed method.
 \end{reply}
 
 \begin{point}
@@ -158,27 +148,26 @@ Furthermore, regarding the practicalities of the method itself, I see the proble
 \end{point}
 
 \begin{reply}
-Thank you very much for your insightful comments. The main advantage of GCMC compared to GCCM lies in its relatively lower false positive rate and fewer causal omissions. For instance, in our own controlled benchmark tests where the causal structure is known, GCCM either misses causal paths or detects false positives in all three scenarios (as illustrated in Figure~3 of the revised manuscript, or as shown below). 
+We thank the reviewer for this thoughtful comment on the practical aspects of parameter selection in GCMC, which gives us an opportunity to clarify and re-examine this important issue. In the revised manuscript, we have explicitly clarified the empirical strategies used to determine the three key parameters involved in GCMC.
 
-Regarding the specific case you mentioned in the NPP study, the issue you raised is resolved in GCMC when using the correct embedding dimension \( E \). In the revised results, the causal strength from NPP to temperature is statistically insignificant, leading us to exclude the causal link from NPP to temperature altogether.
+First, the embedding dimension \(E\) can be guided by the false nearest neighbours (FNN) method, which is a standard practice in empirical dynamic modeling \citep{kennel1992fnn}. Given the selected embedding dimension \(E\) and the sample size used for cross mapping \(N\), the neighborhood size \(k\) can then be empirically determined using the heuristic rule \(k = \lceil \sqrt{N E} \rceil\), which balances local neighborhood representation and statistical robustness. We discuss the influence of \(k\) and empirical strategies for its selection in the \textit{Discussion} section (lines~407--419).
 
+Second, the statistical significance level for causal strength is set to 0.05, as now explicitly stated in lines~185--186 of the revised manuscript. This significance level is used to assess whether the observed divergence between intersectional cardinality curves under the null and alternative hypotheses is statistically meaningful.
 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=1\textwidth]{./figure/figure3.png}
-\caption{Benchmark evaluation of GCMC on canonical causal structures.
-\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (Values near edges). Edge types indicate causal inference correctness: true positives (black solid), false positives (red solid), true negatives (gray dashed), and false negatives (red dashed). Non-significant values are marked with $^\#$ and orange-highlighted thresholds indicate the optimal decision boundary.}
-\label{fig_benchmark}
-\end{figure}
+Third, regarding the causal strength threshold, we now recommend an empirical threshold of 0.2. This value has demonstrated stable and interpretable performance across all three case studies presented in the paper, and the rationale for this choice is discussed in detail in lines~200--206 of the revised manuscript. In addition, the noise sensitivity analysis of GCMC examines the conditions under which this reference threshold of 0.2 may break down and discusses the underlying reasons for its failure (lines~364--371).
+
+All case studies in the revised manuscript consistently apply this empirical parameter selection strategy and yield coherent and robust results. While we agree with the reviewer that causal inference inevitably requires informed parameter choices and cannot rely on a single universally optimal significance test, we hope that the clarified parameterization strategy improves the transparency of the proposed GCMC approach and provides practical guidance for its application.
 \end{reply}
 
 \begin{point}
 Furthermore, the article lacks a clear research gap and a research question specific to this paper. Why precisely do we need another causal method? What is it that current causal (also spatially causal) methods cannot do, and why we need this method? What is the motivation for using this approach? This remains rather unclear, even after reading the article.
 \end{point}
+
 \begin{reply}
+We thank the reviewer for raising this important concern regarding the research gap and motivation of the study. In the revised manuscript, we have clarified that this work specifically targets a key limitation of existing spatial cross-sectional causal discovery methods, namely their tendency to produce high false-positive causal detections. To address this gap, we propose a new spatial cross-sectional causal model, GCMC, designed to reduce the false-positive rate in spatial causal discovery.
 
+This motivation and research gap are now explicitly articulated in the revised \textit{Abstract}. In the revised \textit{Introduction} (lines~72--92), we clarify the specific limitations of GCCM in spatial cross-sectional settings, which directly motivate the proposed GCMC approach. In addition, broader limitations of existing spatial causal discovery models are discussed in the \textit{Discussion} section (lines~379--395). We hope that these revisions make the necessity and contribution of the proposed method clearer.
 \end{reply}
-
 
 \reviewersection 
 
