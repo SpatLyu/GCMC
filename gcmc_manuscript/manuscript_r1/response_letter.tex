@@ -99,7 +99,6 @@ We hope that this extensive revisions address the reviewers’ concerns, and we 
 
 \reviewersection
 
-
 \begin{point}
 The main methodological problem that I see with this method is its main idea to infer causality from consistency of spatial patterns between spatial variables. The original idea, temporal delay embedding (Takens, 1981) leverages the fact that time introduces a directed dependence—past states determine future evolution—so if variable x can reconstruct the manifold of y through time delays, it reflects causality encoded in temporal successions. Spatial embeddings, in contrast, lack such directionality: spatial coordinates capture coexistence rather than succession. consistency between spatial embeddings of x and y however only indicates similarity between spatial autocorrelation, not causal influence. Without an explicit process model describing how effects propagate across space, spatial embedding consistency captures only a necessary, but not a sufficient condition of causality. What is lacking is the control of counterfactual conditions, which only allows to infer causality (Pearl, Rubin, Peters & Schölkopf, etc.). For this reason, I would expect that the method still should be prone to confounding and other causal spurious effects.
 \end{point}
@@ -118,38 +117,6 @@ The authors designed evaluation experiments that in principle seems to be defens
 \end{point}
 
 \begin{reply}
-We appreciate the reviewer’s careful examination and critical feedback. This comment helped us carefully reassess the logic and methodological rigor behind applying GCMC to real-world dataset.
-
-In the original version of the manuscript, we underestimated the influence of the embedding dimension $E$ on the performance of GCMC. Specifically, we adopted a simple rule-of-thumb—setting $E = 2$ for smaller datasets and $E = 3$ for larger ones—without systematic justification. However, since the core of our method relies on the intersectional structure of nearest neighbors in reconstructed state spaces, using an inadequately low embedding dimension can lead to a high proportion of false nearest neighbors\citep{kennel1992fnn,ma2017cme}, thereby distorting the reconstructed manifold geometry and biasing the estimated causal strength.
-
-To address this critical issue, we have now implemented the \textit{false nearest neighbors} method to determine appropriate embedding dimensions \citep{kennel1992fnn} for all variables prior to running GCMC or GCCM. The updated procedure is described in Lines~216--220 of the revised manuscript.
-
-Furthermore, we have re-run all three case studies and the noise sensitivity analysis using the corrected embedding dimensions. The causal diagrams for the three case studies have been revised accordingly, incorporating both statistical significance testing and a stricter causal strength threshold to determine the presence of links. The updated results (presented in Figures~4–6 of the revised manuscript) no longer exhibit the inconsistencies criticized in the original submission. Specifically, in the first example, only causal links that are both statistically significant and have strength exceeding 0.1 are retained in the causal diagram (i.e., \texttt{crime}~$\rightarrow$~\texttt{hoval}, \texttt{inc}~$\rightarrow$~\texttt{hoval}; see Figure~\ref{fig_case1} below, or Figure~4 in the revised manuscript). In the second example, the causal link from temperature to elevation is excluded due to lack of statistical significance, while the link from population density to elevation is removed because its strength falls below the 0.10 threshold (see Figure~\ref{fig_case2} below or Figure~5 in the revised manuscript). In the third example, the link from NPP to temperature is excluded as well, owing to its lack of statistical significance (see Figure~\ref{fig_case3} below or Figure~6 in the revised manuscript). Lines~156–169 of the revised manuscript explain how causation is inferred from the causal strengths measured by GCMC.
-
-\clearpage
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=1\textwidth]{./figure/figure4.png}
-\caption{Causation among residential crime, house value, and household income (non-significant values are marked with $^\#$). \textbf{a-c} Spatial distributions of the three variables. \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. \textbf{e} Stratified power computed by GD. \textbf{f} Causal strengths measured by GCCM. \textbf{g} Causal strengths measured by GCMC. \textbf{h} Conceptual diagram summarizing the inferred causal pathways based on GCMC estimates, where false positive links are excluded based on a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 7\); the number of nearest neighbors used was \(k = 25\) for GCMC and \(k = 9\) for GCCM.}
-\label{fig_case1}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{./figure/figure5.png}
-\caption{Causation among elevation, temperature and population density (non-significant values are marked with $^\#$). \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling state. \textbf{b} The stratified power quantified with GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Diagram of causal links constructed from GCMC results, with false positives filtered using a causal strength threshold of $0.1$. Both GCMC and GCCM were configured with an embedding dimension \(E = 10\); the number of nearest neighbors used was \(k = 200\) for GCMC and \(k = 12\) for GCCM.}
-\label{fig_case2}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{./figure/figure6.png}
-\caption{Causation among temperature, precipitation and net primary productivity (non-significant values are marked with $^\#$). \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. \textbf{b} Stratified power computed by GD. \textbf{c} Causal strengths measured by GCCM. \textbf{d} Causal strengths measured by GCMC. \textbf{e} Causal links inferred by GCMC after filtering false positives using a causal strength threshold of $0.21$. Both GCMC and GCCM were configured with an embedding dimension \(E = 18\); the number of nearest neighbors used was \(k = 165\) for GCMC and \(k = 20\) for GCCM.}
-\label{fig_case3}
-\end{figure}
-
-\clearpage
 
 \end{reply}
 
