@@ -116,6 +116,7 @@ To address the reviewer’s concern more explicitly, we have expanded the discus
 \begin{point}
 The authors designed evaluation experiments that in principle seems to be defensible (based on simulating spatial variables under different known causal model assumptions), and the results show that the method is able to distinguish some causal from non-causal effects. However, the evidence is very limited and preliminary: the benchmark comparison is only made with respect to their own previously developed method (GCCM) and with respect to non-causal methods like simple Pearson correlations and GD. That alone is not yet very convincing, because it leaves out all other approaches to causality detection that the method could be compared against.
 \end{point}
+
 \begin{reply}
 We appreciate the reviewer’s careful examination and critical feedback. This comment helped us carefully reassess the logic and methodological rigor behind applying GCMC to real-world dataset.
 
@@ -155,6 +156,7 @@ Furthermore, we have re-run all three case studies and the noise sensitivity ana
 \begin{point}
 Furthermore, regarding the practicalities of the method itself, I see the problem that it makes heavy use of three modeling parameters that would need to be set in advance to make sure the method can distinguish causal from non-causal cases: a threshold parameter for effect strengths (in the experiments, this was 0.1, but how to determine this in general?), a significance threshold for the IC curve (which the authors don't seem to talk about), as well as a the spatial neighborhood lag parameter (k). All these parameters need to be set in a meaningful way (using what kind of knowledge?) before we can expect any meaningful outcomes. This shows that having a simple significance test for causality is illusory. In the end, you need a-priori knowledge to set the parameters right. This makes the whole approach a bit questionable I would say, though it might still be practically useful.
 \end{point}
+
 \begin{reply}
 Thank you very much for your insightful comments. The main advantage of GCMC compared to GCCM lies in its relatively lower false positive rate and fewer causal omissions. For instance, in our own controlled benchmark tests where the causal structure is known, GCCM either misses causal paths or detects false positives in all three scenarios (as illustrated in Figure~3 of the revised manuscript, or as shown below). 
 
@@ -183,8 +185,9 @@ Furthermore, the article lacks a clear research gap and a research question spec
 \begin{point}
 Title: This is a suitable, but dense title. Consider saying causal strengths of XXX, and maybe be more descriptive about what this cardinality is, or what settings this fits ( lattice data), to help readers identify the paper.
 \end{point}
+
 \begin{reply}
-Thank you for raising this important question. By "causal principles", we refer primarily to well-established frameworks in causal inference, such as counterfactual reasoning \citep{rubin2005pom3}, structural causal models using directed acyclic graphs \citep{pearl2018scm4}, and predictive causality based on temporal or dynamical predictability \citep{granger1969grangertest,sugihara2012ccm}. These principles define causality as a relationship that can be identified under specific assumptions (e.g., ignorability, consistency) and not merely through statistical correlations. The GCMC method we introduce in this study is grounded in predictive causality, particularly as formalized in the empirical dynamic modeling (EDM) framework. Predictive causality—including Granger causality and its nonlinear extension such as convergent cross mapping (CCM)—posits that if variable $X$ causally influences $Y$, then the historical states of $Y$ should contain information about $X$. This form of causality is based on temporal predictability and dynamic information flow, which differs from traditional counterfactual or graph-based frameworks but remains a widely accepted causal concept in dynamic systems. To enhance clarity and avoid ambiguity, we have explicitly stated the specific causal principles referenced in this study in the revised manuscript (see Lines~37--42).
+We thank the reviewer for this helpful comment. Following this suggestion, we have revised the title to better reflect the scope and setting of the proposed method. The revised title is now \emph{``Measuring causal strengths from spatial cross-sectional data with geographical cross mapping cardinality''}. We hope that this change makes the title more descriptive and helps readers more easily identify the focus and applicability of the paper.
 \end{reply}
 
 \begin{point}
