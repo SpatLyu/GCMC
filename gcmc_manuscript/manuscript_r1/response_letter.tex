@@ -57,7 +57,7 @@
 
 % Title
 % \title{Notes on resubmitting revision made to manuscript 259887128}
-\title{Authors' Responses of the manuscript 259887128}
+\title{Authors' Responses of the manuscript 256384230}
 \author{}
 \date{}
 
@@ -103,6 +103,16 @@ We hope that this extensive revisions address the reviewers’ concerns, and we 
 The main methodological problem that I see with this method is its main idea to infer causality from consistency of spatial patterns between spatial variables. The original idea, temporal delay embedding (Takens, 1981) leverages the fact that time introduces a directed dependence—past states determine future evolution—so if variable x can reconstruct the manifold of y through time delays, it reflects causality encoded in temporal successions. Spatial embeddings, in contrast, lack such directionality: spatial coordinates capture coexistence rather than succession. consistency between spatial embeddings of x and y however only indicates similarity between spatial autocorrelation, not causal influence. Without an explicit process model describing how effects propagate across space, spatial embedding consistency captures only a necessary, but not a sufficient condition of causality. What is lacking is the control of counterfactual conditions, which only allows to infer causality (Pearl, Rubin, Peters & Schölkopf, etc.). For this reason, I would expect that the method still should be prone to confounding and other causal spurious effects.
 \end{point}
 \begin{reply}
+We thank the reviewer for this careful and theoretically grounded critique. We fully agree that the causal interpretation afforded by temporal delay embedding fundamentally relies on the directionality introduced by time, and that spatial embeddings lack an intrinsic arrow of succession in the same sense. As such, we do not claim that spatial embedding consistency alone provides a sufficient condition for causality in the counterfactual or interventionist sense advocated by Pearl, Rubin, or Peters and Schölkopf.
+
+We would like to clarify that GCMC is not intended to estimate treatment effects or counterfactual outcomes. Instead, it is designed to infer a weaker, but well-defined notion of causal influence rooted in empirical dynamic modeling, where causation is inferred through the recoverability of system states rather than through explicit process models or interventions. In this framework, consistent reconstruction across embeddings provides evidence of dynamical coupling, rather than proof of causal sufficiency.
+
+Importantly, while spatial embeddings capture coexistence rather than succession, spatial cross-sectional patterns in geographic and Earth system contexts are rarely arbitrary. They often represent the accumulated outcome of long-term dynamical processes operating under spatial constraints. Under this assumption, spatial neighborhood structures can encode information about underlying process interactions, even in the absence of explicit temporal observations. GCMC leverages this property as a pragmatic approach for spatial cross-sectional settings where temporal data or intervention opportunities are unavailable.
+
+We fully acknowledge that spatial embedding consistency constitutes a necessary but not sufficient condition for causality, and that confounding and spurious associations remain possible. For this reason, GCMC is explicitly framed as a causal discovery and comparison tool rather than a definitive causal identification method. Its primary contribution lies in reducing false-positive detections relative to existing spatial cross-sectional approaches and enabling the comparative assessment of directional causal influence among candidate drivers, rather than making absolute causal claims.
+
+We have clarified these assumptions, limitations, and the intended scope of inference in the revised manuscript, particularly in the Discussion section, to avoid overinterpretation of spatial embedding-based causal strength.
+
 We acknowledge the reviewer’s concern regarding the theoretical basis of GCMC, particularly the adaptation from temporal to spatial domains and the introduction of the Intersectional Cardinality (IC) indicator. 
 
 We would like to clarify that GCMC is grounded in generalized embedding theory \citep{Takens1981embedding,Mane1981embedding}, which posits that the dynamics of a system can be reconstructed from a single observable through delay-coordinate embedding. While traditional CCM employs time-delayed observations to construct state spaces, the GCMC method extends this principle to spatial domains by treating spatial lags as analogs of temporal lags. Although spatial lags differ in that multiple spatially adjacent values exist at a single lag step (as opposed to single temporal observations), this distinction is addressed through appropriate statistical aggregation before embedding. This spatial extension maintains the theoretical foundation established by dynamical systems theory and ensures that the shadow manifolds reconstructed from spatial neighbors can capture the intrinsic structure of the system.
