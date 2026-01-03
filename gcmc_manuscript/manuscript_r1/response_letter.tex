@@ -211,7 +211,9 @@ Interpretation of the causal strength derived from the IC curve: I believe that 
 \end{point}
 
 \begin{reply}
-We thank the reviewer for highlighting this important point. Indeed, the way in which the explanatory variable is stratified can significantly affect the GD results. In all our case studies, we used the natural breaks method to discretize the explanatory variables into five classes when calculating the $q$-statistic (stratified power). This information has been explicitly reported in the revised manuscript (Lines~215--216).
+We thank the reviewer for this thoughtful and important comment regarding the interpretation of causal strength. We agree that the notion of causal strength in GCMC differs fundamentally from a traditional treatment-effect interpretation. In the revised manuscript (lines~187--199), we have clarified that the causal strength measured by GCMC is rooted in dynamical systems theory and is defined by the divergence between intersectional cardinality curves under the null and alternative hypotheses of mutual cross mapping. As such, it should not be interpreted as a treatment effect, such as the marginal change in an outcome variable induced by a unit change in a predictor while controlling for confounders.
+
+Instead, the GCMC causal strength represents a relative measure of causal influence, reflecting how consistently the state of one variable can be recovered from another across neighborhood scales in the reconstructed state space. From this perspective, GCMC is particularly well suited for causal discovery and for comparing the relative strength of directional causal coupling among multiple candidate drivers. Larger values indicate stronger causal influence in a comparative sense, enabling ranking and contrast across variables, rather than direct claims about absolute effect magnitudes. We have emphasized that this interpretation is consistent with the empirical dynamic modeling framework, where causation is inferred through information recovery rather than parametric effect sizes.
 \end{reply}
 
 \baselineskip12pt
