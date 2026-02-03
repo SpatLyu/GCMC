@@ -19,7 +19,7 @@ The code has been tested and verified in the following environment:
 
 -   **Operating System**: Windows 11
 -   **R version**: 4.5.2
--   **spEDM version**: 1.9
+-   **spEDM version**: 1.11
 
 To ensure full reproducibility, it is recommended to match the environment above as closely as possible.
 
