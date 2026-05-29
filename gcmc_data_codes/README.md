@@ -18,8 +18,8 @@ All reproduction workflows start from the **shared source data** in this reposit
 The code has been tested and verified in the following environment:
 
 -   **Operating System**: Windows 11
--   **R version**: 4.5.2
--   **spEDM version**: 1.11
+-   **R version**: 4.5.3
+-   **spEDM version**: 1.12
 
 To ensure full reproducibility, it is recommended to match the environment above as closely as possible.
 
@@ -84,15 +84,15 @@ Please install the following packages before running the scripts:
 install.packages(c("readxl", "writexl", "readr", "dplyr", "purrr",    
                    "tidyr", "tibble", "ggplot2", "scatterplot3d",      
                    "latex2exp", "sf", "terra", "tmap", "gdverse"))
-devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
-install.packages("spEDM", dep = TRUE)
+pak::pak("ricardo-bion/ggradar", dependencies = TRUE)
+install.packages("spEDM", dependencies = TRUE)
 ```
 
 ## Reproducibility Workflows
 
 ### General Instructions
 
-1.  **Open `GCMC_IJGIS.Rproj`** in RStudio (recommended), or open the project root directory in Positron.
+1.  **Open `GCMC_IJGIS.Rproj`** in RStudio, or open the project root directory in Positron.
 
 2.  All data paths in scripts are **relative paths** to ensure portability.
 
