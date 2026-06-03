@@ -23,8 +23,8 @@ figH1 = ggplot2::ggplot(data = cmcH, ggplot2::aes(x = H0, y = H1)) +
   ggplot2::labs(x = "Normalized k", y = "Normalized IC", color = NULL) +
   ggplot2::coord_equal() +
   ggplot2::theme_bw() +
-  ggplot2::theme(axis.text = ggplot2::element_text(family = "serif",size = 15),
-                 axis.title = ggplot2::element_text(family = "serif",size = 16.5),
+  ggplot2::theme(axis.text = ggplot2::element_text(family = "serif", size = 15),
+                 axis.title = ggplot2::element_text(family = "serif", size = 16.5),
                  panel.grid = ggplot2::element_blank()) 
 figH1
 ggplot2::ggsave("./Schematic diagram/figH1.png",
@@ -42,8 +42,8 @@ figH0 = ggplot2::ggplot(data = cmcH, ggplot2::aes(x = H0, y = H0)) +
   ggplot2::labs(x = "Normalized k", y = "Normalized IC", color = NULL) +
   ggplot2::coord_equal() +
   ggplot2::theme_bw() +
-  ggplot2::theme(axis.text = ggplot2::element_text(family = "serif",size = 15),
-                 axis.title = ggplot2::element_text(family = "serif",size = 16.5),
+  ggplot2::theme(axis.text = ggplot2::element_text(family = "serif", size = 15),
+                 axis.title = ggplot2::element_text(family = "serif", size = 16.5),
                  panel.grid = ggplot2::element_blank()) 
 figH0
 ggplot2::ggsave("./Schematic diagram/figH0.png",
