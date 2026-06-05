@@ -134,15 +134,11 @@ h_{s(\tau)}(x_n) & h_{s(2\tau)}(x_n) & \cdots & h_{s(E\tau)}(x_n)
 \end{equation}
 \noindent where \(E\) denotes the embedding dimension, \(\tau\) is the spatial lag step, \(s(k)\) identifies the \(k\)-th order spatial neighbors of each unit, and \(h(\cdot)\) is an aggregation function (e.g., the mean) that maps attribute values from neighboring units into a scalar. This construction preserves the intrinsic spatial dynamics and provides the theoretical basis for spatial cross-sectional embeddings.
 
-For instance, as illustrated in Figure~\ref{fig_ssr}, when the embedding dimension \(E = 3\) and the spatial lag step \(\tau = 1\), the embedding vector for a focal unit \(i\) is computed as 
-\(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\),  
-\(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and  
-\(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\),  
-where the denominators correspond to the number of units included in each spatial lag calculation and the numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
+For instance, as illustrated in Figure~\ref{fig_ssr}, when the embedding dimension \(E = 3\) and the spatial lag step \(\tau = 1\), the embedding vector for a focal unit \(i\) is computed as \(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\), \(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and \(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\), where the denominators correspond to the number of units included in each spatial lag calculation and the numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure1.png}
+\includegraphics[width=1\textwidth]{./figure/figure1.jpeg}
 \caption{Demonstration of reconstructing embedding for spatial cross-sectional data.}
 \label{fig_ssr}
 \end{figure}
@@ -151,7 +147,7 @@ If variables \(x\) and \(y\) originate from the same dynamical system, they are 
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure2.png}
+\includegraphics[width=1\textwidth]{./figure/figure2.jpeg}
 \caption{Schematic illustration of intersectional cardinality in the reconstructed state space (illustrated using the Lorenz attractor).
 \textbf{a} Local neighborhood in manifold $M_x$.
 \textbf{b} Local neighborhood in manifold $M_y$.
@@ -166,31 +162,31 @@ To quantify the consistency between these neighborhoods, we define the intersect
 \begin{equation}\label{eq-ic_ik}
 IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \right|,
 \end{equation}
-\noindent this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
+\noindent where this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
 
-Averaging across all states yields the global IC value for a given neighborhood size $k$:
+Since $IC_{i,k}$ is defined at the level of individual states, we aggregate these values to characterize the overall alignment at the system level for a given neighborhood size $k$. Specifically, averaging across all states yields the global IC value:
 \begin{equation}\label{eq-ic_k}
-IC_k = \frac{1}{n} \sum_{i=1}^n IC_{i,k} 
+IC_k = \frac{1}{n} \sum_{i=1}^n IC_{i,k}.
 \end{equation}
 
-By varying $k$ from $1$ to $n$, we obtain the complete IC curve:
+By varying $k$ from $1$ to $n$, we further obtain the complete IC curve:
 \begin{equation}\label{eq-ic_curve}
-IC_{\text{curve}} = \{ IC_k \mid k = 1, 2, \dots, n \} 
+IC_{\text{curve}} = \{ IC_k \mid k = 1, 2, \dots, n \}.
 \end{equation}
 
 According to \cite{tao2023cmc}, the shape of the IC curve reveals critical information about the presence and strength of causality. Under the null hypothesis $H_0$ (Figure~\ref{fig_cross_mapping}b, which assumes no causal influence from $y$ to $x$), the IC curve increases linearly with $k$, reflecting the expected number of intersecting neighbors under random mapping. In contrast, under the alternative hypothesis $H_1$ (Figure~\ref{fig_cross_mapping}a), where a causal link exists, the IC curve exhibits a concave-down shape, indicating improved neighborhood consistency with increasing $k$. This IC concavity serves as a dynamical signature of causality. Formally, to test for causality from $y$ to $x$, we specify the hypotheses as:
 \begin{equation}\label{eq-hypothesis}
-H_0: y \not\Rightarrow x \quad \text{vs.} \quad H_1: y \Rightarrow x 
+H_0: y \not\Rightarrow x \quad \text{vs.} \quad H_1: y \Rightarrow x. 
 \end{equation}
 
 The IC curve under $H_1$ is obtained through equations~\ref{eq-ic_ik}--\ref{eq-ic_curve}, whereas the IC curve under $H_0$ is approximated by a linear function, $IC_k = 0.5k$, representing the expected overlap under random mapping \citep{tao2023cmc}. The causal strength (CS) from $y$ to $x$ is then defined as the difference in the area under the IC curve (AUC) between the alternative and null hypotheses (Figure~\ref{fig_cross_mapping}c):
 \begin{equation}\label{eq-cs}
-CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
+CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0).
 \end{equation}
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure3.png}
+\includegraphics[width=1\textwidth]{./figure/figure3.jpeg}
 \caption{Schematic diagram of cross mapping in GCMC and the resulting intersectional cardinality (illustrated using the Lorenz attractor).
 \textbf{a} Cross mapping under the $H_1$ hypothesis, where neighboring states in $M_x$ are mapped to neighboring states in $M_y$, indicating the presence of causal influence.
 \textbf{b} Cross mapping under the $H_0$ hypothesis, where neighboring states in $M_x$ are mapped to random points in $M_y$, corresponding to the absence of causal influence.
@@ -241,7 +237,7 @@ To evaluate the capability of the proposed GCMC method in measuring causal stren
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure4.png}
+\includegraphics[width=1\textwidth]{./figure/figure4.jpeg}
 \caption{Benchmark evaluation of GCMC on canonical causal structures.
 \textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. 
 \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (values near edges). Edge types indicate causal inference correctness: true causality (black solid), false positive causality (red solid), and ruled-out non-causal links (gray dashed). Non-significant values ($p > 0.05$) are marked with $^\#$, and orange-highlighted thresholds indicate the optimal decision boundary. This threshold is determined by varying the threshold continuously from 0 to 1 at an interval of 0.01 and selecting the maximum value at which the simulated ground-truth causal links remain valid.
@@ -287,7 +283,7 @@ Figure~\ref{fig_benchmark} illustrates the performance of GCMC and GCCM on three
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure5.png}
+\includegraphics[width=1\textwidth]{./figure/figure5.jpeg}
 \caption{Causation among residential crime, house value, and household income (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
 \textbf{a-c} Spatial distributions of the three variables. 
 \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. 
@@ -303,7 +299,7 @@ This case study investigates the causal relationships among residential crime (c
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure6.png}
+\includegraphics[width=0.9\textwidth]{./figure/figure6.jpeg}
 \caption{Causation among elevation, temperature and population density (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
 \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling regime. \textbf{b} The stratified powers quantified with GD. 
 \textbf{c} Causal strengths measured by LiNGAM.
@@ -317,8 +313,8 @@ As illustrated in Figure~\ref{fig_case2}, this case reveals distinct capabilitie
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure7.png}
-\caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
+\includegraphics[width=0.9\textwidth]{./figure/figure7.jpeg}
+\caption{Causation among temperature, precipitation and farmland net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
 \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. 
 \textbf{b} Stratified powers computed by GD. 
 \textbf{c} Causal strengths measured by LiNGAM. 
@@ -334,16 +330,15 @@ For the well-known climate-NPP causation, where classical temporal causal models
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure8.png}
+\includegraphics[width=1\textwidth]{./figure/figure8.jpeg}
 \caption{Results of GCMC applied to synthetic datasets with varying noise levels. 
-\textbf{a} Causal strengths when noise is added only to \textit{elev}. 
-\textbf{b} Causal strengths when noise is added only to \textit{popd}. 
-\textbf{c} Causal strengths when noise is added to both \textit{elev} and \textit{popd}.}
+\textbf{a} Causal strengths with noise added exclusively to \textit{elev}. 
+\textbf{b} Causal strengths with noise added exclusively to \textit{popd}. 
+\textbf{c} Causal strengths with noise added to both \textit{elev} and \textit{popd}.}
 \label{fig_noise}
 \end{figure}
 
-On the synthetic dataset with varying levels of added noise, the GCMC results are presented in Figure~\ref{fig_noise}. When observational noise is added to the elev variable (Figure~\ref{fig_noise}a and Figure~\ref{fig_noise}c), the causal strength from elev to popd (elev $\rightarrow$ popd) exhibits a gradual decline with increasing noise ratio. 
-Despite this degradation, the inferred causal direction remains statistically significant even under $100\%$ added noise and consistently exceeds the reverse direction from popd to elev, indicating that increasing observational noise does not lead to a reversal of causal direction. Notably, the causal strength threshold of 0.2, established under noise free conditions, remains applicable until the observational noise added to the elev variable approaches $60\%$. Beyond this point, the substantial increase in observational noise reduces the effective signal to noise ratio, leading to a progressive disruption of local neighborhood structures in the reconstructed state space. As a consequence, the intersectional cardinality, which underpins the definition of causal strength in GCMC, decreases systematically, causing the estimated causal strength to fall below the threshold derived under noise free conditions rather than generating spurious causal signals. Overall, these results indicate that GCMC preserves reliable causal discrimination across a broad range of noise levels and remains resilient to substantial observational noise.
+On the synthetic dataset with varying levels of added noise, the GCMC results are presented in Figure~\ref{fig_noise}. When observational noise is added to the elev variable (Figure~\ref{fig_noise}a and Figure~\ref{fig_noise}c), the causal strength from elev to popd (elev $\rightarrow$ popd) exhibits a gradual decline with increasing noise ratio. Despite this degradation, the inferred causal direction remains statistically significant even under $100\%$ added noise and consistently exceeds the reverse direction from popd to elev, indicating that increasing observational noise does not lead to a reversal of causal direction. Notably, the causal strength threshold of 0.2, established under noise free conditions, remains applicable until the observational noise added to the elev variable approaches $60\%$. Beyond this point, the substantial increase in observational noise reduces the effective signal to noise ratio, leading to a progressive disruption of local neighborhood structures in the reconstructed state space. As a consequence, the intersectional cardinality, which underpins the definition of causal strength in GCMC, decreases systematically, causing the estimated causal strength to fall below the threshold derived under noise free conditions rather than generating spurious causal signals. Overall, these results indicate that GCMC preserves reliable causal discrimination across a broad range of noise levels and remains resilient to substantial observational noise.
 
 \section{Discussion}\label{sec4} 
 
@@ -395,6 +390,10 @@ No potential conflict of interest was reported by the author(s).
 \section*{Data and codes availability statement}
 
 All data and code supporting the findings of this study are publicly available on GitHub at \url{https://github.com/SpatLyu/GCMC_IJGIS}, with an archived, versioned release accessible via Zenodo (DOI: \url{https://doi.org/10.5281/zenodo.20530777}). To promote the broader application of the proposed method, we also provide a high-performance, concurrency-enabled C++ implementation of the GCMC algorithm. This computational engine is wrapped in the R package \texttt{spEDM}, ensuring user-friendly access and seamless integration into spatial empirical dynamic modeling workflows. The \texttt{spEDM} package is publicly available on GitHub at \url{https://github.com/stscl/spEDM}, with stable releases distributed via CRAN at \url{https://cran.r-project.org/package=spEDM}.
+
+\section*{AI disclosure statement}
+
+The authors used ChatGPT solely for the purpose of language editing and polishing the manuscript.
 
 \section*{Additional information}
 
