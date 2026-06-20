@@ -18,8 +18,8 @@ All reproduction workflows start from the **shared source data** in this reposit
 The code has been tested and verified in the following environment:
 
 -   **Operating System**: Windows 11
--   **R version**: 4.5.2
--   **spEDM version**: 1.11
+-   **R version**: 4.5.3
+-   **spEDM version**: 1.12
 
 To ensure full reproducibility, it is recommended to match the environment above as closely as possible.
 
