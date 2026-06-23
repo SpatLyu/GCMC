@@ -11,7 +11,7 @@ aucH1 = sdsfun::normalize_vector(H1)
 aucH0 = sdsfun::normalize_vector(H0)
 cmcH = data.frame(H1 = aucH1, H0 = aucH0)
 
-figH1 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H1)) +
+figH1 = ggplot2::ggplot(data = cmcH, ggplot2::aes(x = H0, y = H1)) +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = H1), fill = "#FFC799", alpha = 0.8) +
   ggplot2::geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "grey50") +
   ggplot2::geom_line(color = "#D95F5F", linetype = "dashed", linewidth = 1) +
@@ -30,7 +30,7 @@ figH1
 ggplot2::ggsave('./Schematic diagram/figH1.png',
                 figH1, width = 4.95, height = 4.5, dpi = 300)
 
-figH0 = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = H0, y = H0)) +
+figH0 = ggplot2::ggplot(data = cmcH, ggplot2::aes(x = H0, y = H0)) +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = H0), fill = "#afefbd", alpha = 0.8) +
   ggplot2::geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "grey50") +
   ggplot2::geom_line(color = "#5F95D9", linetype = "dashed", linewidth = 1) +
@@ -49,7 +49,7 @@ figH0
 ggplot2::ggsave('./Schematic diagram/figH0.png',
                 figH0, width = 4.95, height = 4.5, dpi = 300)
 
-# figH = ggplot2::ggplot(data = cmcH,ggplot2::aes(x = aucH0)) +
+# figH = ggplot2::ggplot(data = cmcH, ggplot2::aes(x = aucH0)) +
 #   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = aucH1), 
 #                                     fill = "#afefbd", alpha = 0.5) +
 #   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = aucH0), 
