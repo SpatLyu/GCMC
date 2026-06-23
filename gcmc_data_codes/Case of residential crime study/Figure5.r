@@ -10,7 +10,7 @@ library(tmap)
 source("./Utils/plot_cs_matrix.r")
 
 columbus = sf::read_sf("./Case of residential crime study/columbus.gpkg") |> 
-  dplyr::select(hoval,inc,crime)
+  dplyr::select(hoval, inc, crime)
 columbus
 
 #------------------------------------------------------------------------------#
