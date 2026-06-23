@@ -36,12 +36,11 @@ library(tmap)
 
 fig11 = tm_shape(henan) + 
   tm_polygons(fill = "lagnum",
-              fill.scale = tm_scale_categorical(n.max = 4,
-                                                values = rev(
-                                                  c("#fee5d9",
-                                                    "#fcbba1",
-                                                    "#fb6a4a",
-                                                    "#de2d26"))),
+              fill.scale = tm_scale_categorical(
+                n.max = 4,
+                values = rev(
+                  c("#fee5d9", "#fcbba1",
+                    "#fb6a4a", "#de2d26"))),
               fill.legend = tm_legend(
                 title = "Spatial Lags",
                 design = "standard",

@@ -88,9 +88,9 @@ source("./Utils/ssh_q.r")
 q1 = ssh_q(data = popdf, cause = "tem", effect = "popd")
 q2 = ssh_q(data = popdf, cause = "elev", effect = "popd")
 q3 = ssh_q(data = popdf, cause = "elev", effect = "tem")
-qv = do.call(rbind,list(q1,q2,q3))
+qv = do.call(rbind, list(q1,q2,q3))
 qv
-readr::write_rds(qv,"./Case of population density study/gd_case2.rds")
+readr::write_rds(qv, "./Case of population density study/gd_case2.rds")
 
 #------------------------------------------------------------------------------#
 #------                   Handling the case results                      ------#
@@ -103,7 +103,7 @@ case2 = list(
     purrr::map(.process_xmap_result) |> 
     purrr::list_rbind(),
   gccm = readr::read_rds("./Case of population density study/gccm_case2.rds") |> 
-    purrr::map(.process_xmap_result,gcmc = FALSE) |> 
+    purrr::map(.process_xmap_result, gcmc = FALSE) |> 
     purrr::list_rbind(),
   pcc = readr::read_rds("./Case of population density study/pcc_case2.rds")[c("r","p")] |>
     .convert_result_list2df(),
@@ -114,4 +114,4 @@ case2 = list(
 )
 case2
 
-writexl::write_xlsx(case2,"./Case of population density study/Case of population density study.xlsx")
+writexl::write_xlsx(case2, "./Case of population density study/Case of population density study.xlsx")

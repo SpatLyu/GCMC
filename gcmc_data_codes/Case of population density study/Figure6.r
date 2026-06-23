@@ -12,8 +12,10 @@ source("./Utils/plot_cs_matrix.r")
 #---------------------------      Figure 6a       -----------------------------#
 #------------------------------------------------------------------------------#
 
-pcc = readxl::read_xlsx("./Case of population density study/Case of population density study.xlsx",
-                        sheet = "pcc")
+pcc = readxl::read_xlsx(
+  "./Case of population density study/Case of population density study.xlsx",
+  sheet = "pcc"
+)
 fig6a = plot_cs_matrix(pcc)
 fig6a
 ggplot2::ggsave("./Case of population density study/fig6a.png",
@@ -23,8 +25,10 @@ ggplot2::ggsave("./Case of population density study/fig6a.png",
 #---------------------------      Figure 6b       -----------------------------#
 #------------------------------------------------------------------------------#
 
-gd = readxl::read_xlsx("./Case of population density study/Case of population density study.xlsx",
-                       sheet = "gd")
+gd = readxl::read_xlsx(
+  "./Case of population density study/Case of population density study.xlsx",
+  sheet = "gd"
+)
 fig6b = plot_cs_matrix(gd)
 fig6b
 ggplot2::ggsave("./Case of population density study/fig6b.png",
@@ -34,8 +38,10 @@ ggplot2::ggsave("./Case of population density study/fig6b.png",
 #---------------------------      Figure 6c       -----------------------------#
 #------------------------------------------------------------------------------#
 
-directlingam = readxl::read_xlsx("./Case of population density study/Case of population density study.xlsx",
-                                 sheet = "directlingam")
+directlingam = readxl::read_xlsx(
+  "./Case of population density study/Case of population density study.xlsx",
+  sheet = "directlingam"
+)
 fig6c = plot_cs_matrix(directlingam)
 fig6c
 ggplot2::ggsave("./Case of population density study/fig6c.png",
@@ -45,8 +51,10 @@ ggplot2::ggsave("./Case of population density study/fig6c.png",
 #---------------------------      Figure 6d       -----------------------------#
 #------------------------------------------------------------------------------#
 
-gccm = readxl::read_xlsx("./Case of population density study/Case of population density study.xlsx",
-                         sheet = "gccm")
+gccm = readxl::read_xlsx(
+  "./Case of population density study/Case of population density study.xlsx",
+  sheet = "gccm"
+)
 fig6d = plot_cs_matrix(gccm)
 fig6d
 ggplot2::ggsave("./Case of population density study/fig6d.png",
@@ -56,8 +64,10 @@ ggplot2::ggsave("./Case of population density study/fig6d.png",
 #---------------------------      Figure 6e       -----------------------------#
 #------------------------------------------------------------------------------#
 
-gcmc = readxl::read_xlsx("./Case of population density study/Case of population density study.xlsx",
-                         sheet = "gcmc")
+gcmc = readxl::read_xlsx(
+  "./Case of population density study/Case of population density study.xlsx",
+  sheet = "gcmc"
+)
 fig6e = plot_cs_matrix(gcmc)
 fig6e
 ggplot2::ggsave("./Case of population density study/fig6e.png",

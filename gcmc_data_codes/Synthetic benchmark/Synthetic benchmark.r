@@ -79,14 +79,14 @@ g3
 g3$xmap
 
 gcmc_s1 = list(g1,g2,g3)
-readr::write_rds(gcmc_s1,'./Synthetic benchmark/gcmc_s1.rds')
+readr::write_rds(gcmc_s1,"./Synthetic benchmark/gcmc_s1.rds")
 
 g1 = spEDM::gccm(species_scenario1, "a", "b", E = 6, k = 8)
 g2 = spEDM::gccm(species_scenario1, "b", "c", E = 6, k = 8)
 g3 = spEDM::gccm(species_scenario1, "a", "c", E = 6, k = 8)
 
 gccm_s1 = list(g1,g2,g3)
-readr::write_rds(gccm_s1,'./Synthetic benchmark/gccm_s1.rds')
+readr::write_rds(gccm_s1, "./Synthetic benchmark/gccm_s1.rds")
 
 #-----------------------------------------------------------------------------#
 #------                        Scenario 2: a→b←c                        ------#
@@ -123,14 +123,14 @@ g3
 g3$xmap
 
 gcmc_s2 = list(g1,g2,g3)
-readr::write_rds(gcmc_s2,'./Synthetic benchmark/gcmc_s2.rds')
+readr::write_rds(gcmc_s2, "./Synthetic benchmark/gcmc_s2.rds")
 
 g1 = spEDM::gccm(species_scenario2, "a", "b", E = 6, k = 8)
 g2 = spEDM::gccm(species_scenario2, "b", "c", E = 6, k = 8)
 g3 = spEDM::gccm(species_scenario2, "a", "c", E = 6, k = 8)
 
 gccm_s2 = list(g1,g2,g3)
-readr::write_rds(gccm_s2,'./Synthetic benchmark/gccm_s2.rds')
+readr::write_rds(gccm_s2, "./Synthetic benchmark/gccm_s2.rds")
 
 #-----------------------------------------------------------------------------#
 #------                      Scenario 3: a←b→c                          ------#
@@ -167,11 +167,11 @@ g3
 g3$xmap
 
 gcmc_s3 = list(g1,g2,g3)
-readr::write_rds(gcmc_s3,'./Synthetic benchmark/gcmc_s3.rds')
+readr::write_rds(gcmc_s3, "./Synthetic benchmark/gcmc_s3.rds")
 
 g1 = spEDM::gccm(species_scenario3, "a", "b", E = 8, k = 10)
 g2 = spEDM::gccm(species_scenario3, "b", "c", E = 8, k = 10)
 g3 = spEDM::gccm(species_scenario3, "a", "c", E = 8, k = 10)
 
 gccm_s3 = list(g1,g2,g3)
-readr::write_rds(gccm_s3,'./Synthetic benchmark/gccm_s3.rds')
+readr::write_rds(gccm_s3, "./Synthetic benchmark/gccm_s3.rds")

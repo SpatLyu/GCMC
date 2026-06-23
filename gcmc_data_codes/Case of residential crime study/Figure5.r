@@ -44,7 +44,7 @@ fig5a = tm_shape(columbus) +
             legend.text.size = 1.25,
             legend.text.fontfamily = "serif")
 fig5a
-tmap_save(fig5a,"./Case of residential crime study/fig5a.png",dpi = 300)
+tmap_save(fig5a, "./Case of residential crime study/fig5a.png", dpi = 300)
 
 #------------------------------------------------------------------------------#
 #---------------------------      Figure 5b       -----------------------------#
@@ -76,7 +76,7 @@ fig5b = tm_shape(columbus) +
             legend.text.size = 1.25,
             legend.text.fontfamily = "serif")
 fig5b
-tmap_save(fig5b,"./Case of residential crime study/fig5b.png",dpi = 300)
+tmap_save(fig5b, "./Case of residential crime study/fig5b.png", dpi = 300)
 
 #------------------------------------------------------------------------------#
 #---------------------------      Figure 5c       -----------------------------#
@@ -108,14 +108,16 @@ fig5c = tm_shape(columbus) +
             legend.text.size = 1.25,
             legend.text.fontfamily = "serif")
 fig5c
-tmap_save(fig5c,"./Case of residential crime study/fig5c.png",dpi = 300)
+tmap_save(fig5c, "./Case of residential crime study/fig5c.png", dpi = 300)
 
 #------------------------------------------------------------------------------#
 #---------------------------      Figure 5d       -----------------------------#
 #------------------------------------------------------------------------------#
 
-pcc = readxl::read_xlsx("./Case of residential crime study/Case of residential crime study.xlsx",
-                        sheet = "pcc")
+pcc = readxl::read_xlsx(
+  "./Case of residential crime study/Case of residential crime study.xlsx",
+  sheet = "pcc"
+)
 fig5d = plot_cs_matrix(pcc)
 fig5d
 ggplot2::ggsave("./Case of residential crime study/fig5d.png",
@@ -125,8 +127,10 @@ ggplot2::ggsave("./Case of residential crime study/fig5d.png",
 #---------------------------      Figure 5e       -----------------------------#
 #------------------------------------------------------------------------------#
 
-gd = readxl::read_xlsx("./Case of residential crime study/Case of residential crime study.xlsx",
-                        sheet = "gd")
+gd = readxl::read_xlsx(
+  "./Case of residential crime study/Case of residential crime study.xlsx",
+  sheet = "gd"
+)
 fig5e = plot_cs_matrix(gd)
 fig5e
 ggplot2::ggsave("./Case of residential crime study/fig5e.png",
@@ -136,8 +140,10 @@ ggplot2::ggsave("./Case of residential crime study/fig5e.png",
 #---------------------------      Figure 5f       -----------------------------#
 #------------------------------------------------------------------------------#
 
-directlingam = readxl::read_xlsx("./Case of residential crime study/Case of residential crime study.xlsx",
-                                 sheet = "directlingam")
+directlingam = readxl::read_xlsx(
+  "./Case of residential crime study/Case of residential crime study.xlsx",
+  sheet = "directlingam"
+)
 fig5f = plot_cs_matrix(directlingam)
 fig5f
 ggplot2::ggsave("./Case of residential crime study/fig5f.png",
@@ -147,8 +153,10 @@ ggplot2::ggsave("./Case of residential crime study/fig5f.png",
 #---------------------------      Figure 5g       -----------------------------#
 #------------------------------------------------------------------------------#
 
-gccm = readxl::read_xlsx("./Case of residential crime study/Case of residential crime study.xlsx",
-                        sheet = "gccm")
+gccm = readxl::read_xlsx(
+  "./Case of residential crime study/Case of residential crime study.xlsx",
+  sheet = "gccm"
+)
 fig5g = plot_cs_matrix(gccm)
 fig5g
 ggplot2::ggsave("./Case of residential crime study/fig5g.png",
@@ -158,8 +166,10 @@ ggplot2::ggsave("./Case of residential crime study/fig5g.png",
 #---------------------------      Figure 5h       -----------------------------#
 #------------------------------------------------------------------------------#
 
-gcmc = readxl::read_xlsx("./Case of residential crime study/Case of residential crime study.xlsx",
-                         sheet = "gcmc")
+gcmc = readxl::read_xlsx(
+  "./Case of residential crime study/Case of residential crime study.xlsx",
+  sheet = "gcmc"
+)
 fig5h = plot_cs_matrix(gcmc)
 fig5h
 ggplot2::ggsave("./Case of residential crime study/fig5h.png",
