@@ -1,0 +1,413 @@
+\documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+\textheight24cm
+\textwidth15.5cm              
+\oddsidemargin0.25cm
+\topmargin-1.8cm
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs} 
+\usepackage{tabularx} 
+\usepackage{ltablex} 
+\usepackage{geometry} 
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{tcolorbox}
+\usepackage{soul}
+\usepackage{caption}
+% Adjust the page margins to fit the table size
+\geometry{
+  left=0.75in,
+  right=0.75in,
+  top=1in,
+  bottom=1in
+}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{pifont}
+\usepackage{placeins}
+\usepackage{color}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{lineno}  
+\usepackage{subcaption} 
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{arydshln}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{threeparttable}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{booktabs} 
+\usepackage{tabularx}
+\usepackage{geometry} 
+\usepackage{csquotes}
+%\usepackage[x11names]{xcolor}
+\usepackage[
+  colorlinks,
+]{hyperref}
+\definecolor{DodgerBlue4}{rgb}{0.0627, 0.3059, 0.5451}
+\AtBeginDocument{\hypersetup{citecolor=DodgerBlue4}}
+\journal{International Journal of Geographical Information Science}
+
+\begin{document}
+
+\begin{frontmatter}
+\title{Measuring causal strengths from spatial cross-sectional data with geographical cross mapping cardinality}
+
+\author[a,b,c]{Wenbo Lv}
+% \ead{wenbolyu@hkust-gz.edu.cn}
+
+\author[d]{Shaoqing Dai}
+% \ead{shaoqing.dai@whu.edu.cn}
+
+\author[e]{Yongze Song\corref{cor}}
+% \ead{yongze.song@curtin.edu.au}
+
+\author[a]{Wufan Zhao}
+% \ead{wufanzhao@hkust-gz.edu.cn}
+
+\author[b]{Wen Yi}
+% \ead{wen.yi@polyu.edu.hk}
+
+\author[a]{Yumiao Xiao}
+% \ead{yxiao224@connect.hkust-gz.edu.cn}
+
+\author[f,g]{Nan Jia}
+% \ead{ninjaone@njau.edu.cn}
+
+\cortext[cor]{Corresponding author: Yongze Song, yongze.song@curtin.edu.au}
+
+\address[a]{Urban Governance and Design Thrust, The Hong Kong University of Science and Technology (Guangzhou), Guangzhou, China}
+\address[b]{Department of Building and Real Estate, The Hong Kong Polytechnic University, Hong Kong, China}
+\address[c]{The Hong Kong Polytechnic University, Shenzhen Research Institute, Shenzhen, China}
+\address[d]{School of Resource and Environmental Sciences, Wuhan University, Wuhan, China}
+\address[e]{School of Design and the Built Environment, Curtin University, Perth, Australia}
+\address[f]{College of Public Administration, Nanjing Agricultural University, Nanjing, China}
+\address[g]{Department of Fisheries and Wildlife, Michigan State University, East Lansing, United States}
+
+\begin{abstract}
+
+Spatial cross-sectional data encapsulate rich information on spatial processes, forming a critical foundation for examining causation between variables. Detecting and quantifying such causation is essential for understanding complex natural and human phenomena. Measuring causal strengths from spatial cross sectional data, however, remains challenging, as existing methods often suffer from high false positive rates when quantifying causation. To address this gap, we propose a Geographical Cross Mapping Cardinality (GCMC) model that quantifies causal strength based on the intersectional cardinality of neighborhoods in reconstructed state space, and incorporates the DeLong placement method to evaluate the statistical significance of causal strength estimates. We validate GCMC using a simulated three variable causal benchmark and three representative spatial cross sectional datasets with known causal structures, and further assess its sensitivity to observational noise. Results demonstrate that GCMC effectively captures causation across weak, moderate, and strong coupling regimes while maintaining a low false positive rate and robust performance under noise. As a new extension of empirical dynamic modeling for spatial cross sectional data, GCMC complements existing approaches and enables more reliable spatial causal inference.
+
+\end{abstract}
+
+\begin{keyword}
+Causal Strength \sep Spatial Cross-Sectional Data \sep Empirical Dynamic Modeling \sep Intersectional Cardinality \sep Geographical Cross Mapping Cardinality
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+\section{Introduction}
+
+Understanding causation in the Earth system is fundamental for addressing scientific and societal challenges, yet direct interventions are often impractical or ethically problematic \citep{gao2022tscess,runge2023tsc,gao2023gccm}. Traditionally, Earth system sciences have relied on physics-based simulations to infer causal mechanisms, offering a controlled framework for experimentation. However, these models come with high computational costs and rely on strong assumptions about underlying processes, limiting their applicability in complex, nonlinear, and poorly understood systems. Meanwhile, the increasing availability of large-scale observational datasets, including time series and spatial cross-sectional data, has opened new avenues for data-driven causal inference in Earth sciences \citep{runge2019esstsc,runge2023tsc}. A variety of methods based on observational data have been developed, including prediction-based methods that test temporal precedence and predictive power \citep{granger1969grangertest,geweke1982grangertest2}, entropy-based techniques that capture nonlinear dependencies \citep{schreiber2000te1,vicente2010te2,sun2014ce1}, structural causal modeling frameworks that encode domain knowledge into graphical models \citep{pearl2000scm2,pearl2009scm3,pearl2018scm4}, potential outcome frameworks that enable counterfactual reasoning in quasi-experimental designs \citep{rubin1974pom1,rubin1986pom2,rubin2005pom3}, and empirical dynamic modeling frameworks that detect causation through delay-coordinate embedding and attractor reconstruction in nonlinear dynamic systems \citep{sugihara2012ccm,ma2014cms,clark2015multispatialccm}.
+
+Despite the development of numerous algorithmic models based on observational data, causal inference in Earth system science continues to face several challenges. Most of these causation models are designed for time series data, such as Peter Clark algorithm with momentary conditional independence test (PCMCI) \citep{runge2019pcmci}, convergent cross mapping (CCM) \citep{sugihara2012ccm}, and partial cross mapping (PCM) \citep{leng2020pcm}, and there remains a lack of causation models specifically tailored for spatial cross-sectional data \citep{gao2022ciss,gao2023gccm}. Compared to time series data, spatial cross-sectional data also capture rich information about Earth system processes. \cite{gao2022tscess} suggested that when temporal variations are not prominent, spatial variations can be used to infer causation in Earth systems, thereby motivating the full utilization of spatial cross-sectional data for causal inference.
+
+The existing models commonly used for causal inference in spatial cross-sectional data, such as the Pearson correlation coefficient (PCC) \citep{pearson1895pcc}, spatial autoregression (SAR) \citep{anselin2013sar}, geographically weighted regression (GWR) \citep{fotheringham2003gwr,fotheringham2017mgwr}, and the geographical detector (GD) \citep{wang2010gd1,lyu2025gdverse}, are not strictly designed on the basis of formal causal principles. By causal principles, we refer not simply to the assumptions that underlie statistical models, but to theoretical frameworks that provide formal criteria for distinguishing causation from correlation. Such frameworks explicitly define what it means for one variable to causally influence another, typically by introducing intervention-based, counterfactual, or predictive conditions that go beyond statistical association. Three major traditions exemplify this theoretical foundation: (i) the counterfactual framework, such as the Rubin causal model, which defines causality in terms of potential outcomes under interventions \citep{rubin2005pom3}; (ii) structural causal models (SCMs), such as Pearl\textquotesingle s framework, which employ directed acyclic graphs and do-calculus to formalize causal effects and identifiability \citep{pearl2018scm4}; and (iii) predictive or dynamical causality, such as Granger causality and its nonlinear extensions, which define causal influence through temporal precedence and state predictability \citep{granger1969grangertest,schreiber2000te1,sugihara2012ccm}. In contrast, spatial models like PCC, SAR, GWR, and GD incorporate assumptions about spatial dependence or heterogeneity, but these assumptions alone do not constitute causal principles, since they do not provide a mechanism to separate causation from correlation or to define causal effects under interventions. As a result, they cannot be regarded as causal frameworks in the strict sense defined here. Although the aforementioned spatial models are widely used to interpret relationships with causal implications, they do not inherently identify causal directions or account for confounding factors, and thus may yield spurious conclusions when applied to observational spatial data \citep{gao2022ciss}. In addition, some spatialized causal inference methods incorporate formal causal frameworks, such as spatial difference-in-differences \citep{delgado2015sdid} and spatial regression discontinuity designs \citep{kolak2019srdd}. However, these methods still face fundamental limitations when applied to spatial cross-sectional data. For instance, the presence of spatial spillover effects often violates the stable unit treatment value assumption (SUTVA), and spatial heterogeneity complicates the identification of localized treatment effects \citep{akbari2021spatialcausality,gao2023gccm}, making it difficult to extract valid causal information from spatial observations alone.
+
+The Earth system is a complex dynamical system with deeply interconnected components \citep{runge2019esstsc,runge2023tsc}, where classical assumptions of static or separable units often break down. In this context, causal inference methods based on predictive capability, such as empirical dynamic modeling (EDM), provide a promising alternative. EDM infers causality by examining whether the states of one variable can be used to recover the states of another, reflecting information flow in dynamic systems rather than relying on correlation alone \citep{sugihara2012ccm,leng2020pcm,tao2023cmc}. This dynamic perspective aligns with the notion of Granger causality, but extends it to nonlinear and complex systems. Building on this foundation, recent studies have extended EDM from temporal to spatial domains. Notably, the Geographical Convergent Cross Mapping (GCCM) model adapts the original CCM method \citep{sugihara2012ccm} to spatial cross-sectional data by leveraging state-space reconstruction techniques \citep{lorenz1969ssr,Takens1981embedding,Mane1981embedding}. This pioneering approach enables the inference of causal links from spatial snapshots, addressing longstanding challenges in spatial causal inference that traditional temporal EDM methods cannot resolve \citep{gao2022tscess,gao2023gccm}. However, similar to the original CCM method, GCCM primarily relies on predictive skill to infer causation, which can lead to elevated false positive rates when applied to spatial cross-sectional data, as it cannot effectively disentangle spurious associations from genuine causation under complex interaction structures such as confounding, collider, and mediation effects. This limitation highlights the need for alternative causal metrics that go beyond prediction skill and are explicitly designed to quantify causal strength while controlling false positives in spatial cross-sectional data.
+
+In response to these limitations, this study proposes a novel model, Geographical Cross Mapping Cardinality (GCMC), for quantifying causal strengths between variables in spatial cross-sectional data. Inspired by Cross Mapping Cardinality (CMC), which uses the area under the intersectional cardinality curve (AUC) to measure causal strength \citep{tao2023cmc}, GCMC constructs spatially reconstructed state spaces and evaluates the intersectional cardinality (IC) curves between variable manifolds. To statistically estimate the causal strength and its confidence interval, we apply the DeLong placement method \citep{delong1988,sun2014delongfi} to the IC curve. We demonstrate the efficacy of GCMC by applying it to a benchmark system comprising three variables arranged in canonical causal interaction structures \citep{sanchez2024surd}, namely mediator (\(A \rightarrow B \rightarrow C\)), collider (\(A \rightarrow B \leftarrow C\)), and confounder (\(A \leftarrow B \rightarrow C\)). Subsequently, we validate the method using three empirical case studies that exemplify distinct coupling regimes. Finally, we rigorously evaluate the robustness of GCMC against observational noise through experiments on a synthetic dataset. Comparative analysis with PCC, GD, LiNGAM, and GCCM confirms the practical advantages of GCMC.
+
+The remainder of this manuscript is structured as follows: Section~\ref{sec2} outlines the theoretical foundations and methodology of the proposed GCMC method, including its rationale and validation design. Section~\ref{sec3} reports the experimental results from synthetic and real-world datasets. Section~\ref{sec4} discusses key findings, and Section~\ref{sec5} concludes this study.
+
+\section{Material and methods}\label{sec2} 
+
+\subsection{The geographical cross mapping cardinality method}
+
+Generalized embedding theory \citep{Takens1981embedding,Mane1981embedding} establishes that the dynamics of a system can be reconstructed from a single observable through delay-coordinate embedding, where delayed values serve as independent coordinates of the reconstructed state space. Extending this principle to spatial data, recent developments of GCCM demonstrate that spatial neighbors can be treated as analogous observation functions, analogous to the temporal delays in classical embeddings \citep{gao2023gccm}. Specifically, for two spatial variables \(x\) and \(y\) defined on the same set of spatial units (e.g., grids or polygons), their values and spatial lags constitute valid observables from which embeddings (shadow manifolds) \(M_x\) and \(M_y\) can be reconstructed. Formally, the embedding of variable \(x\) in the spatial domain is represented as
+\begin{equation}\label{eq-embedding}
+M_x = \begin{bmatrix}
+h_{s(\tau)}(x_1) & h_{s(2\tau)}(x_1) & \cdots & h_{s(E\tau)}(x_1) \\
+h_{s(\tau)}(x_2) & h_{s(2\tau)}(x_2) & \cdots & h_{s(E\tau)}(x_2) \\
+\vdots & \vdots & \ddots & \vdots \\
+h_{s(\tau)}(x_n) & h_{s(2\tau)}(x_n) & \cdots & h_{s(E\tau)}(x_n)
+\end{bmatrix},
+\end{equation}
+\noindent where \(E\) denotes the embedding dimension, \(\tau\) is the spatial lag step, \(s(k)\) identifies the \(k\)-th order spatial neighbors of each unit, and \(h(\cdot)\) is an aggregation function (e.g., the mean) that maps attribute values from neighboring units into a scalar. This construction preserves the intrinsic spatial dynamics and provides the theoretical basis for spatial cross-sectional embeddings.
+
+For instance, as illustrated in Figure~\ref{fig_ssr}, when the embedding dimension \(E = 3\) and the spatial lag step \(\tau = 1\), the embedding vector for a focal unit \(i\) is computed as 
+\(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\),  
+\(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and  
+\(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\),  
+where the denominators correspond to the number of units included in each spatial lag calculation and the numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure1.png}
+\caption{Demonstration of reconstructing embedding for spatial cross-sectional data.}
+\label{fig_ssr}
+\end{figure}
+
+If variables \(x\) and \(y\) originate from the same dynamical system, they are constrained by a common underlying manifold that governs their trajectories. According to the generalized embedding theory, the reconstructed embeddings (shadow manifolds) \(M_x\) and \(M_y\) from \(x\) and \(y\) are topologically equivalent representations of this manifold \citep{Takens1981embedding,Mane1981embedding}, and there exists a one-to-one mapping between them that can be formalized as a diffeomorphism. Such a mapping preserves the essential dynamical structure of trajectories, ensuring that the evolution observed in one embedding can be recovered from the other \citep{sugihara2012ccm}. This property underpins cross mapping for causal inference.
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure2.png}
+\caption{Schematic illustration of intersectional cardinality in the reconstructed state space (illustrated using the Lorenz attractor).
+\textbf{a} Local neighborhood in manifold $M_x$.
+\textbf{b} Local neighborhood in manifold $M_y$.
+\textbf{c} Projection of the neighborhood from $M_x$ to $M_y$.
+\textbf{d} Intersectional cardinality between the mapped neighborhoods.}
+\label{fig_ic}
+\end{figure}
+
+Building upon this principle, GCMC infers causation by assessing whether local neighborhoods in $M_x$ are consistently mapped to neighborhoods in $M_y$. For a given number of nearest neighbors \(k\), let \(\mathit{NN}_x(i,k)\) denote the set of the \(k\) nearest neighbors of the \(i\)-th state in \(M_x\) (Figure~\ref{fig_ic}a), and \(\mathit{NN}_y(i,k)\) denote the analogous set in \(M_y\) (Figure~\ref{fig_ic}b). By projecting the neighbors from \(M_x\) onto \(M_y\), we obtain \(\mathit{NN}_y(\mathit{NN}_x(i,k),k)\) , that is, the set of \(k\) nearest neighbors in \(M_y\) corresponding to the \(k\) nearest neighbors of state \(i\) in \(M_x\) (Figure~\ref{fig_ic}c). This procedure explicitly exploits the diffeomorphic correspondence between the two embeddings, whereby the local neighborhood structure in one embedding contains sufficient information to reconstruct the corresponding neighborhood in the other, thereby providing an operational criterion for detecting causal influence in dynamical systems.
+
+To quantify the consistency between these neighborhoods, we define the intersectional cardinality for the $i$-th unit as:
+\begin{equation}\label{eq-ic_ik}
+IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \right|,
+\end{equation}
+\noindent this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
+
+Averaging across all states yields the global IC value for a given neighborhood size $k$:
+\begin{equation}\label{eq-ic_k}
+IC_k = \frac{1}{n} \sum_{i=1}^n IC_{i,k} 
+\end{equation}
+
+By varying $k$ from $1$ to $n$, we obtain the complete IC curve:
+\begin{equation}\label{eq-ic_curve}
+IC_{\text{curve}} = \{ IC_k \mid k = 1, 2, \dots, n \} 
+\end{equation}
+
+According to \cite{tao2023cmc}, the shape of the IC curve reveals critical information about the presence and strength of causality. Under the null hypothesis $H_0$ (Figure~\ref{fig_cross_mapping}b, which assumes no causal influence from $y$ to $x$), the IC curve increases linearly with $k$, reflecting the expected number of intersecting neighbors under random mapping. In contrast, under the alternative hypothesis $H_1$ (Figure~\ref{fig_cross_mapping}a), where a causal link exists, the IC curve exhibits a concave-down shape, indicating improved neighborhood consistency with increasing $k$. This IC concavity serves as a dynamical signature of causality. Formally, to test for causality from $y$ to $x$, we specify the hypotheses as:
+\begin{equation}\label{eq-hypothesis}
+H_0: y \not\Rightarrow x \quad \text{vs.} \quad H_1: y \Rightarrow x 
+\end{equation}
+
+The IC curve under $H_1$ is obtained through equations~\ref{eq-ic_ik}--\ref{eq-ic_curve}, whereas the IC curve under $H_0$ is approximated by a linear function, $IC_k = 0.5k$, representing the expected overlap under random mapping \citep{tao2023cmc}. The causal strength (CS) from $y$ to $x$ is then defined as the difference in the area under the IC curve (AUC) between the alternative and null hypotheses (Figure~\ref{fig_cross_mapping}c):
+\begin{equation}\label{eq-cs}
+CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
+\end{equation}
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure3.png}
+\caption{Schematic diagram of cross mapping in GCMC and the resulting intersectional cardinality (illustrated using the Lorenz attractor).
+\textbf{a} Cross mapping under the $H_1$ hypothesis, where neighboring states in $M_x$ are mapped to neighboring states in $M_y$, indicating the presence of causal influence.
+\textbf{b} Cross mapping under the $H_0$ hypothesis, where neighboring states in $M_x$ are mapped to random points in $M_y$, corresponding to the absence of causal influence.
+\textbf{c} Intersectional cardinality curves obtained from cross mapping under the $H_1$ and $H_0$ hypotheses for different numbers of nearest neighbors $k$.}
+\label{fig_cross_mapping}
+\end{figure}
+
+In GCMC, causal strength is quantified by the area under the intersectional cardinality curve, which captures how consistently the neighborhood of one variable overlaps with that of another across different neighborhood scales in the reconstructed state space. A steeper IC curve and a larger area under the curve indicate stronger and more systematic neighborhood overlap, reflecting a higher likelihood of genuine causal influence rather than incidental spatial association. Conversely, a flat or slowly increasing IC curve suggests weak or inconsistent neighborhood correspondence, which is more likely to arise from spurious associations induced by confounding, collider, or other complex interaction structures, or from observational noise, rather than from genuine causal influence. To statistically estimate this causal strength and its uncertainty, we employ the DeLong placement method, a non-parametric approach originally developed for estimating the area under the receiver operating characteristic (ROC) curve and its variance \citep{delong1988,sun2014delongfi}. Here, the DeLong method is used to compare IC curves corresponding to the null hypothesis and the alternative hypothesis. Specifically, given a set of positive cases $\{X_i\}_{i=1}^{m}$ representing IC curves under the alternative hypothesis ($H_1$), and a set of negative controls $\{Y_j\}_{j=1}^{n}$ representing IC curves under the null hypothesis ($H_0$), the AUC is computed as
+\begin{equation}
+\hat{\theta} = \frac{1}{mn} \sum_{i=1}^{m} \sum_{j=1}^{n} \mathbb{I}(X_i > Y_j) + \frac{1}{2} \mathbb{I}(X_i = Y_j),
+\end{equation}
+
+\noindent where \(\hat{\theta}\) represents the estimated AUC value, and \(\mathbb{I}(\cdot)\) is an indicator function that equals 1 if the condition holds and 0 otherwise.  
+
+To assess the statistical significance and confidence interval of the estimated AUC, the DeLong placement method provides a variance estimate based on the placement values \citep{delong1988,sun2014delongfi}:
+\begin{equation}
+\hat{\sigma}^2 = \frac{1}{m} \sum_{i=1}^{m} \left( X_i - \hat{\theta} \right)^2 + \frac{1}{n} \sum_{j=1}^{n} \left( Y_j - (1 - \hat{\theta}) \right)^2.
+\end{equation}
+
+Using this variance, a confidence interval for AUC can be constructed based on the normal approximation:
+\begin{equation}
+\text{CI} = \left[ \hat{\theta} - z_{\alpha/2} \hat{\sigma}, \hat{\theta} + z_{\alpha/2} \hat{\sigma} \right],
+\end{equation}
+
+\noindent where \( z_{\alpha/2} \) is the critical value of the standard normal distribution for a given confidence level (e.g., 1.96 for 95\% confidence), and \(\hat{\sigma} \) is the estimated standard error of \(\hat{\theta}\), which quantifies the uncertainty in the estimated AUC value.
+
+To evaluate the statistical significance of \(\hat{\theta}\) (the AUC value), a hypothesis test is conducted to determine whether the AUC significantly deviates from 0.5 under the null hypothesis \(\theta = 0.5\), where the test statistic is given by
+\begin{equation}
+Z = \frac{\hat{\theta} - 0.5}{\hat{\sigma}}.
+\end{equation}
+
+The corresponding two-tailed p-value is obtained using the standard normal cumulative distribution function:
+\begin{equation}
+p = 2 \Phi(-|Z|),
+\end{equation}
+
+\noindent where $\Phi(\cdot)$ is the cumulative distribution function of the standard normal distribution, and a significance level of 0.05 is adopted for all GCMC analyses in this study.
+
+The causal strength measured by GCMC is a metric rooted in dynamical systems theory, quantifying the difference between intersectional cardinality curves under the null and alternative hypotheses of mutual cross mapping. Importantly, this causal strength should not be interpreted as a treatment effect (e.g., the marginal change in an outcome variable resulting from a unit change in a predictor). Instead, it represents a relative measure of causal influence, reflecting how consistently the state of one variable can be recovered from another across neighborhood scales in the reconstructed state space. From this perspective, the GCMC causal strength is particularly suited for causal discovery tasks and for comparing the relative strength of directional causal coupling among multiple candidate drivers. Larger values indicate stronger causal influence, enabling the ranking and comparison of causal influences across variables, rather than the direct quantification of absolute effect magnitudes. This interpretation is consistent with the empirical dynamic modeling framework, in which causation is inferred from information recovery rather than parametric effect sizes.
+
+To reliably infer a causal link, GCMC adopts a two-stage criterion: the estimated causal strength in a given direction must (i) be statistically significant (e.g., with a $p$-value $< 0.05$, though more stringent significance levels may be adopted depending on the application), and (ii) sufficiently large in magnitude (exceed an empirically calibrated magnitude threshold). In this study, a threshold of 0.2 was found to perform well across all three case studies. This value is intended as a practical guideline rather than a universal constant, and can be flexibly adjusted according to the problem at hand. In bivariate systems, if neither direction yields a significant causal strength, this suggests the absence of a causal relationship between the variables. If one or both directions show significance, prior domain knowledge is essential to determine whether the measured causal strength reflects a genuine causal influence or instead arises from strong coupling or synchronization (for instance, enslaved effects), which may lead to false positives. In multivariate settings, GCMC evaluates all possible directional pairs and retains only those that are both statistically significant and exhibit sufficiently large causal strength. By jointly enforcing statistical significance and effect-size thresholding, GCMC yields robust and interpretable causal links, offering a principled approach to causal inference with enhanced resistance to false positives compared to existing methods.
+
+\subsection{Validation strategy and experimental design}
+
+\subsubsection{Synthetic benchmark via spatial logistic map}
+
+To evaluate the capability of the proposed GCMC method in measuring causal strengths from spatial cross-sectional data, we design a synthetic benchmark system inspired by causal simulation practices in nonlinear time series. In particular, we extend the classic logistic map into a spatial domain to construct a spatial logistic map process \citep{willeboordse2003slm}, enabling the controlled simulation of structured causal interactions over spatial units. This spatial benchmark is used to generate three prototypical causal structures among three variables \(A\), \(B\), and \(C\): mediator $A \rightarrow B \rightarrow C$, collider $A \rightarrow B \leftarrow C$, and confounder $A \leftarrow B \rightarrow C$ (Figure~\ref{fig_benchmark}a), which are commonly considered in causal inference literature \citep{sanchez2024surd}.
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure4.png}
+\caption{Benchmark evaluation of GCMC on canonical causal structures.
+\textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. 
+\textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (values near edges). Edge types indicate causal inference correctness: true causality (black solid), false positive causality (red solid), and ruled-out non-causal links (gray dashed). Non-significant values ($p > 0.05$) are marked with $^\#$, and orange-highlighted thresholds indicate the optimal decision boundary. This threshold is determined by varying the threshold continuously from 0 to 1 at an interval of 0.01 and selecting the maximum value at which the simulated ground-truth causal links remain valid.
+}
+\label{fig_benchmark}
+\end{figure}
+
+Each synthetic spatial variable is initialized using a stochastic spatial field generated over a regular 2D grid. Specifically, we construct a distance matrix across all spatial units and apply an exponential covariance function \(\text{Cov}(d) = \sigma^2 \exp(-d / \rho)\), where \(d\) is the Euclidean distance between spatial units, \(\sigma^2 = 1\) is the marginal variance, and \(\rho = 1.5\) is the range parameter controlling spatial autocorrelation. Spatially correlated fields are then drawn from a multivariate normal distribution parameterized by this covariance matrix. To ensure non-negativity and comparability across simulations, the resulting fields are truncated at zero to remove negative values and rescaled to the unit interval \([0,1]\). Each of the three variables \(A\), \(B\), and \(C\) is initialized independently through this procedure, producing realistic spatial patterns with inherent autocorrelation.
+
+We then evolve the system using the spatial logistic map for 15 time steps. The update rule for any variable \(V \in \{A, B, C\}\) at location \(\mathbf{s}_i\) and time \(t+1\) is given by:
+\begin{equation}\label{slm}
+V_{t+1}(\mathbf{s}_i) = 1 - \alpha_V V_t(\mathbf{s}_i)\left(\frac{1}{k}\sum_{j\in \mathcal{N}(i)} V_t(\mathbf{s}_j) - \sum_{U\in \mathcal{C}(V)}\beta_{UV} U_t(\mathbf{s}_i)\right),
+\end{equation}
+
+\noindent where \(k\) is the neighborhood size; \(\mathcal{N}(i)\) denotes the spatial neighborhood of unit \(i\); \(\alpha_V\) controls the strength of nonlinear spatial self-interaction via a logistic growth term; \(\beta_{UV}\) denotes the causal influence from variable \(U\) to \(V\); and \(\mathcal{C}(V)\) denotes the set of causal parent variables of \(V\). It is important to note that spatial causality in this benchmark is expressed through the temporal evolution of multiple interacting spatial units. In practice, causal influence requires time to manifest, and the spatial cross-sections at each step can be viewed as snapshots of this evolving process. Because neighboring units and cross-variable interactions are explicitly coupled in the update rule, the observed spatial patterns at equilibrium are direct reflections of underlying causal dynamics, even though these dynamics unfold temporally. This approach is consistent with how real-world spatial data often capture the outcome of ongoing causal processes. Moreover, although Equation~\ref{slm} contains linear combination terms (e.g., neighbor averaging and additive causal influences), the overall updating mechanism is intrinsically nonlinear due to the logistic multiplicative form. Consequently, the system does not generate persistent linear trends; instead, it converges toward stabilized spatial patterns after discarding the transient initialization phase.
+
+To generate spatial cross-sectional data for testing, we discard the transient initial state at \(t=0\) and compute the average value of each variable over all spatial units at each subsequent time step. The final test data are obtained by averaging these spatial unit values across the simulation steps after the initial transient period, thereby capturing the stabilized spatial patterns. The parameters for the three causal scenarios are set as follows: for the mediator case, we set \(\beta_{AB}=1\), \(\beta_{BC}=1\), and all other \(\beta\) coefficients are set to $0$; for the collider case, \(\beta_{AB}=1\), \(\beta_{CB}=1\), with all remaining \(\beta\) coefficients equal to $0$; and for the confounder case, \(\beta_{BA}=1\), \(\beta_{BC}=1\), while all other \(\beta\) coefficients are $0$. In all scenarios, the spatial logistic parameters are fixed at \(\alpha_A = \alpha_B = \alpha_C = 0.2\), and the spatial neighborhood size is set to \(k=4\).
+
+\subsubsection{Case studies in earth and social systems}
+
+The developed GCMC model is validated through three real-world case studies covering diverse socio-economic and environmental contexts to comprehensively assess its practical applicability and comparative performance under realistic spatial conditions. The first case employs the Columbus Neighborhood Data \citep{r-spData} to examine causal relationships among housing value (\textit{hoval}), household income (\textit{inc}), and crime rates (\textit{crime}, measured by residential burglaries and vehicle thefts per thousand households). The second case analyzes county-level data across mainland China \citep{gao2023gccm}, investigating potential causal links among population density (\textit{popd}), elevation (\textit{elev}), and temperature (\textit{tem}). The third case focuses on farmland productivity in China, using the same data source \citep{gao2023gccm} to explore causal interactions among net primary productivity (\textit{npp}), precipitation (\textit{pre}), and temperature (\textit{tem}). Across all cases, causal strength estimates obtained using the GCMC model are benchmarked against those derived from PCC, GD, LiNGAM, and  GCCM to assess empirical validity and robustness. For the GD model, continuous variables are discretized into five categories using the natural breaks classification method. For both GCMC and GCCM, the embedding dimension $E$ is determined using the false nearest neighbors (FNN) method \citep{kennel1992fnn}. In GCMC, the number of nearest neighbors is selected according to an empirically motivated criterion and is set to $\lceil \sqrt{N E} \rceil$, where $N$ denotes the number of samples involved in cross mapping. In contrast, GCCM employs $E + 2$ nearest neighbors for cross mapping. 
+
+\subsubsection{Noise sensitivity analysis}
+
+To evaluate the robustness of the GCMC model against observational noise, a controlled noise sensitivity experiment is conducted. We focus on the variable pair \textit{popd} and \textit{elev} from the population density case study. Noise is introduced to these variables following the formulations:
+
+\begin{equation}\label{eq-sensitivity}
+\begin{aligned}
+S_{popd} &= popd + \alpha \cdot \eta \cdot popd, \\
+S_{elev} &= elev + \alpha \cdot \eta \cdot elev,
+\end{aligned}
+\end{equation}
+
+\noindent where \(popd\) and \(elev\) represent the original data vectors, \(\alpha\) denotes the noise ratio varying from 0 to 1 in increments of 0.1, and \(\eta\) is a standard normal random vector matching the length of the variables. The resulting \(S_{popd}\) and \(S_{elev}\) correspond to the noisy versions of the original variables. The noise sensitivity of GCMC is assessed under three scenarios: noise added to \textit{elev} only, noise added to \textit{popd} only, and noise simultaneously added to both variables.
+
+\section{Results}\label{sec3} 
+
+\subsection{Performance on benchmark systems}\label{benchmark}
+
+Figure~\ref{fig_benchmark} illustrates the performance of GCMC and GCCM on three canonical three-variable causal configurations: mediator, collider, and confounder structures. In each scenario (Figure~\ref{fig_benchmark}a), variables \(A\), \(B\), and \(C\) interact according to a distinct causal topology, and Figure~\ref{fig_benchmark}b presents the causal strengths inferred by both methods, with arrows indicating detected directions and numeric labels denoting strength values. In the mediator case ($A \rightarrow B \rightarrow C$), both methods successfully identify the causal links from $A$ to $B$, from $B$ to $C$, as well as from $A$ to $C$, the latter being theoretically justified by the transitive effect of $A$ on $C$ mediated through $B$ \citep{leng2020pcm}. However, GCCM additionally infers three spurious causal links that do not exist in the ground truth, thereby producing a fully connected network structure overall. In the collider case ($A \rightarrow B \leftarrow C$), GCMC correctly identifies only the two true causes of \(B\), whereas GCCM erroneously infers a causal link from \(A\) to \(C\), likely reflecting collider bias. In the confounder configuration ($A \leftarrow B \rightarrow C$), both methods detect the true outgoing links from \(B\), but only GCCM incorrectly infers a nonexistent link from \(A\) to \(C\), which GCMC avoids. Overall, GCMC achieves higher causal discovery accuracy than GCCM across all tested structures, demonstrating its effectiveness in reducing false positives under nonlinear spatial causal configurations.
+
+\subsection{Case of residential crime study}\label{case1}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure5.png}
+\caption{Causation among residential crime, house value, and household income (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
+\textbf{a-c} Spatial distributions of the three variables. 
+\textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. 
+\textbf{e} Stratified power computed by GD. 
+\textbf{f} Causal strengths measured by LiNGAM.
+\textbf{g} Causal strengths measured by GCCM. \textbf{h} Causal strengths measured by GCMC. \textbf{i} Conceptual diagram summarizing the inferred causal pathways based on GCMC estimates, where false positive links are excluded based on a causal strength threshold of $0.2$. Both GCMC and GCCM were configured with an embedding dimension \(E = 7\); the number of nearest neighbors used was \(k = 19\) for GCMC and \(k = 9\) for GCCM.}
+\label{fig_case1}
+\end{figure}
+
+This case study investigates the causal relationships among residential crime (crime), housing value (hoval), and household income (inc) using spatial data from Columbus, Ohio. The spatial distributions of the three variables (Figure~\ref{fig_case1}a--c) reveal pronounced contrasts between central and peripheral regions. The correlation analysis (Figure~\ref{fig_case1}d) indicates moderate to strong negative associations between crime and both housing value and income, but does not provide directional insights into causation. GD (Figure~\ref{fig_case1}e) captures moderate stratified power between crime and hoval, as well as high stratified power between crime and inc, yet fails to distinguish between causal drivers and response variables. In contrast, GCMC (Figure~\ref{fig_case1}h) successfully identifies two actual causal links: from crime to hoval and from inc to hoval. Other links, though statistically significant, are filtered out as false positives based on the causal strength threshold of 0.2. Compared to GCMC, GCCM (Figure~\ref{fig_case1}g) additionally detects a spurious bidirectional causal relationship between inc and crime, despite the absence of theoretical or empirical evidence supporting such causation. LiNGAM performs even worse, failing to identify the causal influences of crime and inc on hoval, while incorrectly inferring causal influences from inc and hoval to crime. These findings highlight the superior capability of GCMC in suppressing false positive causal links and improving the robustness and interpretability of causal inference in spatial observational data.
+
+\subsection{Case of population density study}\label{case2}
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[width=0.9\textwidth]{./figure/figure6.png}
+\caption{Causation among elevation, temperature and population density (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
+\textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling regime. \textbf{b} The stratified power quantified with GD. 
+\textbf{c} Causal strengths measured by LiNGAM.
+\textbf{d} Causal strengths measured by GCCM. \textbf{e} Causal strengths measured by GCMC. \textbf{f} Diagram of causal links constructed from GCMC results, with false positives filtered using a causal strength threshold of $0.2$. Both GCMC and GCCM were configured with an embedding dimension \(E = 11\); the number of nearest neighbors used was \(k = 176\) for GCMC and \(k = 13\) for GCCM.}
+\label{fig_case2}
+\end{figure}
+
+As illustrated in Figure~\ref{fig_case2}, this case reveals distinct capabilities and limitations of existing methods in identifying causal relationships among elevation, temperature, and population density. While PCC (Figure~\ref{fig_case2}a) captures only linear correlations without indicating causality, GD (Figure~\ref{fig_case2}b) quantifies spatial stratified heterogeneity and provides limited evidence of potential influence. LiNGAM (Figure~\ref{fig_case2}c) identifies only a weak causal effect of elevation on temperature, while incorrectly inferring causal influences from population density to both elevation and temperature. GCCM (Figure~\ref{fig_case2}d) measures strong causal strengths but erroneously suggests that temperature has a greater causal influence on elevation than the other way around, which represents an unrealistic reversal given the known topographic control on temperature. In contrast, GCMC (Figure~\ref{fig_case2}e) successfully identifies the correct unidirectional causal link from elevation to temperature, as the causal strength from temperature to elevation is not statistically significant, while the causal strength from elevation to temperature exceeds the predefined threshold of 0.2, aligning with physical understanding. The resulting causal diagram (Figure~\ref{fig_case2}f) clearly illustrates the causal structure, demonstrating the ability of GCMC to distinguish true causal pathways and avoid spurious inferences, thus offering a more reliable and interpretable framework for causal discovery in spatial cross-sectional data.
+
+\subsection{Case of net primary productivity study}\label{case3}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{./figure/figure7.png}
+\caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
+\textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. 
+\textbf{b} Stratified power computed by GD. 
+\textbf{c} Causal strengths measured by LiNGAM. 
+\textbf{d} Causal strengths measured by GCCM. 
+\textbf{e} Causal strengths measured by GCMC. 
+\textbf{f} Causal links inferred by GCMC. Both GCMC and GCCM were configured with an embedding dimension \(E = 5\); the number of nearest neighbors used was \(k = 144\) for GCMC and \(k = 7\) for GCCM.}
+\label{fig_case3}
+\end{figure}
+
+For the well-known Climate-NPP causation, where classical temporal causal models failed to capture the causation \citep{gao2022tscess,gao2023gccm}, we also tested whether GCMC can effectively measure its causal strengths. The relevant results are presented in Figure~\ref{fig_case3} and the true causation of precipitation and temperature on NPP were detected by GCMC, with a causal strength of $0.5996$ from precipitation to NPP (pre  \(\rightarrow\) npp) and $0.7325$ from temperature to NPP (tem  \(\rightarrow\) npp). The causal strength from NPP to precipitation (npp \(\rightarrow\) pre) did not pass the significance test ($p > 0.05$), indicating that NPP does not exert a causal influence on precipitation. Instead, this suggests that the measured causal strength by GCMC is a result of the enslaved effect of the strong causal influence of precipitation on NPP. Compared to GCMC, GCCM additionally identified a spurious causal link from NPP to precipitation (npp \(\rightarrow\) pre), which was not supported by GCMC, indicating its susceptibility to false positives under strong coupling. LiNGAM detects the causal influence of precipitation on NPP but fails to identify the causal influence of temperature on NPP. In this case, GCMC successfully identified the actual causation, whereas the GD model identifies stratified powers where NPP shows a stronger impact to precipitation and temperature than the reverse. This suggests that the stratified powers derived from the GD model do not provide a reliable indication of the actual causal direction. The results of this case indicate that under strong coupling, GCMC can effectively measure the actual causation, while also providing support for diagnosing enslaved effect. In this case, the data is organized in a spatial grid format, whereas the previous two cases use spatial lattice data, thereby demonstrating that GCMC is applicable not only to spatial lattice data but also to spatial grid data.
+
+\subsection{Sensitivity to observational noise}\label{sensitivity}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{./figure/figure8.png}
+\caption{Results of GCMC applied to synthetic datasets with varying noise levels. 
+\textbf{a} Causal strengths when noise is added only to \textit{elev}. 
+\textbf{b} Causal strengths when noise is added only to \textit{popd}. 
+\textbf{c} Causal strengths when noise is added to both \textit{elev} and \textit{popd}.}
+\label{fig_noise}
+\end{figure}
+
+On the synthetic dataset with varying levels of added noise, the GCMC results are presented in Figure~\ref{fig_noise}. When observational noise is added to the elev variable (Figure~\ref{fig_noise}a and Figure~\ref{fig_noise}c), the causal strength from elev to popd (elev $\rightarrow$ popd) exhibits a gradual decline with increasing noise ratio. 
+Despite this degradation, the inferred causal direction remains statistically significant even under $100\%$ added noise and consistently exceeds the reverse direction from popd to elev, indicating that increasing observational noise does not lead to a reversal of causal direction. Notably, the causal strength threshold of 0.2, established under noise free conditions, remains applicable until the observational noise added to the elev variable approaches $60\%$. Beyond this point, the substantial increase in observational noise reduces the effective signal to noise ratio, leading to a progressive disruption of local neighborhood structures in the reconstructed state space. As a consequence, the intersectional cardinality, which underpins the definition of causal strength in GCMC, decreases systematically, causing the estimated causal strength to fall below the threshold derived under noise free conditions rather than generating spurious causal signals. Overall, these results indicate that GCMC preserves reliable causal discrimination across a broad range of noise levels and remains resilient to substantial observational noise.
+
+\section{Discussion}\label{sec4} 
+
+The Earth system is a dynamic system, and the empirical dynamic modeling framework, which is grounded in dynamic systems theory \citep{ma2017cme,leng2020pcm,tao2023cmc}, provides an effective approach for causal inference in Earth system science \citep{gao2023gccm}. By appropriately extending temporal causation models within the EDM framework to spatial cross-sectional data, we can investigate causal relationships from a spatial perspective. This paper examines five representative models for spatial cross-sectional data causal inference. Among them, GCCM and GCMC are explicitly designed for spatial causal inference. GCCM extends CCM into the spatial domain, while GCMC, proposed in this study, extends CMC spatially. In contrast, PCC and GD, though widely used, are not developed based on formal causal principles. The correlation measured by PCC helps us understand causation and is also the method used within GCCM to quantify causal strengths. The GD model, grounded in the principle of spatial stratified heterogeneity \citep{wang2010gd1,wang2016gd2,lyu2025gdverse}, which, to some extent, implies causation through the stratified power \citep{wang2024gd3}. However, in our case studies, the stratified power computed by GD fails to distinguish causal drivers and response variables in certain scenarios. LiNGAM, a widely used causal discovery method based on linear non-Gaussian acyclic models \citep{shimizu2011lingam}, is also included for comparison. Although LiNGAM is grounded in a formal causal framework, it does not explicitly incorporate spatial information. As a result, when directly applied to spatial cross-sectional data, LiNGAM often fails to capture causal relationships and may produce misleading causal inferences. While PCC, GD, and LiNGAM can contribute to causal understanding under specific assumptions, they are limited in their ability to reliably perform data-driven causal discovery for spatial cross-sectional data.
+
+There are notable differences between GCCM and GCMC, which are summarized in Table~\ref{tbl_diff}. Both methods measure causal strengths within a reconstructed state space \citep{Takens1981embedding,Mane1981embedding,sugihara2012ccm}, but differ in several key methodological aspects. GCCM requires preprocessing to remove linear components \citep{gao2023gccm}, whereas GCMC operates without this step, as the removal of linear trends primarily affects the magnitude of causal strength estimated by GCMC. The fundamental distinction lies in their approaches to quantifying causation: GCCM assesses causality through prediction skill and its convergence \citep{sugihara2012ccm,gao2023gccm}, while GCMC bases its inference on the intersectional cardinality of neighborhoods combined with statistical significance testing. This shift from a prediction-based to a neighborhood-based metric in GCMC results in a more robust causal inference framework, evidenced by a reduced false positive rate in both benchmark simulations and three real-world case studies.
+
+\begin{table}[htb]
+\centering
+\caption{A comparison of characteristics of GCCM and GCMC in measuring causal strength}
+\label{tbl_diff}
+{\scriptsize
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model characteristics} & \textbf{GCCM} & \textbf{GCMC} \\
+\hline
+Removing the linearity in advance & Need & No need \\
+\hline
+The causation concept & Predictability & Intersectional cardinality \\
+\hline
+Measure of causal strength & Pearson correlation coefficient & DeLong placement \\ 
+\hline
+Identification of causation & Convergence of prediction skill \(\rho\) & Significance of causal strength \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+When using GCMC to measure causal strengths, the number of nearest neighbors $k$ selected is a critically important parameter. Taking two spatial cross-sectional variables, $x$ and $y$, as an example, if the number of neighbors is too small, the corresponding intersectional cardinality values will also be low, resulting in estimated causal strengths close to zero and making it difficult to reliably infer the relationship between $x$ and $y$. In contrast, if $k$ is too large, for example approaching the total number of observations, the IC values for both directions ($x \to y$ and $y \to x$) will approach unity, rendering the computed causal strengths uninformative. To achieve a suitable trade-off between neighborhood locality and the informativeness of the resulting causal strengths, we adopt an empirically motivated criterion for selecting $k$, whereby after determining the embedding dimension $E$ using the false nearest neighbors method \citep{kennel1992fnn}, the number of nearest neighbors is chosen as $k = \lceil \sqrt{N E} \rceil$, where $N$ denotes the number of samples involved in cross mapping. This empirical $k$ value may also serve as a reference around which alternative neighborhood sizes can be selected based on prior knowledge or problem-specific considerations.
+
+In this paper, we have selected three real-world cases with clear causation to demonstrate the use of GCMC. Among these, the residential crime and population density cases involve spatial lattice data, while the NPP case uses spatial grid data, covering scenarios of weak, medium, and strong coupling. In the crime case, the causal strength measured by GCMC is relatively small due to the limited sample size (49 spatial units), resulting in fewer available neighbors. Nevertheless, GCMC still effectively measures the causal strengths between variables in this case. In the population density and NPP cases, the sample size is two orders of magnitude larger, and here the internal statistical test for causal strength employed by GCMC proves particularly useful. Thus, an appropriate sample size is a critical prerequisite for applying GCMC effectively.
+
+We also tested the ability of GCMC to handle noise in observational data, with results showing that GCMC can reliably measure causal strengths even under varying noise levels. However, inferring causation from the causal strengths measured by GCMC requires the use of domain-specific prior knowledge to select an appropriate threshold, in order to filter out statistically significant but weak causal strength values (i.e., relatively weak in the context of expected domain coupling, though statistically nonzero) that may reflect spurious causation. In this study, we adopted a unified threshold of 0.2 across all case studies as an empirical reference value. This threshold was found to effectively exclude spurious causal links while retaining meaningful causal relationships under different coupling regimes. It should be noted that this threshold is not universal, but empirical in nature, and can be adjusted according to domain knowledge, expected coupling strength, and specific application contexts. These decisions underscore the importance of informed and flexible threshold selection in interpreting GCMC results. More generally, the applicability of GCMC depends on the degree of deterministic spatial structure present in the data. As an EDM-based approach, GCMC is suitable for spatial cross-sectional datasets that are not purely random and retain sufficient spatial organization to support meaningful neighborhood reconstruction. When spatial patterns are dominated by stochastic noise or lack coherent structure, neighborhood information becomes uninformative, and the causal strengths estimated by GCMC may be unreliable. In such cases, the results should be interpreted with caution.
+
+Currently, no well-established method exists to determine the causal strength threshold directly from the data, which represents an important direction for future improvement. Moreover, in Earth systems, many causal relationships arise through causal transmission \citep{runge2019esstsc,runge2023tsc}. To better understand causal mechanisms in such complex systems, it is sometimes necessary to distinguish direct causation from indirect causation transmitted through intermediate variables. For example, in our benchmark experiments under the mediator scenario (Figure~\ref{fig_benchmark}), indirect causation such as \(A \to C\) induced by causal transmission is detected by both GCCM and GCMC. While theoretically reasonable, this also illustrates that neither method can currently differentiate direct from indirect causation. Future research could extend both GCCM and GCMC to enable such distinctions, enhancing their applicability in complex causal systems.
+
+\section{Conclusion}\label{sec5} 
+
+This study introduces the geographical cross mapping cardinality model, a novel method for measuring causal strengths from spatial cross-sectional data. By integrating spatial state space reconstruction from GCCM with the intersectional cardinality concept from CMC and innovatively applying the DeLong placement method, GCMC enables robust estimation of causal strength with a low false positive rate. We also propose a spatial logistic map to simulate spatial causal structures, offering a new benchmark framework. The effectiveness and generalizability of GCMC are demonstrated through a simulated three-variable causal benchmark and three real-world case studies covering different data formats, sample sizes, and coupling conditions, while its sensitivity to noise is evaluated using controlled synthetic data. However, the current GCMC model focuses on bivariate relationships and requires manual selection of the causal strength threshold, which may limit scalability. Future research could enhance GCMC by distinguishing direct from indirect causation and automating the identification of complex causation in spatial cross-sectional data.
+
+\section*{Disclosure statement}
+
+No conflict of interest exists in this manuscript, and the manuscript was approved by all authors for publication.
+
+\section*{Data availability statement}
+
+All data and codes supporting the findings of this study are publicly available at \\
+\url{https://figshare.com/s/a1a9af2cafdf33581c55}. 
+% A high-performance and concurrency-enabled C++ implementation of the GCMC method is provided, which is wrapped as an R package named \texttt{spEDM} to support user-friendly access and integration with spatial empirical dynamic modeling workflows. The package is available at \url{https://github.com/stscl/spEDM}.
+
+% All data and codes supporting the findings of this study are publicly available at \\
+% \url{https://github.com/SpatLyu/GCMC_IJGIS}.
+
+% \section*{Funding}
+
+% This work was supported by the National Natural Science Foundation of China [Grant Nos. 72201229, 72361137006] and Centre for Infrastructure Delivery Research Funding P0055981.
+
+\section*{Acknowledgments}
+
+We sincerely thank the anonymous reviewers for their valuable comments and constructive suggestions, which significantly contributed to refining the conceptual framework of the model, enhancing its application clarity, and elevating the overall quality of the manuscript.
+
+%\section*{References}
+\baselineskip12pt
+\bibliographystyle{elsarticle-harv} 
+\bibliography{references.bib} 
+
+\end{document}
