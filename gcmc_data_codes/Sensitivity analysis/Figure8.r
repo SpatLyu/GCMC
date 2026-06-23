@@ -7,8 +7,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 if (!requireNamespace("ggradar")) {
-  devtools::install_github("ricardo-bion/ggradar", 
-                           dependencies = TRUE)
+  pak::pak("ricardo-bion/ggradar", dependencies = TRUE)
 }
 
 #------------------------------------------------------------------------------#
