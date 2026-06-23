@@ -1,4 +1,4 @@
-henan = sf::read_sf('./Spatial embedding/henan.geojson')
+henan = sf::read_sf("./Spatial embedding/henan.geojson")
 
 # bb = henan |> 
 #   st_bbox() |>
@@ -51,16 +51,16 @@ fig11 = tm_shape(henan) +
                                      pos.v = "bottom"),
                 show = TRUE
               ),
-              col = 'grey', lwd = 1.25) +
+              col = "grey", lwd = 1.25) +
   tm_text("popdensity",size = 1.05, # angle = 5,
           options = opt_tm_text(just = "top",on_surface = TRUE)) +
   tm_layout(frame = FALSE)
 fig11
 tmap_save(fig11,"./Spatial embedding/figure1_1.png",dpi = 300)
 
-# png('./Spatial embedding/figure1_1.png', width = 1500, height = 1500, res = 300)  
+# png("./Spatial embedding/figure1_1.png", width = 1500, height = 1500, res = 300)  
 # par(mar = rep(0,4))
-# plot(sf::st_geometry(henan), col = 'white', lwd = 1.25, border = "grey40")
+# plot(sf::st_geometry(henan), col = "white", lwd = 1.25, border = "grey40")
 # plot(nb,coords = sdsfun::sf_coordinates(henan), lwd=1.05, col="blue", cex = 1.25, add = TRUE)
 # dev.off()
 
