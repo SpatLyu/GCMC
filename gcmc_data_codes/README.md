@@ -83,7 +83,8 @@ Please install the following packages before running the scripts:
 ``` r
 install.packages(c("readxl", "writexl", "readr", "dplyr",     
                    "purrr", "tidyr", "tibble", "ggplot2", "scatterplot3d", "plot3D", "latex2exp", 
-                   "sf", "terra", "tmap", "gdverse"))
+                   "reticulate", "sf", "terra", "tmap", 
+                   "psych", "gdverse"))
 pak::pak("ricardo-bion/ggradar", dependencies = TRUE)
 install.packages("spEDM", dependencies = TRUE)
 ```
