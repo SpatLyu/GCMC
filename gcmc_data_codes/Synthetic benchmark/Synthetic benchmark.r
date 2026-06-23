@@ -23,7 +23,7 @@ sim_trispecies = \(nx, ny, seed = 123){
                      seq(0, 10, length.out = ny))
   cov.fun = \(d, range = 1.5, sill = 1) sill * exp(-d/range)
   dist.mat = fields::rdist(grid)
-  cov.mat = cov.fun(dist.mat, range = 1.5, sill=1)
+  cov.mat = cov.fun(dist.mat, range = 1.5, sill = 1)
   set.seed(seed)
   res = replicate(3, {
     MASS::mvrnorm(1, rep(0, nrow(grid)), cov.mat) |>
@@ -78,14 +78,14 @@ g3 = spEDM::gcmc(species_scenario1, "a", "c", E = 6, k = 120)
 g3
 g3$xmap
 
-gcmc_s1 = list(g1,g2,g3)
+gcmc_s1 = list(g1, g2, g3)
 readr::write_rds(gcmc_s1, "./Synthetic benchmark/gcmc_s1.rds")
 
 g1 = spEDM::gccm(species_scenario1, "a", "b", E = 6, k = 8)
 g2 = spEDM::gccm(species_scenario1, "b", "c", E = 6, k = 8)
 g3 = spEDM::gccm(species_scenario1, "a", "c", E = 6, k = 8)
 
-gccm_s1 = list(g1,g2,g3)
+gccm_s1 = list(g1, g2, g3)
 readr::write_rds(gccm_s1, "./Synthetic benchmark/gccm_s1.rds")
 
 #-----------------------------------------------------------------------------#
@@ -122,14 +122,14 @@ g3 = spEDM::gcmc(species_scenario2, "a", "c", E = 6, k = 72)
 g3
 g3$xmap
 
-gcmc_s2 = list(g1,g2,g3)
+gcmc_s2 = list(g1, g2, g3)
 readr::write_rds(gcmc_s2, "./Synthetic benchmark/gcmc_s2.rds")
 
 g1 = spEDM::gccm(species_scenario2, "a", "b", E = 6, k = 8)
 g2 = spEDM::gccm(species_scenario2, "b", "c", E = 6, k = 8)
 g3 = spEDM::gccm(species_scenario2, "a", "c", E = 6, k = 8)
 
-gccm_s2 = list(g1,g2,g3)
+gccm_s2 = list(g1, g2, g3)
 readr::write_rds(gccm_s2, "./Synthetic benchmark/gccm_s2.rds")
 
 #-----------------------------------------------------------------------------#
@@ -166,12 +166,12 @@ g3 = spEDM::gcmc(species_scenario3, "a", "c", E = 8, k = 160)
 g3
 g3$xmap
 
-gcmc_s3 = list(g1,g2,g3)
+gcmc_s3 = list(g1, g2, g3)
 readr::write_rds(gcmc_s3, "./Synthetic benchmark/gcmc_s3.rds")
 
 g1 = spEDM::gccm(species_scenario3, "a", "b", E = 8, k = 10)
 g2 = spEDM::gccm(species_scenario3, "b", "c", E = 8, k = 10)
 g3 = spEDM::gccm(species_scenario3, "a", "c", E = 8, k = 10)
 
-gccm_s3 = list(g1,g2,g3)
+gccm_s3 = list(g1, g2, g3)
 readr::write_rds(gccm_s3, "./Synthetic benchmark/gccm_s3.rds")

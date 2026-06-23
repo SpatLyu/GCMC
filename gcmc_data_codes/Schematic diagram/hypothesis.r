@@ -54,8 +54,8 @@ ggplot2::ggsave("./Schematic diagram/figH0.png",
 #                                     fill = "#afefbd", alpha = 0.5) +
 #   ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = aucH0), 
 #                        fill = "grey", alpha = 0.5) +
-#   ggplot2::geom_line(ggplot2::aes(y = aucH0, color = "H0"),lwd = 1) +
-#   ggplot2::geom_line(ggplot2::aes(y = aucH1, color = "H1"),lwd = 1) +
+#   ggplot2::geom_line(ggplot2::aes(y = aucH0, color = "H0"), lwd = 1) +
+#   ggplot2::geom_line(ggplot2::aes(y = aucH1, color = "H1"), lwd = 1) +
 #   ggplot2::geom_abline(slope = 1, intercept = 0, color = "grey",
 #                        lwd = 0.5, linetype = 3) +
 #   ggplot2::scale_color_manual(
