@@ -8,8 +8,8 @@
 
 library(spEDM)
 
-popd_nb = spdep::read.gal('./Case of population density study/popd_nb.gal')
-popd = readr::read_csv('./Case of population density study/popd.csv')
+popd_nb = spdep::read.gal("./Case of population density study/popd_nb.gal")
+popd = readr::read_csv("./Case of population density study/popd.csv")
 
 #------------------------------------------------------------------------------#
 #------------------    Run GCMC on the synthetic dataset    -------------------#
@@ -56,13 +56,13 @@ res3 = .run_gcmc_with_noise(paste0("e","_",a),paste0("p","_",a))
 writexl::write_xlsx(list("popd_noise" = res1,
                          "elev_noise" = res2,
                          "all_noise" = res3),
-                    './Sensitivity analysis/Sensitivity analysis.xlsx')
+                    "./Sensitivity analysis/Sensitivity analysis.xlsx")
 
 noise_levels = paste0(a * 100, "% noise")
 noise_levels[1] = "no noise"
 
 .rearrange_noise_result = \(sheetname){
-  res = readxl::read_xlsx('./Sensitivity analysis/Sensitivity analysis.xlsx',sheet = sheetname) |> 
+  res = readxl::read_xlsx("./Sensitivity analysis/Sensitivity analysis.xlsx",sheet = sheetname) |> 
     dplyr::select(eta,
                   `popd -> elev` = x_xmap_y_mean,
                   `elev -> popd` = y_xmap_x_mean) |> 
@@ -79,4 +79,4 @@ res = purrr::map(paste0(c("elev","popd","all"),"_noise"),
                  .rearrange_noise_result) |> 
   purrr::set_names(paste0(c("elev","popd","all"),"_noise"))
 
-writexl::write_xlsx(res,'./Sensitivity analysis/figure8.xlsx')
+writexl::write_xlsx(res,"./Sensitivity analysis/figure8.xlsx")
