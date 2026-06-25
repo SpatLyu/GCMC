@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{lipsum} % to generate some filler text
+\usepackage{fullpage}
+\usepackage{mathrsfs}
+\usepackage{svg}
+\usepackage{xr}
+\usepackage{amsthm,cite,natbib,url,graphicx,booktabs,lipsum,color,bm,caption,subcaption,soul}
+\usepackage{pifont,tikz,paralist,multirow,amssymb}
+\usepackage{xifthen}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\definecolor{revisionmodified}{HTML}{F2A6A6}   % red: modified text
+\definecolor{revisionadded}{HTML}{8AC1AF}      % green: newly added text
+\definecolor{revisionmoved}{HTML}{B4D9FF}      % blue: relocated/moved text
+
+% 自定义 Reviewer 计数器
+\newcounter{reviewer}
+\setcounter{reviewer}{0}
+\newcounter{point}[reviewer]
+\setcounter{point}{0}
+
+% % 将 Reviewer 的计数方式改为字母（A, B, C, D, ...）
+% \renewcommand{\thereviewer}{\Alph{reviewer}}
+
+% 定义 Reviewer 的引用格式
+\renewcommand{\thepoint}{Comment\,\thereviewer.\arabic{point}}
+
+% 定义 Associate Editor 的评论环境
+\newenvironment{point1}
+   {\refstepcounter{point} \bigskip \noindent {\textbf{Editor Comment~}} ---\ }
+   {\par }
+
+% 定义 Reviewer 的评论环境
+\newenvironment{point}
+   {\refstepcounter{point} \bigskip \noindent {\textbf{Reviewer~\thepoint} } ---\ }
+   {\par }
+
+% 定义 Reviewer 的简短评论命令
+\newcommand{\shortpoint}[1]{\refstepcounter{point}   \bigskip \noindent 
+	{\textbf{Reviewer~Point~\thepoint} } ---~#1  }
+
+% 定义回复环境
+\newenvironment{reply}
+   {\medskip \noindent \color{blue} \begin{sf}\textbf{Reply}:\  }
+   {\medskip \par \end{sf}}
+
+% 定义简短回复命令
+\newcommand{\shortreply}[2][]{\medskip \noindent \begin{sf}\textbf{Reply}:\  #2
+	\ifthenelse{\equal{#1}{}}{}{ \hfill \footnotesize (#1)}%
+	\medskip \end{sf}}
+
+% 允许跳过某些 Reviewer
+\newcommand{\skipreviewer}{\stepcounter{reviewer}}
+
+% 定义 Reviewer 部分
+\newcommand{\reviewersection}{\stepcounter{reviewer} \bigskip \hrule
+                  \section*{Reviewer \thereviewer}}
+
+% Title
+\title{Response to Reviewers \\ Manuscript ID: 256384230}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-30pt}
+
+% The authors would like to thank the editor and reviewers for their constructive comments and suggestions, which have greatly improved the quality of this manuscript. In response, we have carefully revised the manuscript in accordance with all editorial and reviewers’ comments. Our point-by-point responses are provided below. In the revised manuscript, all changes made in response to the editor’s and reviewers’ comments are highlighted as follows: 
+% \colorbox{revisionmodified}{\strut modified content}, 
+% \colorbox{revisionadded}{\strut newly added content}, and 
+% \colorbox{revisionmoved}{\strut content relocated within the manuscript}.
+
+% \section*{Editor Comments}
+\begin{point1}
+It is a pleasure to provisionally accept your manuscript "Measuring causal strengths from spatial cross-sectional data with geographical cross mapping cardinality" for publication in the International Journal of Geographical Information Science.  The comments of the reviewers who reviewed your manuscript are included at the foot of this letter.
+
+Unfortunately the second reviewer did not respond to repeated requests to provide a review, which accounts for the long delay in coming to a decision.
+
+Since the first reviewer is so positive, I have decided to proceed on the basis of that review alone (and my own overview of the paper). In making further minor changes for publication as detailed below, I think you should be able to respond to the sole reviewers one additional request for clarification of what your paper is doing. This should be possible with the addition of only a few sentences.
+
+Final acceptance of your paper is subject to meeting all the production requirements. Please have a final check of the manuscript text and all figures, tables, and equations. This is the last chance for you to make final corrections to the manuscript before it goes to production.
+\end{point1}
+
+\begin{reply}
+We sincerely thank the editor for the positive decision and for the time and effort devoted to handling our manuscript. We also appreciate the consideration given despite the delay caused by the unavailability of the second reviewer.
+
+In response to the editor’s guidance, we have made minor revisions to further clarify the research motivation and the core contribution of this study. As detailed in our response to the reviewer below, the Introduction has been refined to more clearly frame spatial spillover as a system dynamics phenomenon and to highlight the need for causal inference methods, including the addition of a brief motivating example at the outset.
+
+In addition, we have carefully completed all required production updates. Specifically, we have added funding information, included author biographies and contribution statements, and updated the data and code availability statement with a permanent DOI, a GitHub repository link, and information on the R package implementing the proposed method.
+
+We also note that the surname of the first author has been updated from “Lv” to “Lyu” to ensure consistency with official documents. The Mastodon handle of the first author is @SpatLyu.
+\end{reply}
+
+\paragraph{Note:} All line numbers mentioned in this response letter refer to the small line numbers adjacent to the text in the revised manuscript (as generated by the \LaTeX{} line-numbering package). These may not correspond to the line numbers used by the submission system, which tend to be larger and differ from those in the manuscript.
+
+% \skipreviewer
+
+\reviewersection
+
+\begin{point}
+In the revised version, the authors I think did a good job in addressing most of my comments. The article is now much better and clearer motivated, the distinction between counterfactual causality approaches and the line of research here is made clearer, and the parameter values are much better motivated and justified. I believe the article is ready for publication.
+
+The only minor issue I have is that the authors might want to strengthen their case in the introduction and motivation by focusing on spatial spillover as a system dynamics phenomenon that requires a causal inference method. Now that I understand your method better, it would be good to make this focus more clear from the outset, maybe by starting with a short example of making causal inferences in the context of spatial spillover effects. 
+
+Otherwise I think the article is ready for publication.
+\end{point}
+
+\begin{reply}
+We sincerely thank the reviewer for the positive and encouraging assessment of our work. We are grateful for the recognition of the improvements in motivation, methodological clarity, and parameter justification in the revised manuscript.
+
+In response to the remaining suggestion, we have further refined the Introduction to strengthen the research motivation. Specifically, we now explicitly frame spatial spillover as a manifestation of underlying system dynamics and emphasize the need for causal inference methods to properly account for such processes. In addition, we have incorporated a brief motivating example at the beginning of the Introduction to make this perspective clearer from the outset.
+\end{reply}
+
+% \baselineskip12pt
+% \bibliographystyle{elsarticle-harv} 
+% \bibliography{references.bib} 
+
+\end{document}
