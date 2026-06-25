@@ -1,31 +1,31 @@
 # figures: pdf -> png
-.pdf2png = \(pdfname,pngname,dpi = 600){
+.pdf2png = \(pdfname, pngname, dpi = 600){
   pdftools::pdf_convert(pdf = pdfname, filenames = pngname, dpi = dpi)
 }
 
 .pdf2png('./gcmc_data_codes/Spatial embedding/figure1.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure1.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure1.png')
 
 .pdf2png('./gcmc_data_codes/Schematic diagram/figure2.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure2.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure2.png')
 
 .pdf2png('./gcmc_data_codes/Schematic diagram/figure3.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure3.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure3.png')
 
 .pdf2png('./gcmc_data_codes/Synthetic benchmark/figure4.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure4.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure4.png')
 
 .pdf2png('./gcmc_data_codes/Case of residential crime study/figure5.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure5.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure5.png')
 
 .pdf2png('./gcmc_data_codes/Case of population density study/figure6.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure6.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure6.png')
 
 .pdf2png('./gcmc_data_codes/Case of net primary productivity study/figure7.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure7.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure7.png')
 
 .pdf2png('./gcmc_data_codes/Sensitivity analysis/figure8.pdf',
-         './gcmc_manuscript/manuscript_r1/figure/figure8.png')
+         './gcmc_manuscript/manuscript_revision/figure/figure8.png')
 
 
 
