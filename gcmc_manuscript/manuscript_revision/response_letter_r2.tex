@@ -12,6 +12,7 @@
 \usepackage{enumerate}
 \usepackage{enumitem}
 \usepackage{titlesec}
+\usepackage{hyperref}
 \usepackage{xcolor}
 \definecolor{revisionmodified}{HTML}{F2A6A6}   % red: modified text
 \definecolor{revisionadded}{HTML}{8AC1AF}      % green: newly added text
@@ -114,10 +115,29 @@ Otherwise I think the article is ready for publication.
 We sincerely thank the reviewer for the positive and encouraging assessment of our work. We are grateful for the recognition of the improvements in motivation, methodological clarity, and parameter justification in the revised manuscript.
 
 In response to the remaining suggestion, we have further refined the Introduction to strengthen the research motivation. Specifically, we now explicitly frame spatial spillover as a manifestation of underlying system dynamics and emphasize the need for causal inference methods to properly account for such processes. In addition, we have incorporated a brief motivating example at the beginning of the Introduction to make this perspective clearer from the outset.
+
+\vspace{1em}
+
+\begingroup
+\color{red}\itshape
+\begin{quote}
+    ``Understanding causation in the Earth system, particularly how processes interact and propagate across space, is fundamental for addressing scientific and societal challenges, yet direct interventions are often impractical or ethically problematic \citep{gao2022tscess,runge2023tsc,gao2023gccm}. In many Earth system processes, changes occurring at one location can propagate to neighboring regions \citep{herrera2016spatialgranger}, giving rise to spatial spillover effects. For example, urban development in one area may influence housing prices in surrounding regions, while pollutant emissions can affect air quality across administrative boundaries. Such spatial spillovers reflect underlying system dynamics and inherently involve causal interactions across space rather than mere statistical associations \citep{lyu2026tEDM}. This points to the need for causal inference methods to properly identify and quantify such spatial dynamics. 
+
+    To meet this need, Earth system sciences have traditionally relied on physics-based simulations to infer causal mechanisms, offering a controlled framework for experimentation. However, such models are computationally intensive and rely on strong assumptions about underlying processes, which limits their applicability in complex, nonlinear, and poorly understood systems. With the increasing availability of large-scale observational datasets, including time series and spatial cross-sectional data, new avenues for data-driven causal inference in Earth sciences have emerged \citep{runge2019esstsc,runge2023tsc}. This has spurred the development of numerous causal inference methods based on observational data, ...''
+\end{quote}
+\endgroup
+
+\begin{flushright}
+  {\footnotesize\textit{\textcolor{blue}{Excerpted for reviewer's convenience; \\
+  see revised manuscript, Lines~2--19.}}}
+\end{flushright}
+
+\vspace{1em}
+
 \end{reply}
 
-% \baselineskip12pt
-% \bibliographystyle{elsarticle-harv} 
-% \bibliography{references.bib} 
+\baselineskip12pt
+\bibliographystyle{elsarticle-harv} 
+\bibliography{references.bib} 
 
 \end{document}
