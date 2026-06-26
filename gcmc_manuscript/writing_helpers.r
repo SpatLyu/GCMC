@@ -1,31 +1,31 @@
-# figures: pdf -> jpg
-.pdf2jpg = \(pdfname, jpgname, dpi = 600){
-  pdftools::pdf_convert(pdf = pdfname, filenames = jpgname, dpi = dpi)
+# figures: pdf -> jpeg
+.pdf2jpeg = \(pdfname, jpegname, dpi = 600){
+  pdftools::pdf_convert(pdf = pdfname, filenames = jpegname, dpi = dpi)
 }
 
-.pdf2jpg('./gcmc_data_codes/Spatial embedding/figure1.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure1.jpg')
+.pdf2jpeg("./gcmc_data_codes/Spatial embedding/figure1.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure1.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Schematic diagram/figure2.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure2.jpg')
+.pdf2jpeg("./gcmc_data_codes/Schematic diagram/figure2.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure2.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Schematic diagram/figure3.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure3.jpg')
+.pdf2jpeg("./gcmc_data_codes/Schematic diagram/figure3.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure3.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Synthetic benchmark/figure4.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure4.jpg')
+.pdf2jpeg("./gcmc_data_codes/Synthetic benchmark/figure4.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure4.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Case of residential crime study/figure5.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure5.jpg')
+.pdf2jpeg("./gcmc_data_codes/Case of residential crime study/figure5.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure5.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Case of population density study/figure6.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure6.jpg')
+.pdf2jpeg("./gcmc_data_codes/Case of population density study/figure6.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure6.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Case of net primary productivity study/figure7.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure7.jpg')
+.pdf2jpeg("./gcmc_data_codes/Case of net primary productivity study/figure7.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure7.jpeg")
 
-.pdf2jpg('./gcmc_data_codes/Sensitivity analysis/figure8.pdf',
-         './gcmc_manuscript/manuscript_revision/figure/figure8.jpg')
+.pdf2jpeg("./gcmc_data_codes/Sensitivity analysis/figure8.pdf",
+          "./gcmc_manuscript/manuscript_revision/figure/figure8.jpeg")
 
 
 
