@@ -142,7 +142,7 @@ where the denominators correspond to the number of units included in each spatia
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure1.png}
+\includegraphics[width=1\textwidth]{./figure/figure1.jpeg}
 \caption{Demonstration of reconstructing embedding for spatial cross-sectional data.}
 \label{fig_ssr}
 \end{figure}
@@ -151,7 +151,7 @@ If variables \(x\) and \(y\) originate from the same dynamical system, they are 
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure2.png}
+\includegraphics[width=1\textwidth]{./figure/figure2.jpeg}
 \caption{Schematic illustration of intersectional cardinality in the reconstructed state space (illustrated using the Lorenz attractor).
 \textbf{a} Local neighborhood in manifold $M_x$.
 \textbf{b} Local neighborhood in manifold $M_y$.
@@ -190,7 +190,7 @@ CS_{y \rightarrow x} = AUC(H_1 \mid H_0) = AUC(H_1) - AUC(H_0)
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure3.png}
+\includegraphics[width=1\textwidth]{./figure/figure3.jpeg}
 \caption{Schematic diagram of cross mapping in GCMC and the resulting intersectional cardinality (illustrated using the Lorenz attractor).
 \textbf{a} Cross mapping under the $H_1$ hypothesis, where neighboring states in $M_x$ are mapped to neighboring states in $M_y$, indicating the presence of causal influence.
 \textbf{b} Cross mapping under the $H_0$ hypothesis, where neighboring states in $M_x$ are mapped to random points in $M_y$, corresponding to the absence of causal influence.
@@ -241,7 +241,7 @@ To evaluate the capability of the proposed GCMC method in measuring causal stren
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure4.png}
+\includegraphics[width=1\textwidth]{./figure/figure4.jpeg}
 \caption{Benchmark evaluation of GCMC on canonical causal structures.
 \textbf{(a)} Three simulated causal scenarios representing fundamental three-variable causal motifs. 
 \textbf{(b)} Performance comparison of GCMC and GCCM on each scenario using estimated causal strengths (values near edges). Edge types indicate causal inference correctness: true causality (black solid), false positive causality (red solid), and ruled-out non-causal links (gray dashed). Non-significant values ($p > 0.05$) are marked with $^\#$, and orange-highlighted thresholds indicate the optimal decision boundary. This threshold is determined by varying the threshold continuously from 0 to 1 at an interval of 0.01 and selecting the maximum value at which the simulated ground-truth causal links remain valid.
@@ -287,7 +287,7 @@ Figure~\ref{fig_benchmark} illustrates the performance of GCMC and GCCM on three
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure5.png}
+\includegraphics[width=1\textwidth]{./figure/figure5.jpeg}
 \caption{Causation among residential crime, house value, and household income (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
 \textbf{a-c} Spatial distributions of the three variables. 
 \textbf{d} Correlations obtained by PCC, where high correlations indicate a moderately to strongly coupled scenario. 
@@ -303,7 +303,7 @@ This case study investigates the causal relationships among residential crime (c
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure6.png}
+\includegraphics[width=0.9\textwidth]{./figure/figure6.jpeg}
 \caption{Causation among elevation, temperature and population density (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
 \textbf{a} Correlations derived from PCC, which indicate that the dataset in this case represents a weak to moderate coupling regime. \textbf{b} The stratified powers quantified with GD. 
 \textbf{c} Causal strengths measured by LiNGAM.
@@ -317,7 +317,7 @@ As illustrated in Figure~\ref{fig_case2}, this case reveals distinct capabilitie
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{./figure/figure7.png}
+\includegraphics[width=0.9\textwidth]{./figure/figure7.jpeg}
 \caption{Causation among temperature, precipitation and net primary productivity (values not statistically significant at $p > 0.05$ are marked with $^\#$). 
 \textbf{a} Correlations measured by PCC, which suggest that this case exhibits a high degree of coupling. 
 \textbf{b} Stratified powers computed by GD. 
@@ -334,7 +334,7 @@ For the well-known climate-NPP causation, where classical temporal causal models
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{./figure/figure8.png}
+\includegraphics[width=1\textwidth]{./figure/figure8.jpeg}
 \caption{Results of GCMC applied to synthetic datasets with varying noise levels. 
 \textbf{a} Causal strengths when noise is added only to \textit{elev}. 
 \textbf{b} Causal strengths when noise is added only to \textit{popd}. 
@@ -342,8 +342,7 @@ For the well-known climate-NPP causation, where classical temporal causal models
 \label{fig_noise}
 \end{figure}
 
-On the synthetic dataset with varying levels of added noise, the GCMC results are presented in Figure~\ref{fig_noise}. When observational noise is added to the elev variable (Figure~\ref{fig_noise}a and Figure~\ref{fig_noise}c), the causal strength from elev to popd (elev $\rightarrow$ popd) exhibits a gradual decline with increasing noise ratio. 
-Despite this degradation, the inferred causal direction remains statistically significant even under $100\%$ added noise and consistently exceeds the reverse direction from popd to elev, indicating that increasing observational noise does not lead to a reversal of causal direction. Notably, the causal strength threshold of 0.2, established under noise free conditions, remains applicable until the observational noise added to the elev variable approaches $60\%$. Beyond this point, the substantial increase in observational noise reduces the effective signal to noise ratio, leading to a progressive disruption of local neighborhood structures in the reconstructed state space. As a consequence, the intersectional cardinality, which underpins the definition of causal strength in GCMC, decreases systematically, causing the estimated causal strength to fall below the threshold derived under noise free conditions rather than generating spurious causal signals. Overall, these results indicate that GCMC preserves reliable causal discrimination across a broad range of noise levels and remains resilient to substantial observational noise.
+On the synthetic dataset with varying levels of added noise, the GCMC results are presented in Figure~\ref{fig_noise}. When observational noise is added to the elev variable (Figure~\ref{fig_noise}a and Figure~\ref{fig_noise}c), the causal strength from elev to popd (elev $\rightarrow$ popd) exhibits a gradual decline with increasing noise ratio. Despite this degradation, the inferred causal direction remains statistically significant even under $100\%$ added noise and consistently exceeds the reverse direction from popd to elev, indicating that increasing observational noise does not lead to a reversal of causal direction. Notably, the causal strength threshold of 0.2, established under noise free conditions, remains applicable until the observational noise added to the elev variable approaches $60\%$. Beyond this point, the substantial increase in observational noise reduces the effective signal to noise ratio, leading to a progressive disruption of local neighborhood structures in the reconstructed state space. As a consequence, the intersectional cardinality, which underpins the definition of causal strength in GCMC, decreases systematically, causing the estimated causal strength to fall below the threshold derived under noise free conditions rather than generating spurious causal signals. Overall, these results indicate that GCMC preserves reliable causal discrimination across a broad range of noise levels and remains resilient to substantial observational noise.
 
 \section{Discussion}\label{sec4} 
 
