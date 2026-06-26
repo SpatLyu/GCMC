@@ -166,14 +166,14 @@ To quantify the consistency between these neighborhoods, we define the intersect
 \begin{equation}\label{eq-ic_ik}
 IC_{i,k} = \left| \mathit{NN}_y(i,k) \cap \mathit{NN}_y(\mathit{NN}_x(i,k),k) \right|,
 \end{equation}
-\noindent this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
+\noindent where this value measures the overlap between the $k$-nearest-neighbor set of the $i$-th state in $M_y$ and the set of neighbors in $M_y$ induced by projecting the corresponding neighborhood from $M_x$ (Figure~\ref{fig_ic}d). A key insight from CMC \citep{tao2023cmc} is that a higher IC indicates stronger alignment between the true and projected neighborhood structures, suggesting a stronger and more robust causal influence from $y$ to $x$.
 
-Averaging across all states yields the global IC value for a given neighborhood size $k$:
+Since $IC_{i,k}$ is defined at the level of individual states, we aggregate these values to characterize the overall alignment at the system level for a given neighborhood size $k$. Specifically, averaging across all states yields the global IC value:
 \begin{equation}\label{eq-ic_k}
-IC_k = \frac{1}{n} \sum_{i=1}^n IC_{i,k},
+IC_k = \frac{1}{n} \sum_{i=1}^n IC_{i,k}.
 \end{equation}
 
-\noindent and by varying $k$ from $1$ to $n$, we obtain the complete IC curve:
+By varying $k$ from $1$ to $n$, we further obtain the complete IC curve:
 \begin{equation}\label{eq-ic_curve}
 IC_{\text{curve}} = \{ IC_k \mid k = 1, 2, \dots, n \}.
 \end{equation}
