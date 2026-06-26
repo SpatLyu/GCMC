@@ -1,6 +1,6 @@
 # figures: pdf -> jpeg
 .pdf2jpeg = \(pdfname, jpegname, dpi = 600){
-  pdftools::pdf_convert(pdf = pdfname, filenames = jpegname, dpi = dpi)
+  pdftools::pdf_convert(pdf = pdfname, format = "jpeg", filenames = jpegname, dpi = dpi)
 }
 
 .pdf2jpeg("./gcmc_data_codes/Spatial embedding/figure1.pdf",
