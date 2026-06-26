@@ -134,11 +134,7 @@ h_{s(\tau)}(x_n) & h_{s(2\tau)}(x_n) & \cdots & h_{s(E\tau)}(x_n)
 \end{equation}
 \noindent where \(E\) denotes the embedding dimension, \(\tau\) is the spatial lag step, \(s(k)\) identifies the \(k\)-th order spatial neighbors of each unit, and \(h(\cdot)\) is an aggregation function (e.g., the mean) that maps attribute values from neighboring units into a scalar. This construction preserves the intrinsic spatial dynamics and provides the theoretical basis for spatial cross-sectional embeddings.
 
-For instance, as illustrated in Figure~\ref{fig_ssr}, when the embedding dimension \(E = 3\) and the spatial lag step \(\tau = 1\), the embedding vector for a focal unit \(i\) is computed as 
-\(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\),  
-\(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and  
-\(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\),  
-where the denominators correspond to the number of units included in each spatial lag calculation and the numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
+For instance, as illustrated in Figure~\ref{fig_ssr}, when the embedding dimension \(E = 3\) and the spatial lag step \(\tau = 1\), the embedding vector for a focal unit \(i\) is computed as \(h_{s(1)}(x_i) = \frac{1145 + 749 + 749 + 972 + 625}{5} = 848\), \(h_{s(2)}(x_i) = \frac{692 + 688 + 479 + 387 + 430 + 885}{6} = 593.5\), and \(h_{s(3)}(x_i) = \frac{734 + 698 + 859 + 323 + 225 + 357}{6} \approx 532.67\), where the denominators correspond to the number of units included in each spatial lag calculation and the numerators represent the sum of the attribute values of the neighbors at the corresponding lag order.
 
 \begin{figure}[htbp]
 \centering
