@@ -1,6 +1,6 @@
 [![IJGIS](https://img.shields.io/badge/IJGIS-10.1080%2F13658816.2026.2687121-f25b3e?logo=doi&style=flat)](https://doi.org/10.1080/13658816.2026.2687121)
 
-This repository provides all the necessary materials to **fully reproduce all findings** (figures and assessment metrics) reported in the manuscript on the **GCMC algorithm** submitted to *International Journal of Geographical Information Science (IJGIS)*. If you use *GCMC* in publications, please cite it as:
+This repository provides all the necessary materials to **fully reproduce all findings** (figures and assessment metrics) published in the manuscript on the **GCMC algorithm** submitted to *International Journal of Geographical Information Science (IJGIS)*. If you use *GCMC* in publications, please cite it as:
 
 ```
 Lyu, W., Dai, S., Song, Y., Zhao, W., Yi, W., Xiao, Y., Jia, N., 2026. Measuring causal strengths from spatial cross-sectional data with geographical cross mapping cardinality. International Journal of Geographical Information Science 1–23. https://doi.org/10.1080/13658816.2026.2687121
@@ -24,7 +24,9 @@ and a BibTeX entry for LaTeX users is:
 
 # Reproducibility Instructions for GCMC
 
-The materials cover: 
+## General Introduction
+
+The materials in this repository cover: 
 
 - **Schematic Illustrations in Figures 1–3**
 - **Synthetic Benchmark Experiment (Figure 4)** 
