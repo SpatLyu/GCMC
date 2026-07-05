@@ -1,3 +1,5 @@
+[![IJGIS](https://img.shields.io/badge/IJGIS-10.1080%2F13658816.2026.2687121-f25b3e?logo=doi&style=flat)](https://doi.org/10.1080/13658816.2026.2687121)
+
 # Reproducibility Instructions for GCMC
 
 This repository provides all the necessary materials to **fully reproduce all findings** (figures and assessment metrics) reported in the manuscript on the **GCMC algorithm** submitted to *International Journal of Geographical Information Science (IJGIS)*.
