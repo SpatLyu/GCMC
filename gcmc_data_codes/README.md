@@ -22,9 +22,7 @@ and a BibTeX entry for LaTeX users is:
 }
 ```
 
-# Reproducibility Instructions for GCMC
-
-## General Introduction
+## General Reproducibility Instructions
 
 The materials in this repository cover: 
 
